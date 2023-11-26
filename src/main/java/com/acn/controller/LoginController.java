@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 /**
- * @Description: 登录的controller
+ * @Description: 登录和注册的controller
  * @Author: acn
  * @Date: 2023/11/25/16:22
  */
