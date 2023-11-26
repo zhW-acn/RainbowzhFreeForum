@@ -93,6 +93,7 @@
             padding-left: 36px;
         }
     </style>
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
     <script src="https://www.layuicdn.com/auto/layui.js" v="2.8.0"></script>
     <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.8.0/css/layui.css"/>
 </head>
@@ -100,22 +101,32 @@
 <div class="layui-container">
     <div class="admin-login-background">
         <div class="layui-form login-form">
-            <form class="layui-form" action="login" method="post">
+            <form class="layui-form" action="${action}" method="post">
                 <div class="layui-form-item logo-title">
-                    <h1>RFF登录</h1>
+                    <h1>RFF${name}</h1>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-icon layui-icon-username" for="username"></label>
-                        <input type="text" name="username" lay-verify placeholder="用户名" autocomplete="off" class="layui-input">
+                    <label class="layui-icon layui-icon-username"></label>
+                    <input type="text" name="username" lay-verify placeholder="用户名" autocomplete="off"
+                           class="layui-input">
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-icon layui-icon-password" for="password"></label>
-                        <input type="password" name="password" lay-verify placeholder="密码" autocomplete="off" class="layui-input">
+                    <label class="layui-icon layui-icon-password"></label>
+                    <input type="password" name="password" lay-verify placeholder="密码" autocomplete="off"
+                           class="layui-input">
                 </div>
-                <div class="layui-form-item">
-                    <button class="layui-btn layui-btn layui-btn-normal layui-btn-fluid" lay-submit
-                            lay-filter="login">登 入
-                    </button>
+                <div class="layui-form-item" style="margin-top: 10px;">
+                    <div style="float: left;">
+                        <%--这里跳转--%>
+                        <button type="button" class="layui-btn layui-btn-primary"
+                                onclick="location.href='${leftLocation}'">${leftButton}</button>
+                    </div>
+                    <div style="float: right;">
+                        <button class="layui-btn layui-btn-normal layui-btn-fluid" lay-submit
+                                lay-filter="login">${rightButton}
+                        </button>
+                    </div>
+                    <div style="clear: both;"></div>
                 </div>
             </form>
         </div>
@@ -126,7 +137,7 @@
         var form = layui.form,
             layer = layui.layer;
 
-        // 登录过期的时候，跳出ifram框架
+        // 登录过期的时候，跳出iframe框架
         if (top.location != self.location) top.location = self.location;
 
 
