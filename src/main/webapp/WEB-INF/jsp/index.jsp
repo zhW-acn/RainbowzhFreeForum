@@ -15,6 +15,7 @@
     <link rel="icon" href="img/favicon.ico" type="image/x-icon">
     <script src="https://www.layuicdn.com/auto/layui.js" v="2.8.0"></script>
     <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.8.0/css/layui.css"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
     <style>
         body {
             background-color: rebeccapurple;
@@ -156,7 +157,7 @@
     </ul>
 </div>
 
-<%--轮播公告，点击显示详情，admin发帖子就是发公告--%>
+<%--轮播公告，点击显示详情--%>
 <div class="layui-carousel layui-layout-center" id="announcement" style="margin:0 auto">
     <div carousel-item="" class="announcement">
         <%--循环--%>
@@ -178,45 +179,90 @@
         var carousel = layui.carousel;
 
         /*帖子信息流*/
+        // flow.load({
+        //     elem: '#PostList' //流加载容器
+        //     , done: function (page, next) { //下一页的回调
+        //         // 模拟
+        //         setTimeout(function () {
+        //                 // 循环加载帖子
+        //                 for (var i = 0; i < 3; i++) {
+        //                     var lis = [];
+        //                     lis.push(
+        //                         '<li style="text-align: center ;margin-top: 5px">' +
+        //                         /*帖子*/
+        //                         '<div class="outer-container">' +
+        //                         '<div class="container">' +
+        //                         '<div class="avatar-container">' +
+        //                         '<img src="img/default-avatar.png" class="avatar" alt="用户头像"> ' +
+        //                         '<div class="username">username</div> ' +
+        //                         '</div> ' +
+        //                         '<div class="middle-container"> ' +
+        //                         '<div class="title">标题 : ' + ((page - 1) * 5 + i + 1) + '</div>' +
+        //                         ' <div class="content"> ' +
+        //                         '<p>这是正文内容</p> ' +
+        //                         '</div> ' +
+        //                         '</div> ' +
+        //                         '<div class="info">' +
+        //                         '<p>[回帖数] 人回帖 [收藏数] 人收藏</p>' +
+        //                         '<p>发帖时间</p>' +
+        //                         '</div>' +
+        //                         '</div>' +
+        //                         '</div>'
+        //                         + '</li>'
+        //                     )
+        //                 }
+        //
+        //                 //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
+        //                 //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
+        //                 next(lis.join(''), page < 4); //假设总页数为 4
+        //             }
+        //             , 500);
+        //     }
+        // });
         flow.load({
-            elem: '#PostList' //流加载容器
-            , done: function (page, next) { //下一页的回调
-                setTimeout(function () {
-                    var lis = [];
-                    // 循环加载帖子
-                    for (var i = 0; i < 3; i++) {
-
-                        lis.push(
-                            '<li style="text-align: center ;margin-top: 5px">' +
-                            /*帖子*/
-                            '<div class="outer-container">' +
-                            '<div class="container">' +
-                            '<div class="avatar-container">' +
-                            '<img src="img/default-avatar.png" class="avatar" alt="用户头像"> ' +
-                            '<div class="username">用户名</div> ' +
-                            '</div> ' +
-                            '<div class="middle-container"> ' +
-                            '<div class="title">标题 : ' + ((page - 1) * 5 + i + 1) + '</div>' +
-                            ' <div class="content"> ' +
-                            '<p>这是正文内容</p> ' +
-                            '</div> ' +
-                            '</div> ' +
-                            '<div class="info">' +
-                            '<p>[回帖数] 人回帖 &#9; [收藏数] 人收藏</p>' +
-                            '<p>发帖时间</p>' +
-                            '</div>' +
-                            '</div>' +
-                            '</div>'
-                            + '</li>'
-                        )
+            elem: '#PostList', //流加载容器
+            done: function (page, next) { //下一页的回调
+                $.ajax({
+                    url: 'ajax',
+                    type: 'GET',
+                    data: {
+                        page: page,
+                    },
+                    success: function (data) {
+                        var list = JSON.parse(data);
+                        var lis = [];
+                        // 处理返回的帖子数据
+                        for (var i = 0; i < list.length; i++) {
+                            lis.push(
+                                '<li style="text-align: center; margin-top: 5px">' +
+                                /*帖子*/
+                                '<div class="outer-container">' +
+                                '<div class="container">' +
+                                '<div class="avatar-container">' +
+                                '<img src="' + list[i].avatar + '" class="avatar" alt="用户头像"> ' +
+                                '<div class="username">' + list[i].username + '</div> ' +
+                                '</div> ' +
+                                '<div class="middle-container"> ' +
+                                '<div class="title">标题 : ' + list[i].title + '</div>' +
+                                ' <div class="content"> ' +
+                                '<p>' + list[i].content + '</p> ' +
+                                '</div> ' +
+                                '</div> ' +
+                                '<div class="info">' +
+                                '<p>[回帖数] ' + list[i].replyCount + ' 人回帖 [收藏数] ' + data[i].collectCount + ' 人收藏</p>' +
+                                '<p>发帖时间: ' + list[i].postTime + '</p>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>'
+                                + '</li>'
+                            );
+                        }
+                        // 执行下一页渲染，第二参数为：满足“加载更多”的条件
+                        next(lis.join(''), page < 4);
                     }
-                    //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
-                    //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
-                    next(lis.join(''), page < 4); //假设总页数为 4
-                }, 500);
+                });
             }
         });
-
         /*轮播公告*/
         carousel.render({
             elem: '#announcement'

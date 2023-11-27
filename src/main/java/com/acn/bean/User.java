@@ -1,6 +1,6 @@
 package com.acn.bean;
 
-import com.acn.enums.UserRole;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 
@@ -10,6 +10,7 @@ import lombok.Data;
  * @Date: 2023/11/25/11:39
  */
 @Data
+@AllArgsConstructor
 public class User {
     /**
      * 用户id
@@ -32,12 +33,10 @@ public class User {
     private String birthday;
 
     /**
-     * 用户身份，默认为normal
-     */
-    private UserRole role = UserRole.NORMAL;
-
-    /**
-     * 封禁时间
+     * 封禁时间：
+     * -1：admin
+     * 0：normal
+     * >0：ban
      */
     private String banTime;
 
