@@ -1,16 +1,15 @@
-package com.acn.dao;
+package com.acn.service;
 
 import com.acn.bean.User;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
- * @Description: UserDao层
+ * @Description:
  * @Author: acn
- * @Date: 2023/11/25/13:52
+ * @Date: 2023/11/27/20:41
  */
-public interface UserMapper {
+public interface UserService {
 
     /**
      * 增

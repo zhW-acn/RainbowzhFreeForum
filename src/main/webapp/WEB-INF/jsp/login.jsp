@@ -116,6 +116,12 @@
                     <input type="password" name="password" lay-verify placeholder="密码" autocomplete="off"
                            class="layui-input">
                 </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-block">
+                        <div id="slider"></div>
+                    </div>
+                </div>
                 <div class="layui-form-item" style="margin-top: 10px;">
                     <div style="float: left;">
                         <%--这里跳转--%>
@@ -155,6 +161,30 @@
             }
         });
     });
+
+
+    /*滑块使用*/
+    layui.config({
+    }).use(['sliderVerify', 'jquery', 'form'], function() {
+        var sliderVerify = layui.sliderVerify,
+            form = layui.form;
+        var slider = sliderVerify.render({
+            elem: '#slider',
+            onOk: function(){//当验证通过回调
+                layer.msg("滑块验证通过");
+            }
+        })
+        //监听提交
+        form.on('submit(formDemo)', function(data) {
+            if(slider.isOk()){//用于表单验证是否已经滑动成功
+                layer.msg(JSON.stringify(data.field));
+            }else{
+                layer.msg("请先通过滑块验证");
+            }
+            return false;
+        });
+
+    })
 </script>
 </body>
 </html>

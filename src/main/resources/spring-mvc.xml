@@ -20,7 +20,16 @@
 
     <mvc:default-servlet-handler/>
 
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven>
+        <!--@Responsebody乱码-->
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter"
+                  p:supportedMediaTypes="text/html;charset=utf-8"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!--资源过滤-->
+<!--    <mvc:resources mapping="" location=""/>-->
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="internalResourceViewResolver"
           p:prefix="/WEB-INF/jsp/"
