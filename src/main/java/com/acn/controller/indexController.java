@@ -1,6 +1,8 @@
 package com.acn.controller;
 
+import com.acn.bean.Post;
 import com.acn.bean.User;
+import com.acn.service.PostService;
 import com.acn.service.UserService;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -26,6 +28,9 @@ public class indexController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    PostService postService;
+
     /**
      * 查询5条帖子，没有登录不能查看帖子和【加载更多】
      */
@@ -43,7 +48,7 @@ public class indexController {
             @RequestParam(name = "page") int page
     ) {
         // 模拟通过分页查到的列表
-        List<User> list = userService.selectAllUsers();
+        List<Post> list = postService.selectAllPosts();
 //        List<User> list = new ArrayList<>();
 //        list.add(new User(1,"username","password","birthday","banTime",11));
 //        list.add(new User(2,"username2","password","birthday","banTime",11));

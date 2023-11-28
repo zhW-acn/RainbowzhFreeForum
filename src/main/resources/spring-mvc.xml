@@ -15,11 +15,12 @@
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
        ">
-
+    <!--注解扫描-->
     <context:component-scan base-package="com.acn.controller"/>
 
     <mvc:default-servlet-handler/>
 
+    <!--注解驱动-->
     <mvc:annotation-driven>
         <!--@Responsebody乱码-->
         <mvc:message-converters register-defaults="true">
@@ -29,8 +30,9 @@
     </mvc:annotation-driven>
 
     <!--资源过滤-->
-<!--    <mvc:resources mapping="" location=""/>-->
+    <!--    <mvc:resources mapping="" location=""/>-->
 
+    <!--视图解析器-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="internalResourceViewResolver"
           p:prefix="/WEB-INF/jsp/"
           p:suffix=".jsp"/>

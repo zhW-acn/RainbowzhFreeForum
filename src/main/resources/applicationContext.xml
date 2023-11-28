@@ -19,6 +19,16 @@
     <!--数据库信息-->
     <context:property-placeholder location="classpath:db.properties"/>
 
+    <!--注解扫描-->
+    <context:component-scan base-package="com.acn.dao"/>
+    <context:component-scan base-package="com.acn.service"/>
+
+    <!--Mapper 接口扫描并自动注入-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
+          p:sqlSessionFactoryBeanName="sqlSessionFactory"
+          p:basePackage="com.acn.dao"
+    />
+
     <!--连接池-->
     <bean class="com.alibaba.druid.pool.DruidDataSource" id="dataSource"
           p:driverClassName="${jdbc.driver}"
@@ -39,10 +49,6 @@
           p:mapperLocations="classpath:mapper/*.xml"
     />
 
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
-          p:sqlSessionFactoryBeanName="sqlSessionFactory"
-          p:basePackage="com.acn.dao"/>
-
     <!--mybatis注解-->
 <!--    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"-->
 <!--          p:basePackage="com.acn.dao"-->
@@ -55,10 +61,6 @@
 
     <!--声明式事务-->
     <tx:annotation-driven transaction-manager="manager"/>
-
-    <!--注解扫描-->
-    <context:component-scan base-package="com.acn.dao"/>
-    <context:component-scan base-package="com.acn.service"/>
 
 
 </beans>

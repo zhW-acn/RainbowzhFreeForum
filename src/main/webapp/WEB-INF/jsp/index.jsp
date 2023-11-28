@@ -250,7 +250,7 @@
                                 '</div> ' +
                                 '<div class="info">' +
                                 '<p>[回帖数] ' + list[i].replyCount + ' 人回帖 [收藏数] ' + data[i].collectCount + ' 人收藏</p>' +
-                                '<p>发帖时间: ' + list[i].postTime + '</p>' +
+                                '<p>发帖时间: ' + list[i].createtime + '</p>' +
                                 '</div>' +
                                 '</div>' +
                                 '</div>'
