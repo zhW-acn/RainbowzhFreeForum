@@ -1,6 +1,6 @@
 package com.acn.controller;
 
-import com.acn.bean.Post;
+import com.acn.bean.view.Post;
 import com.acn.bean.User;
 import com.acn.service.PostService;
 import com.acn.service.UserService;

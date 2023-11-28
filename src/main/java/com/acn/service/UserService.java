@@ -2,6 +2,7 @@ package com.acn.service;
 
 import com.acn.bean.User;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -17,9 +18,9 @@ public interface UserService {
     int insertUser(User user);
 
     /**
-     * 查询 by name
+     * 不定参数
      */
-    User selectUserByName(String name);
+    User selectUserByCond(HashMap<String,Object> hashMap);
 
     /**
      * 查询 by id

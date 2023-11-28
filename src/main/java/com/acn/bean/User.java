@@ -2,6 +2,7 @@ package com.acn.bean;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -11,6 +12,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class User {
     /**
      * 用户id
@@ -45,5 +47,17 @@ public class User {
      */
     private int visits;
 
+    /**
+     * 头像
+     */
+    private String avatar;
 
+    public User(String username, String password, String birthday, String banTime, int visits, String avatar) {
+        this.username = username;
+        this.password = password;
+        this.birthday = birthday;
+        this.banTime = banTime;
+        this.visits = visits;
+        this.avatar = avatar;
+    }
 }

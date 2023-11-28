@@ -13,6 +13,7 @@
             <param-name>contextConfigLocation</param-name>
             <param-value>classpath:spring-mvc.xml</param-value>
         </init-param>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>DS</servlet-name>
@@ -44,5 +45,7 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-
+<session-config>
+    <session-timeout>1</session-timeout>
+</session-config>
 </web-app>

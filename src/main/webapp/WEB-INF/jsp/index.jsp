@@ -75,7 +75,8 @@
 
         .username {
             font-size: 12px; /* 调整用户名字体大小 */
-            margin-top: 5px; /* 在用户名和头像之间添加一些间距 */
+            font-weight: bold;
+            margin-top: 5px; /* 在用户名和头像之间添加间距 */
         }
 
 
@@ -144,7 +145,7 @@
     <ul class="layui-nav layui-layout-right layui-bg-green" style="white-space: nowrap;!important;">
         <%--用户信息--%>
         <li class="layui-nav-item">
-            <a href="">消息<span class="layui-bg-red">114514</span></a>
+            <a href="login">${user.username == null?"请登录":user.username}</a>
         </li>
         <%--头像--%>
         <li class="layui-nav-item" lay-unselect="">
@@ -240,16 +241,16 @@
                                 '<div class="container">' +
                                 '<div class="avatar-container">' +
                                 '<img src="' + list[i].avatar + '" class="avatar" alt="用户头像"> ' +
-                                '<div class="username">' + list[i].username + '</div> ' +
+                                '<div class="username">' + list[i].userName + '</div> ' +
                                 '</div> ' +
                                 '<div class="middle-container"> ' +
-                                '<div class="title">标题 : ' + list[i].title + '</div>' +
+                                '<div class="title">' + list[i].title + '</div>' +
                                 ' <div class="content"> ' +
-                                '<p>' + list[i].content + '</p> ' +
+                                '<p>' + list[i].text + '</p> ' +
                                 '</div> ' +
                                 '</div> ' +
                                 '<div class="info">' +
-                                '<p>[回帖数] ' + list[i].replyCount + ' 人回帖 [收藏数] ' + data[i].collectCount + ' 人收藏</p>' +
+                                '<p>' + list[i].replyCount + ' 人回帖    ' + data[i].collectCount + ' 人收藏</p>' +
                                 '<p>发帖时间: ' + list[i].createtime + '</p>' +
                                 '</div>' +
                                 '</div>' +

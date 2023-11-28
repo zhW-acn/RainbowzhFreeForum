@@ -5,15 +5,42 @@
 
 <mapper namespace="com.acn.dao.UserMapper">
     <resultMap id="uMap" type="com.acn.bean.User">
-
+        <result property="id" column="id"/>
+        <result property="avatar" column="avatar"/>
+        <result property="username" column="name"/>
+        <result property="password" column="pass"/>
+        <result property="birthday" column="birthday"/>
+        <result property="banTime" column="banTime"/>
+        <result property="visits" column="visits"/>
     </resultMap>
 
     <insert id="insertUser" parameterType="com.acn.bean.User">
-
+        insert into user (banTime, name, pass, birthday, avatar)
+        values (0, #{username}, #{password}, #{birthday}, #{avatar});
     </insert>
 
     <select id="selectAllUsers" resultType="com.acn.bean.User">
-        select * from user
+        select *
+        from user
+    </select>
+
+    <select id="selectUserByCond" resultMap="uMap">
+        select *
+        from user
+        <trim prefix="where " prefixOverrides="and">
+            <if test="username!=null and username!=''">
+                and name = #{username}
+            </if>
+            <if test="password!=null and password!=''">
+                and pass = #{password}
+            </if>
+            <if test="birthday!=null and birthday!=''">
+                and birthday = #{birthday}
+            </if>
+            <if test="visits!=null and visits!=''">
+                and visits = #{visits}
+            </if>
+        </trim>
     </select>
 
 </mapper>

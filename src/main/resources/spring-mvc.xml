@@ -24,18 +24,37 @@
     <mvc:annotation-driven>
         <!--@Responsebody乱码-->
         <mvc:message-converters register-defaults="true">
-            <bean class="org.springframework.http.converter.StringHttpMessageConverter"
-                  p:supportedMediaTypes="text/html;charset=utf-8"/>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="utf-8"/>
+            </bean>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper">
+                    <bean class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">
+                        <property name="failOnEmptyBeans" value="false"/>
+                    </bean>
+                </property>
+            </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
 
     <!--资源过滤-->
-    <!--    <mvc:resources mapping="" location=""/>-->
+    <mvc:resources location="/" mapping="/*.html"/>
+    <mvc:resources location="/" mapping="/*.css"/>
+    <mvc:resources location="/" mapping="/*.js"/>
 
     <!--视图解析器-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="internalResourceViewResolver"
           p:prefix="/WEB-INF/jsp/"
           p:suffix=".jsp"/>
 
+    <!--日期转换-->
+    <bean id="dateConvert" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <list>
+                <!-- 内部bean -->
+                <bean class="com.acn.utils.DateConvert"/>
+            </list>
+        </property>
+    </bean>
 
 </beans>

@@ -1,8 +1,10 @@
 package com.acn.dao;
 
 import com.acn.bean.User;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -18,9 +20,9 @@ public interface UserMapper {
     int insertUser(User user);
 
     /**
-     * 查询 by name
+     * 不定参数
      */
-    User selectUserByName(String name);
+    User selectUserByCond(HashMap<String,Object> hashMap);
 
     /**
      * 查询 by id

@@ -16,6 +16,7 @@
     <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.8.0/css/layui.css"/>
 </head>
 <body>
+${user}
 全部用户
 </body>
 </html>

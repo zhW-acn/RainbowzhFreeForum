@@ -1,6 +1,7 @@
 package com.acn.dao;
 
-import com.acn.bean.Post;
+import com.acn.bean.view.Post;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -12,4 +13,6 @@ import java.util.List;
 public interface PostMapper {
     // r
     List<Post> selectAllPosts();
+
+    int postsCount();
 }

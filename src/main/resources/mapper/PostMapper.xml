@@ -5,9 +5,23 @@
 
 <mapper namespace="com.acn.dao.PostMapper">
 
+    <resultMap id="postMap" type="com.acn.bean.view.Post">
+        <result property="userAvatar" column="avatar"/>
+        <result property="userName" column="name"/>
+        <result property="title" column="title"/>
+        <result property="text" column="text"/>
+        <result property="createtime" column="createTime"/>
+    </resultMap>
 
-    <select id="selectAllPosts" resultType="com.acn.bean.Post">
-        select *
+
+    <select id="selectAllPosts" resultMap="postMap">
+        select user.avatar, user.`name`, post.title, post.text, post.createTime
+        from post
+                 LEFT JOIN `user` on post.userId = user.id
+    </select>
+
+    <select id="postsCount" resultType="int">
+        select count(*)
         from post
     </select>
 </mapper>

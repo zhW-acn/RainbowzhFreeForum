@@ -1,6 +1,6 @@
 package com.acn.service.impl;
 
-import com.acn.bean.Post;
+import com.acn.bean.view.Post;
 import com.acn.dao.PostMapper;
 import com.acn.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -6,6 +6,7 @@ import com.acn.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -25,8 +26,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User selectUserByName(String name) {
-        return null;
+    public User selectUserByCond(HashMap<String, Object> hashMap) {
+        return userMapper.selectUserByCond(hashMap);
     }
 
     @Override

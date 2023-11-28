@@ -1,6 +1,6 @@
 package com.acn.service;
 
-import com.acn.bean.Post;
+import com.acn.bean.view.Post;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

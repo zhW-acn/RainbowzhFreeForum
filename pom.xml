@@ -8,7 +8,7 @@
     <name>RainbowzhFreeForum Maven Webapp</name>
     <url>https://maven.apache.org</url>
     <dependencies>
-        <!--偷懒+日志-->
+        <!--偷懒+日志+json-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -19,7 +19,11 @@
             <artifactId>logback-classic</artifactId>
             <version>1.2.11</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.12.7.1</version>
+        </dependency>
         <!--mybatis-->
         <dependency>
             <groupId>com.mysql</groupId>

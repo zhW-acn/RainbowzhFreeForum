@@ -1,14 +1,23 @@
 package com.acn.controller;
 
-import org.springframework.http.HttpRequest;
+import com.acn.bean.User;
+import com.acn.service.UserService;
+import com.acn.utils.JSONConstructor;
+import com.sun.deploy.net.HttpResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.Set;
 
 /**
  * @Description: 登录和注册的controller
@@ -17,6 +26,9 @@ import java.util.Set;
  */
 @Controller
 public class LoginController {
+
+    @Autowired
+    UserService userService;
 
     @GetMapping("/login")
     public String toLogin(Model model) {
@@ -29,49 +41,63 @@ public class LoginController {
          * rightButton：右边按钮名
          */
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("action","login");
+        hashMap.put("action", "login");
         hashMap.put("name", "登录");
-        hashMap.put("leftLocation","register");
-        hashMap.put("leftButton","注册");
-        hashMap.put("rightButton","登录");
-        setModel(hashMap,model);
+        hashMap.put("leftLocation", "register");
+        hashMap.put("leftButton", "注册");
+        hashMap.put("rightButton", "登录");
+        setModel(hashMap, model);
         return "login";
     }
 
     @PostMapping("/login")
+    @ResponseBody
     public String doLogin(
             @RequestParam("username") String username,
-            @RequestParam("password") String password
-    ) {
-        if ("admin".equals(username) && "123".equals(password)) {
-            return "forward:admin.jsp";
-        } else {
-            return "/login";
-        }
+            @RequestParam("password") String password,
+            HttpSession session,
+            Model model,
+            HttpServletResponse response
+    ) throws IOException {
+        // 用户验证
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("username", username);
+        hashMap.put("password", password);
+        User user = userService.selectUserByCond(hashMap);
 
+        // 存在用户，登录；不存在，
+        if (user != null) {
+            session.setAttribute("user", user);
+//            model.addAttribute("user",user);
+
+            return new JSONConstructor(0, "成功", "success").toString();
+        } else {
+            return new JSONConstructor(0, "失败", "false").toString();
+        }
     }
 
     @GetMapping("/register")
-    public String toRegister(Model model){
+    public String toRegister(Model model, HttpServletRequest request) {
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("action","register");
+        hashMap.put("action", "register");
         hashMap.put("name", "注册");
-        hashMap.put("leftLocation","login");
-        hashMap.put("leftButton","返回登录");
-        hashMap.put("rightButton","注册");
-        setModel(hashMap,model);
+        hashMap.put("leftLocation", "login");
+        hashMap.put("leftButton", "返回登录");
+        hashMap.put("rightButton", "注册");
+        request.setAttribute("action", "register");
+        setModel(hashMap, model);
         return "login";
     }
 
     @PostMapping("/register")
-    public String doRegister(Model model){
+    public String doRegister(Model model) {
 
         return "index";
     }
 
-    public static void setModel(HashMap<String, String> hashMap,Model model){
+    public static void setModel(HashMap<String, String> hashMap, Model model) {
         for (String attr : hashMap.keySet()) {
-            model.addAttribute(attr,hashMap.get(attr));
+            model.addAttribute(attr, hashMap.get(attr));
         }
     }
 
