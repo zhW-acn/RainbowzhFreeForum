@@ -2,8 +2,8 @@ package com.acn.controller;
 
 import com.acn.bean.User;
 import com.acn.service.UserService;
+import com.acn.utils.FileUpload;
 import com.acn.utils.JSONConstructor;
-import com.sun.deploy.net.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,13 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -63,7 +61,7 @@ public class LoginController {
             @RequestParam("username") String username,
             @RequestParam("password") String password,
             HttpSession session
-    ) throws IOException {
+    ) {
         // 用户验证
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("username", username);
@@ -104,26 +102,26 @@ public class LoginController {
     public String doRegister(
             @RequestParam("username") String username,
             @RequestParam("password") String password,
-            @RequestParam("birthday") String birthday) {
-        // 上传头像待完善
-        String avatar = "2";
-        User user = new User(username, password, birthday, avatar);
+            @RequestParam("birthday") String birthday,
+            @RequestParam("avatarFile") CommonsMultipartFile avatarFile) {
 
         // 是否存在重名
         if (userService.isExist(username) != 0) {
             return new JSONConstructor(0, "重名", "exist").toString();
         }
 
-        // 检查重名后进行注册
-        int res = userService.insertUser(user);
-        System.out.println(res);
-        if (res == 1) {
+        // 数据库中存放avatar的文件路径
+        String avatar = FileUpload.PATH + username + avatarFile.getOriginalFilename();
+        User user = new User(username, password, birthday, avatar);
+        // 上传头像
+        FileUpload.avatarUpload(username, avatarFile);
+
+        // 注册
+        if (1 == userService.insertUser(user)) {
             return new JSONConstructor(0, "成功", "success").toString();
         } else {
             return new JSONConstructor(0, "失败", "false").toString();
         }
-
-
     }
 
     /**

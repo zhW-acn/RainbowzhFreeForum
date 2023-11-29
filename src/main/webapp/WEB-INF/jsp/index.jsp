@@ -152,8 +152,7 @@
         </li>
         <%--头像--%>
         <li class="layui-nav-item" lay-unselect="">
-            <%--头像需要改进--%>
-            <img class="layui-nav-img" src="img/default-avatar.png">
+            <img class="layui-nav-img" src="${user.username == null?"img/default-avatar.png":user.avatar}">
                 <%--这里点击退出清除session域，并刷新页面--%>
             <dl class="layui-nav-child">
                 <dd style="text-align: center;"><a href="">退出</a></dd>

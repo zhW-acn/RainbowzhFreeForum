@@ -57,4 +57,15 @@
         </property>
     </bean>
 
+
+    <!--文件上传
+        1.编码格式
+        2.所有文件最大值20M【kb】
+        3.单个文件最大值4M
+    -->
+    <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver"
+          p:defaultEncoding="utf-8"
+          p:maxUploadSize="104857600"
+          p:maxInMemorySize="4096"
+    />
 </beans>

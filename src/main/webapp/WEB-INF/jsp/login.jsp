@@ -105,7 +105,9 @@
     <div class="admin-login-background">
         <div class="layui-form login-form">
             <%--表单--%>
-            <form class="layui-form" action="">
+
+            <form class="layui-form" action="" enctype="multipart/form-data">
+                <%--表头--%>
                 <div class="layui-form-item logo-title">
                     <h1>RFF${name}</h1>
                 </div>
@@ -123,7 +125,8 @@
                 <%if (request.getAttribute("action") == "register") {%>
                 <%--这里存放上传头像和birthday的div--%>
                 <div class="layui-form-item">
-                    <button lay-data="{url: '/a/'}">上传头像</button>
+                    <input type="file" class="layui-btn" id="avatar" name="avatarFile">
+                        <i class="layui-icon">&#xe67c;</i>上传头像
                 </div>
                 <div class="layui-form-item">
                     生日<input type="date" name="birthday">
@@ -185,10 +188,28 @@
                     }
                 }
                 if (slider.isOk()) {//用于表单验证是否已经滑动成功
+                    var formData = new FormData();
+                    formData.append('username', data.username);
+                    formData.append('password', data.password);
+
+                    // 如果表单是注册，就加上下面的formData
+                    if ("${action}" === "register") {
+                        formData.append('birthday', data.birthday);
+                        // 获取文件上传的input
+                        var fileInput = document.getElementById("avatar");
+                        // 添加文件到 FormData
+                        formData.append('avatarFile', fileInput.files[0]);
+                    }
+
                     $.ajax({
                         url: "${action}",
-                        data: data,
+                        // 使用formData提交
+                        data: formData,
                         type: "post",
+                        processData: false,
+                        contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+                        dataType: 'text',
+                        async: false,
                         success: function (response) {
                             response = JSON.parse(response)
                             console.log(response)
@@ -201,7 +222,6 @@
                                         url: "login",
                                         data: data,
                                         type: "post",
-                                        async: false,
                                         success: function (response) {
                                             // 等待三秒再跳转
                                             setTimeout(
