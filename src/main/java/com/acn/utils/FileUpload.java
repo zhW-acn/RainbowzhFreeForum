@@ -10,13 +10,14 @@ import java.io.*;
  * @Date: 2023/11/29/12:03
  */
 public class FileUpload {
-    public static final String PATH = "F:\\rainboWzh\\users\\";
+    public static final String PATH = "F:\\GitHub\\RainbowzhFreeForum\\src\\main\\webapp\\img\\users";
+    public static final String URL_PATH = "img\\users";
 
     /**
      * 创建文件夹，返回avatar文件夹目录
      */
     public static String createFolder(String username) {
-        String userPath = PATH + username;
+        String userPath = PATH + File.separator + username;
         File file = new File(userPath);
         // 是否存在，不存在创建用户文件夹和子文件夹【avatar&post】
         if (!file.exists()) {

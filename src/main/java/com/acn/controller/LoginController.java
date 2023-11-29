@@ -15,6 +15,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -57,11 +58,7 @@ public class LoginController {
      */
     @PostMapping("/login")
     @ResponseBody
-    public String doLogin(
-            @RequestParam("username") String username,
-            @RequestParam("password") String password,
-            HttpSession session
-    ) {
+    public String doLogin(@RequestParam("username") String username,@RequestParam("password") String password,HttpSession session){
         // 用户验证
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("username", username);
@@ -110,8 +107,9 @@ public class LoginController {
             return new JSONConstructor(0, "重名", "exist").toString();
         }
 
-        // 数据库中存放avatar的文件路径
-        String avatar = FileUpload.PATH + username + avatarFile.getOriginalFilename();
+        // 数据库中存放avatar的路径
+        String avatar =
+                FileUpload.URL_PATH + File.separator + username + File.separator + avatarFile.getOriginalFilename();
         User user = new User(username, password, birthday, avatar);
         // 上传头像
         FileUpload.avatarUpload(username, avatarFile);
@@ -122,6 +120,12 @@ public class LoginController {
         } else {
             return new JSONConstructor(0, "失败", "false").toString();
         }
+    }
+
+    @GetMapping("/logout")
+    public String cleanSession(HttpSession session){
+        session.removeAttribute("user");
+        return "index";
     }
 
     /**
