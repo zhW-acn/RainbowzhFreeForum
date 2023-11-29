@@ -145,12 +145,16 @@
     <ul class="layui-nav layui-layout-right layui-bg-green" style="white-space: nowrap;!important;">
         <%--用户信息--%>
         <li class="layui-nav-item">
-            <a href="login">${user.username == null?"请登录":user.username}</a>
+            <%--这里需要改进，登陆后点击跳转到自己主页--%>
+            <a href="login">
+                ${user.username == null?"请登录":user.username}
+            </a>
         </li>
         <%--头像--%>
         <li class="layui-nav-item" lay-unselect="">
-            <%--头像--%>
-            <a href="javascript:;"><img class="layui-nav-img" src="img/default-avatar.png"></a>
+            <%--头像需要改进--%>
+            <img class="layui-nav-img" src="img/default-avatar.png">
+                <%--这里点击退出清除session域，并刷新页面--%>
             <dl class="layui-nav-child">
                 <dd style="text-align: center;"><a href="">退出</a></dd>
             </dl>
@@ -161,7 +165,7 @@
 <%--轮播公告，点击显示详情--%>
 <div class="layui-carousel layui-layout-center" id="announcement" style="margin:0 auto">
     <div carousel-item="" class="announcement">
-        <%--循环--%>
+        <%--循环，需要改进--%>
         <div style="background-color: hotpink"><p>美国卡内基梅隆大学开设《原神》研究课程：考试要在 2 分钟内击败 BOSS</p>
         </div>
         <div style="background-color: hotpink"><p>美国核反应堆实验室遭到黑客攻击，被要求制造“猫娘”</p></div>

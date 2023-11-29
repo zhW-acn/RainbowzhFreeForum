@@ -104,6 +104,7 @@
 <div class="layui-container">
     <div class="admin-login-background">
         <div class="layui-form login-form">
+            <%--表单--%>
             <form class="layui-form" action="">
                 <div class="layui-form-item logo-title">
                     <h1>RFF${name}</h1>
@@ -121,10 +122,12 @@
 
                 <%if (request.getAttribute("action") == "register") {%>
                 <%--这里存放上传头像和birthday的div--%>
-                <button class="layui-btn test" lay-data="{url: '/a/'}">上传头像</button>
-                <label class="layui-btn">
-                    生日<input type="date">
-                </label>
+                <div class="layui-form-item">
+                    <button lay-data="{url: '/a/'}">上传头像</button>
+                </div>
+                <div class="layui-form-item">
+                    生日<input type="date" name="birthday">
+                </div>
                 <%}%>
 
                 <%--滑块模拟验证--%>
@@ -175,6 +178,12 @@
                     layer.msg('密码不能为空');
                     return false;
                 }
+                if ("${action}" === "register") {
+                    if (data.birthday === '') {
+                        layer.msg('生日不能为空');
+                        return false;
+                    }
+                }
                 if (slider.isOk()) {//用于表单验证是否已经滑动成功
                     $.ajax({
                         url: "${action}",
@@ -185,20 +194,42 @@
                             console.log(response)
                             if (response.data === "success") {
                                 //携带session信息跳转到首页
+                                layer.msg('${name}成功，一秒后跳转首页');
                                 if ("${action}" === "register") {
                                     // 跳转
+                                    $.ajax({
+                                        url: "login",
+                                        data: data,
+                                        type: "post",
+                                        async: false,
+                                        success: function (response) {
+                                            // 等待三秒再跳转
+                                            setTimeout(
+                                                function () {
+                                                    window.location.href = "<%=basePath%>";
+                                                }, 1000);
+                                        }
+                                    })
                                 }
-                                window.location.href = "<%=basePath%>";
+                                setTimeout(
+                                    function () {
+                                        window.location.href = "<%=basePath%>";
+                                    }, 1000);
                             }
                             if (response.data === "false") {
-                                // 清空表内容，提示登陆失败
+                                // 清空表内容，提示登陆&注册失败
                                 $('input').val('');
                                 slider.reset();
-                                alert("登录失败，请检查用户名和密码。");
+                                alert("${action}失败，请检查用户名和密码。");
+                            }
+                            if (response.data === "exist") {
+                                $('input').val('');
+                                slider.reset();
+                                alert("${name}失败，存在重名。");
                             }
                         },
-                        error: function (error) {
-                            alert(error);
+                        error: function () {
+                            alert("服务器异常");
                         }
                     });
                     return false;

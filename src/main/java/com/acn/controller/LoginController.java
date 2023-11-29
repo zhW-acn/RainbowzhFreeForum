@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -30,6 +31,9 @@ public class LoginController {
     @Autowired
     UserService userService;
 
+    /**
+     * 请求登录页面
+     */
     @GetMapping("/login")
     public String toLogin(Model model) {
         /**
@@ -50,14 +54,15 @@ public class LoginController {
         return "login";
     }
 
+    /**
+     * 请求登录
+     */
     @PostMapping("/login")
     @ResponseBody
     public String doLogin(
             @RequestParam("username") String username,
             @RequestParam("password") String password,
-            HttpSession session,
-            Model model,
-            HttpServletResponse response
+            HttpSession session
     ) throws IOException {
         // 用户验证
         HashMap<String, Object> hashMap = new HashMap<>();
@@ -65,10 +70,9 @@ public class LoginController {
         hashMap.put("password", password);
         User user = userService.selectUserByCond(hashMap);
 
-        // 存在用户，登录；不存在，
+        // 存在用户，登录；不存在，重新登陆
         if (user != null) {
             session.setAttribute("user", user);
-//            model.addAttribute("user",user);
 
             return new JSONConstructor(0, "成功", "success").toString();
         } else {
@@ -76,6 +80,9 @@ public class LoginController {
         }
     }
 
+    /**
+     * 请求注册页面
+     */
     @GetMapping("/register")
     public String toRegister(Model model, HttpServletRequest request) {
         HashMap<String, String> hashMap = new HashMap<>();
@@ -89,12 +96,39 @@ public class LoginController {
         return "login";
     }
 
+    /**
+     * 请求注册
+     */
     @PostMapping("/register")
-    public String doRegister(Model model) {
+    @ResponseBody
+    public String doRegister(
+            @RequestParam("username") String username,
+            @RequestParam("password") String password,
+            @RequestParam("birthday") String birthday) {
+        // 上传头像待完善
+        String avatar = "2";
+        User user = new User(username, password, birthday, avatar);
 
-        return "index";
+        // 是否存在重名
+        if (userService.isExist(username) != 0) {
+            return new JSONConstructor(0, "重名", "exist").toString();
+        }
+
+        // 检查重名后进行注册
+        int res = userService.insertUser(user);
+        System.out.println(res);
+        if (res == 1) {
+            return new JSONConstructor(0, "成功", "success").toString();
+        } else {
+            return new JSONConstructor(0, "失败", "false").toString();
+        }
+
+
     }
 
+    /**
+     * 切换登录和注册
+     */
     public static void setModel(HashMap<String, String> hashMap, Model model) {
         for (String attr : hashMap.keySet()) {
             model.addAttribute(attr, hashMap.get(attr));

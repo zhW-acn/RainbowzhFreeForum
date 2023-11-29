@@ -28,6 +28,11 @@ public interface UserService {
     User selectUserById(int id);
 
     /**
+     * 是否存在重名
+     */
+    int isExist(String username);
+
+    /**
      * 查询 所有User
      */
     List<User> selectAllUsers();

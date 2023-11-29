@@ -52,12 +52,10 @@ public class User {
      */
     private String avatar;
 
-    public User(String username, String password, String birthday, String banTime, int visits, String avatar) {
+    public User(String username, String password, String birthday, String avatar) {
         this.username = username;
         this.password = password;
         this.birthday = birthday;
-        this.banTime = banTime;
-        this.visits = visits;
         this.avatar = avatar;
     }
 }
