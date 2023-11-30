@@ -56,7 +56,7 @@ public class indexController {
         /**
          * 参数说明：
          * avatar：用户头像地址
-         * username：用户名
+         * userName：用户名
          * title：标题
          * content：正文
          * replyNum：回帖人数

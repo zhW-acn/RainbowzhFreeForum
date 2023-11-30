@@ -7,15 +7,17 @@
 
     <resultMap id="postMap" type="com.acn.bean.view.Post">
         <result property="userAvatar" column="avatar"/>
-        <result property="userName" column="name"/>
+        <result property="username" column="name"/>
         <result property="title" column="title"/>
         <result property="text" column="text"/>
         <result property="createtime" column="createTime"/>
+        <result property="userId" column="userid"/>
+        <result property="postId" column="postid"/>
     </resultMap>
 
 
     <select id="selectAllPosts" resultMap="postMap">
-        select user.avatar, user.`name`, post.title, post.text, post.createTime
+        select user.id as userid, post.id as postid, user.avatar, user.`name`, post.title, post.text, post.createTime
         from post
                  LEFT JOIN `user` on post.userId = user.id
     </select>

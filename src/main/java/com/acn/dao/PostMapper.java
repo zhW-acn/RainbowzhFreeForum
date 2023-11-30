@@ -1,7 +1,6 @@
 package com.acn.dao;
 
 import com.acn.bean.view.Post;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 

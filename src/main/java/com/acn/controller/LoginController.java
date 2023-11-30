@@ -16,7 +16,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -58,7 +57,8 @@ public class LoginController {
      */
     @PostMapping("/login")
     @ResponseBody
-    public String doLogin(@RequestParam("username") String username,@RequestParam("password") String password,HttpSession session){
+    public String doLogin(@RequestParam("username") String username, @RequestParam("password") String password,
+                          HttpSession session) {
         // 用户验证
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("username", username);
@@ -96,12 +96,9 @@ public class LoginController {
      */
     @PostMapping("/register")
     @ResponseBody
-    public String doRegister(
-            @RequestParam("username") String username,
-            @RequestParam("password") String password,
-            @RequestParam("birthday") String birthday,
-            @RequestParam("avatarFile") CommonsMultipartFile avatarFile) {
-
+    public String doRegister(@RequestParam("username") String username, @RequestParam("password") String password,
+                             @RequestParam("birthday") String birthday,
+                             @RequestParam("avatarFile") CommonsMultipartFile avatarFile) {
         // 是否存在重名
         if (userService.isExist(username) != 0) {
             return new JSONConstructor(0, "重名", "exist").toString();
@@ -109,7 +106,7 @@ public class LoginController {
 
         // 数据库中存放avatar的路径
         String avatar =
-                FileUpload.URL_PATH + File.separator + username + File.separator + avatarFile.getOriginalFilename();
+                FileUpload.URL_PATH + File.separator + username + File.separator + "avatar" + File.separator + avatarFile.getOriginalFilename();
         User user = new User(username, password, birthday, avatar);
         // 上传头像
         FileUpload.avatarUpload(username, avatarFile);
@@ -123,7 +120,7 @@ public class LoginController {
     }
 
     @GetMapping("/logout")
-    public String cleanSession(HttpSession session){
+    public String cleanSession(HttpSession session) {
         session.removeAttribute("user");
         return "index";
     }

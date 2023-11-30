@@ -4,9 +4,11 @@
   主页
   --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@ page import="com.acn.bean.User" %>
 <%
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+    User user = (User) session.getAttribute("user");
 %>
 <html>
 <head>
@@ -134,7 +136,7 @@
                 </video>
             </a>
         </li>
-        <%--搜索--%>
+        <%--搜索，未实现--%>
         <li class="layui-nav-item">
             <label>
                 <input type="text" placeholder="搜索帖子" value="" class="layui-input">
@@ -153,10 +155,17 @@
         <%--头像--%>
         <li class="layui-nav-item" lay-unselect="">
             <img class="layui-nav-img" src="${user == null?"img/default-avatar.png":user.avatar}">
-                <%--这里点击退出清除session域，并刷新页面--%>
+            <%--这里点击退出清除session域，并刷新页面--%>
             <dl class="layui-nav-child">
                 <dd style="text-align: center;"><a href="logout">退出</a></dd>
             </dl>
+        </li>
+        <%--管理员面板跳转按钮--%>
+        <%if (user != null && Integer.parseInt(user.getBanTime()) == -1) {%>
+        <li class="layui-nav-item">
+            <a href="admin">
+                管理员面板</a>
+            <%}%>
         </li>
     </ul>
 </div>
@@ -182,47 +191,7 @@
         var flow = layui.flow;
         var carousel = layui.carousel;
 
-        /*帖子信息流*/
-        // flow.load({
-        //     elem: '#PostList' //流加载容器
-        //     , done: function (page, next) { //下一页的回调
-        //         // 模拟
-        //         setTimeout(function () {
-        //                 // 循环加载帖子
-        //                 for (var i = 0; i < 3; i++) {
-        //                     var lis = [];
-        //                     lis.push(
-        //                         '<li style="text-align: center ;margin-top: 5px">' +
-        //                         /*帖子*/
-        //                         '<div class="outer-container">' +
-        //                         '<div class="container">' +
-        //                         '<div class="avatar-container">' +
-        //                         '<img src="img/default-avatar.png" class="avatar" alt="用户头像"> ' +
-        //                         '<div class="username">username</div> ' +
-        //                         '</div> ' +
-        //                         '<div class="middle-container"> ' +
-        //                         '<div class="title">标题 : ' + ((page - 1) * 5 + i + 1) + '</div>' +
-        //                         ' <div class="content"> ' +
-        //                         '<p>这是正文内容</p> ' +
-        //                         '</div> ' +
-        //                         '</div> ' +
-        //                         '<div class="info">' +
-        //                         '<p>[回帖数] 人回帖 [收藏数] 人收藏</p>' +
-        //                         '<p>发帖时间</p>' +
-        //                         '</div>' +
-        //                         '</div>' +
-        //                         '</div>'
-        //                         + '</li>'
-        //                     )
-        //                 }
-        //
-        //                 //执行下一页渲染，第二参数为：满足“加载更多”的条件，即后面仍有分页
-        //                 //pages为Ajax返回的总页数，只有当前页小于总页数的情况下，才会继续出现加载更多
-        //                 next(lis.join(''), page < 4); //假设总页数为 4
-        //             }
-        //             , 500);
-        //     }
-        // });
+
         flow.load({
             elem: '#PostList', //流加载容器
             done: function (page, next) { //下一页的回调
@@ -242,11 +211,11 @@
                                 /*帖子*/
                                 '<div class="outer-container">' +
                                 '<div class="container">' +
-                                '<div class="avatar-container">' +
-                                '<img src="' + list[i].avatar + '" class="avatar" alt="用户头像"> ' +
-                                '<div class="username">' + list[i].userName + '</div> ' +
+                                '<div class="avatar-container" id="' + list[i].userId + '">' +
+                                '<img src="' + list[i].userAvatar + '" class="avatar" alt="用户头像"> ' +
+                                '<div class="username">' + list[i].username + '</div> ' +
                                 '</div> ' +
-                                '<div class="middle-container"> ' +
+                                '<div class="middle-container" id="'+ list[i].postId +'"> ' +
                                 '<div class="title">' + list[i].title + '</div>' +
                                 ' <div class="content"> ' +
                                 '<p>' + list[i].text + '</p> ' +
@@ -263,6 +232,26 @@
                         }
                         // 执行下一页渲染，第二参数为：满足“加载更多”的条件
                         next(lis.join(''), page < 4);
+
+                        // 每个头像绑定点击事件
+                        for (var i = 0; i < list.length; i++) {
+                            // 使用 jQuery 绑定点击事件
+                            $('#' + list[i].userId).on('click', function () {
+                                var userId = $(this).attr('id');
+                                // 跳转到用户详情页
+                                clickUser(userId);
+                            });
+                        }
+
+                        // 每个帖子绑定点击事件
+                        for (var i = 0; i < list.length; i++) {
+                            // 使用 jQuery 绑定点击事件
+                            $('#' + list[i].postId).on('click', function () {
+                                var postId = $(this).attr('id');
+                                // 跳转到用户详情页
+                                clickPost(postId);
+                            });
+                        }
                     }
                 });
             }
@@ -276,6 +265,16 @@
             , width: '70%'
         });
     });
+
+
+    function clickUser(userId){
+
+    }
+
+    function clickPost(postId) {
+
+    }
+
 
 
 </script>

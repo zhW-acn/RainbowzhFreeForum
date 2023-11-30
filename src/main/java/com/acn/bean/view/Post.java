@@ -13,8 +13,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Post {
+    private int postId;
+    private int userId;
     private String userAvatar;
-    private String userName;
+    private String username;
     private String title;
     private String text;
     private String createtime;

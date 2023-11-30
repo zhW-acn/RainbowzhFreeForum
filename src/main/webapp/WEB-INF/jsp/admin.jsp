@@ -51,13 +51,13 @@
             <li class="layui-nav-item layui-hide layui-show-md-inline-block">
                 <%--头像--%>
                 <a href="javascript:;">
-                    <img src="img/nazume.png" class="layui-nav-img">
-                    adminName
+                    <img src="${user.avatar}" class="layui-nav-img">
+                    ${user.username}
                 </a>
                 <dl class="layui-nav-child">
-                    <dd><a href="">Your Profile</a></dd>
+                    <dd><a href="">我的主页</a></dd>
                     <dd><a href="">Settings</a></dd>
-                    <dd><a href="">登出</a></dd>
+                    <dd><a href="logout">登出</a></dd>
                 </dl>
             </li>
         </ul>
