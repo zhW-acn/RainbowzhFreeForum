@@ -26,4 +26,11 @@
         select count(*)
         from post
     </select>
+
+    <select id="selectPostByPaging" resultMap="postMap">
+        select user.id as userid, post.id as postid, user.avatar, user.`name`, post.title, post.text, post.createTime
+        from post
+                 LEFT JOIN user on post.userId = user.id
+        limit #{page}, #{pageSize}
+    </select>
 </mapper>

@@ -187,9 +187,14 @@
 
 
 <script>
+    // 当前登录的用户id，没有为false
+    currentUserId = <%=user==null?false:user.getId()%>;
+
     layui.use('flow', function () {
         var flow = layui.flow;
         var carousel = layui.carousel;
+        // 总页数
+        var count = ${count};
 
 
         flow.load({
@@ -215,7 +220,7 @@
                                 '<img src="' + list[i].userAvatar + '" class="avatar" alt="用户头像"> ' +
                                 '<div class="username">' + list[i].username + '</div> ' +
                                 '</div> ' +
-                                '<div class="middle-container" id="'+ list[i].postId +'"> ' +
+                                '<div class="middle-container" id="' + list[i].postId + '"> ' +
                                 '<div class="title">' + list[i].title + '</div>' +
                                 ' <div class="content"> ' +
                                 '<p>' + list[i].text + '</p> ' +
@@ -231,7 +236,7 @@
                             );
                         }
                         // 执行下一页渲染，第二参数为：满足“加载更多”的条件
-                        next(lis.join(''), page < 4);
+                        next(lis.join(''), page < count);
 
                         // 每个头像绑定点击事件
                         for (var i = 0; i < list.length; i++) {
@@ -267,14 +272,27 @@
     });
 
 
-    function clickUser(userId){
-
+    function clickUser(userId) {
+        if (currentUserId === false) {
+            if (confirm("游客请登录")) {
+                location.href = "login";
+            } else {
+            }
+        }else{
+            alert("用户" + currentUserId + "点击了" + userId + "的头像")
+        }
     }
 
     function clickPost(postId) {
-
+        if (currentUserId === false) {
+            if (confirm("游客请登录")) {
+                location.href = "login";
+            } else {
+            }
+        }else {
+            alert("用户" + currentUserId + "点击了" + postId + "的帖子")
+        }
     }
-
 
 
 </script>

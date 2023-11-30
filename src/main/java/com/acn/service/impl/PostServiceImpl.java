@@ -21,4 +21,16 @@ public class PostServiceImpl implements PostService {
     public List<Post> selectAllPosts() {
         return postMapper.selectAllPosts();
     }
+
+
+    @Override
+    public List<Post> selectPostByPaging(int page, int pageSize) {
+        return postMapper.selectPostByPaging(page,pageSize);
+    }
+
+    @Override
+    public int postsCount() {
+        return postMapper.postsCount();
+    }
+
 }

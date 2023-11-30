@@ -1,13 +1,10 @@
 package com.acn.controller;
 
 import com.acn.bean.view.Post;
-import com.acn.bean.User;
 import com.acn.service.PostService;
 import com.acn.service.UserService;
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +21,8 @@ import java.util.List;
  */
 @Controller
 public class indexController {
+    // 分页大小
+    static final int PAGE_SIZE = 1;
 
     @Autowired
     UserService userService;
@@ -32,27 +31,28 @@ public class indexController {
     PostService postService;
 
     /**
-     * 查询5条帖子，没有登录不能查看帖子和【加载更多】
+     * 查询PAGE_SIZE条帖子，没有登录不能查看帖子和【加载更多】
      */
     @GetMapping("/")
     public String index(
             HttpServletRequest request,
             Model model
     ) {
+        // 总页数
+        int count = postService.postsCount() % PAGE_SIZE != 0 ? (postService.postsCount() / PAGE_SIZE + 1) :
+                postService.postsCount() / PAGE_SIZE;
+        model.addAttribute("count", count);
         return "index";
     }
+
     @GetMapping("/ajax")
     @ResponseBody
     public String ajaxList(
             HttpServletRequest request,
             @RequestParam(name = "page") int page
     ) {
-        // 模拟通过分页查到的列表
-        List<Post> list = postService.selectAllPosts();
-//        List<User> list = new ArrayList<>();
-//        list.add(new User(1,"username","password","birthday","banTime",11));
-//        list.add(new User(2,"username2","password","birthday","banTime",11));
-//        list.add(new User(3,"username3","password","birthday","banTime",11));
+        int start = (page - 1) * PAGE_SIZE;
+        List<Post> list = postService.selectPostByPaging(start, PAGE_SIZE);
         /**
          * 参数说明：
          * avatar：用户头像地址
