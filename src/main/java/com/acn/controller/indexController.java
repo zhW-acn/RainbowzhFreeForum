@@ -22,7 +22,7 @@ import java.util.List;
 @Controller
 public class indexController {
     // 分页大小
-    static final int PAGE_SIZE = 1;
+    static final int PAGE_SIZE = 5;
 
     @Autowired
     UserService userService;

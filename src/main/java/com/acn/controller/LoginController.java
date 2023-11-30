@@ -119,10 +119,13 @@ public class LoginController {
         }
     }
 
+    /**
+     * 登出
+     */
     @GetMapping("/logout")
     public String cleanSession(HttpSession session) {
         session.removeAttribute("user");
-        return "index";
+        return "redirect:/";
     }
 
     /**

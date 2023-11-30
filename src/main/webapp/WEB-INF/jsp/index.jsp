@@ -216,11 +216,11 @@
                                 /*帖子*/
                                 '<div class="outer-container">' +
                                 '<div class="container">' +
-                                '<div class="avatar-container" id="' + list[i].userId + '">' +
-                                '<img src="' + list[i].userAvatar + '" class="avatar" alt="用户头像"> ' +
+                                '<div class="avatar-container" id="user_' + list[i].userId + '">' +
+                                '<img src="' + list[i].userAvatar + '" class="avatar layui-circle" alt="用户头像"> ' +
                                 '<div class="username">' + list[i].username + '</div> ' +
                                 '</div> ' +
-                                '<div class="middle-container" id="' + list[i].postId + '"> ' +
+                                '<div class="middle-container" id="post_' + list[i].postId + '"> ' +
                                 '<div class="title">' + list[i].title + '</div>' +
                                 ' <div class="content"> ' +
                                 '<p>' + list[i].text + '</p> ' +
@@ -238,23 +238,15 @@
                         // 执行下一页渲染，第二参数为：满足“加载更多”的条件
                         next(lis.join(''), page < count);
 
-                        // 每个头像绑定点击事件
-                        for (var i = 0; i < list.length; i++) {
-                            // 使用 jQuery 绑定点击事件
-                            $('#' + list[i].userId).on('click', function () {
-                                var userId = $(this).attr('id');
+                        // 绑定点击事件
+                        for(var i = 0; i < list.length; i++){
+                            $('#user_' + list[i].userId).on('click', function () {
                                 // 跳转到用户详情页
-                                clickUser(userId);
+                                clickUser($(this).attr('id'));
                             });
-                        }
-
-                        // 每个帖子绑定点击事件
-                        for (var i = 0; i < list.length; i++) {
-                            // 使用 jQuery 绑定点击事件
-                            $('#' + list[i].postId).on('click', function () {
-                                var postId = $(this).attr('id');
-                                // 跳转到用户详情页
-                                clickPost(postId);
+                            $('#post_' + list[i].postId).on('click', function () {
+                                // 跳转到帖子详情页
+                                clickPost($(this).attr('id'));
                             });
                         }
                     }
