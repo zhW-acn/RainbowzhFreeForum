@@ -1,9 +1,9 @@
-<%@ page import="com.acn.bean.User" %>
 <%--
   User: acane
   Date: 2023/12/1
   --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@ page import="com.acn.bean.User" %>
 <%
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
@@ -11,10 +11,12 @@
 %>
 <html>
 <head>
-    <title>用户主页</title>
+    <title>${post.title}</title>
+    <base href="<%=basePath%>">
     <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
     <script src="https://www.layuicdn.com/auto/layui.js" v="2.8.0"></script>
     <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.8.0/css/layui.css"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
     <style>
         video {
             height: 100%;
@@ -145,16 +147,6 @@
             font-size: 12px;
         }
     </style>
-    <script>
-        // 当前登录的用户id，没有为false
-        currentUserId = <%=user==null?false:user.getId()%>;
-        window.onload = function () {
-            if (currentUserId === false) {
-                alert("请登录")
-                location.href = "/login";
-            }
-        }
-    </script>
 </head>
 <body>
 <%--导航栏--%>
@@ -220,82 +212,115 @@
             </div>
         </div>
         <%--评论--%>
-        <ul class="comment-container">
+        <ul class="comment-container" id="CommentList">
             <%--一楼--%>
-            <li>
-                <div class="comment">
-                    <div class="user-info">
-                        <img src="avatar.jpg" alt="用户头像" class="user-avatar">
-                        <div>用户名</div>
-                        <div class="timestamp">2023-12-01 16:11</div>
-                    </div>
-                    <div class="comment-body">
-                        <div class="comment-text">
-                            这里是评论的文本内容。
-                        </div>
-                        <%--一楼的评论--%>
-                        <ul class="comment-container">
-                            <%--评论一--%>
-                            <li>
-                                <div class="comment">
-                                    <div class="user-info">
-                                        <img src="回复用户头像.jpg" alt="回复用户头像" class="user-avatar">
-                                        <div>
-                                            <p>回复用户名</p>
-                                            <p class="timestamp">2023-12-01 16:15</p>
-                                        </div>
-                                    </div>
-                                    <div class="comment-body">
-                                        <div class="comment-text">
-                                            这里是回复评论的文本内容。
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <%--评论二--%>
-                            <li>
-                                <div class="comment">
-                                    <div class="user-info">
-                                        <img src="回复用户头像.jpg" alt="回复用户头像" class="user-avatar">
-                                        <div>
-                                            <p>回复用户名</p>
-                                            <p class="timestamp">2023-12-01 16:15</p>
-                                        </div>
-                                    </div>
-                                    <div class="comment-body">
-                                        <div class="comment-text">
-                                            这里是回复评论的文本内容。
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </li>
-            <%--二楼--%>
-            <li>
-                <div class="comment">
-                    <div class="user-info">
-                        <img src="新用户头像.jpg" alt="新用户头像" class="user-avatar">
-                        <div>
-                            <p>新用户名</p>
-                            <p class="timestamp">2023-12-01 16:15</p>
-                        </div>
-                    </div>
-                    <div class="comment-body">
-                        <div class="comment-text">
-                            这里是新评论的文本内容。
-                        </div>
-                    </div>
-                </div>
-            </li>
+            <%--                        <li>--%>
+            <%--                            <div class="comment">--%>
+            <%--                                <div class="user-info">--%>
+            <%--                                    <img src="avatar.jpg" alt="用户头像" class="user-avatar">--%>
+            <%--                                    <div>用户名</div>--%>
+            <%--                                    <div class="timestamp">2023-12-01 16:11</div>--%>
+            <%--                                </div>--%>
+            <%--                                <div class="comment-body">--%>
+            <%--                                    <div class="comment-text">--%>
+            <%--                                        这里是评论的文本内容。--%>
+            <%--                                    </div>--%>
+            <%--                                    &lt;%&ndash;一楼的评论&ndash;%&gt;--%>
+            <%--                                    <ul class="comment-container">--%>
+            <%--                                        &lt;%&ndash;评论一&ndash;%&gt;--%>
+            <%--                                        <li>--%>
+            <%--                                            <div class="comment">--%>
+            <%--                                                <div class="user-info">--%>
+            <%--                                                    <img src="回复用户头像.jpg" alt="回复用户头像" class="user-avatar">--%>
+            <%--                                                    <div>--%>
+            <%--                                                        <p>回复用户名</p>--%>
+            <%--                                                        <p class="timestamp">2023-12-01 16:15</p>--%>
+            <%--                                                    </div>--%>
+            <%--                                                </div>--%>
+            <%--                                                <div class="comment-body">--%>
+            <%--                                                    <div class="comment-text">--%>
+            <%--                                                        这里是回复评论的文本内容。--%>
+            <%--                                                    </div>--%>
+            <%--                                                </div>--%>
+            <%--                                            </div>--%>
+            <%--                                        </li>--%>
+            <%--                                        &lt;%&ndash;评论二&ndash;%&gt;--%>
+            <%--                                        <li>--%>
+            <%--                                            <div class="comment">--%>
+            <%--                                                <div class="user-info">--%>
+            <%--                                                    <img src="回复用户头像.jpg" alt="回复用户头像" class="user-avatar">--%>
+            <%--                                                    <div>--%>
+            <%--                                                        <p>回复用户名</p>--%>
+            <%--                                                        <p class="timestamp">2023-12-01 16:15</p>--%>
+            <%--                                                    </div>--%>
+            <%--                                                </div>--%>
+            <%--                                                <div class="comment-body">--%>
+            <%--                                                    <div class="comment-text">--%>
+            <%--                                                        这里是回复评论的文本内容。--%>
+            <%--                                                    </div>--%>
+            <%--                                                </div>--%>
+            <%--                                            </div>--%>
+            <%--                                        </li>--%>
+            <%--                                    </ul>--%>
+            <%--                                </div>--%>
+            <%--                            </div>--%>
+            <%--                        </li>--%>
         </ul>
     </div>
 </div>
 
 <script>
+    // 评论总数
+    var count = ${count}
+    // 当前登录的用户id，没有为false
+    currentUserId = <%=user==null?false:user.getId()%>;
+    window.onload = function () {
+        if (currentUserId === false) {
+            alert("请登录")
+            location.href = "/login";
+        }
+    }
+    layui.use('flow', function () {
+        var flow = layui.flow;
 
+        flow.load({
+            elem: '#CommentList',
+            done: function (page, next) {
+                $.ajax({
+                    url: '/post/${post.getPostId()}',
+                    type: 'POST',
+                    data: {
+                        page: page
+                    },
+                    success: function (data) {
+                        var list = JSON.parse(data);
+                        var lis = [];
+                        for (var i = 0; i < list.length; i++) {
+                            lis.push(
+                                '<li>' +
+                                '<div class="comment" id="comment_' + list[i].id + '">' +
+                                '<div class="user-info">' +
+                                '<img src="' + list[i].userAvatar + '" alt="用户头像" class="user-avatar">' +
+                                '<div>' +
+                                '<p>' + list[i].username + '</p>' +
+                                '<p class="timestamp">' + list[i].createtime + '</p>' +
+                                '</div>' +
+                                '</div>' +
+                                '<div class="comment-body">' +
+                                '<div class="comment-text">' +
+                                list[i].commentText +
+                                '</div>' +
+                                '</div>' +
+                                '</div>' +
+                                '</li>'
+                            )
+                        }
+                        next(lis.join(''), page < count);
+                    }
+                });
+            }
+        });
+    });
 </script>
 </body>
 </html>

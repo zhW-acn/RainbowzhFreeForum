@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.9//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.acn.dao.CommentMapper">
+
+    <resultMap id="commentMap" type="com.acn.bean.view.Comment">
+        <result property="id" column="id"/>
+        <result property="commentText" column="comment_text"/>
+        <result property="postId" column="postId"/>
+        <result property="userAvatar" column="userAvatar"/>
+        <result property="username" column="name"/>
+        <result property="createtime" column="createtime"/>
+    </resultMap>
+
+    <select id="selectAllComments" parameterType="int" resultMap="commentMap">
+        select `comment`.id,
+               `comment`.comment_text,
+               `comment`.postId,
+               user.avatar as userAvatar,
+               user.`name`,
+               `comment`.createTime
+        from comment
+                 LEFT JOIN user on `comment`.userId = `user`.id
+        where comment.postId = #{id}
+    </select>
+
+    <select id="commentsCount" resultType="int">
+        select count(*)
+        from comment
+    </select>
+
+    <select id="selectCommentsByPaging" resultMap="commentMap">
+        select `comment`.id,
+               `comment`.comment_text,
+               `comment`.postId,
+               user.avatar as userAvatar,
+               user.`name`,
+               `comment`.createTime
+        from comment
+                 LEFT JOIN user on `comment`.userId = `user`.id
+        where comment.postId = #{id}
+        limit #{page}, #{pageSize}
+    </select>
+</mapper>

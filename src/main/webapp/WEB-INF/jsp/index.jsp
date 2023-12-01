@@ -207,13 +207,13 @@
 <script>
     // 当前登录的用户id，没有为false
     currentUserId = <%=user==null?false:user.getId()%>;
-
+    // 总页数
+    var count = ${count};
     var layer = layui.layer;
     layui.use('flow', function () {
         var flow = layui.flow;
         var carousel = layui.carousel;
-        // 总页数
-        var count = ${count};
+
 
 
         flow.load({
@@ -223,7 +223,7 @@
                     url: 'ajax',
                     type: 'GET',
                     data: {
-                        page: page,
+                        page: page
                     },
                     success: function (data) {
                         var list = JSON.parse(data);

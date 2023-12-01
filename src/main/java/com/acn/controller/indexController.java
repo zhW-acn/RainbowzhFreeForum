@@ -64,7 +64,6 @@ public class indexController {
          * postTime：发帖时间
          */
         String listString = JSONArray.toJSONString(list);
-        System.out.println(listString);
         return listString;
     }
 }

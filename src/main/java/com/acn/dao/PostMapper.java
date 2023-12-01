@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * @Description:
+ * @Description: 帖子dao层
  * @Author: acn
  * @Date: 2023/11/28/0:00
  */
