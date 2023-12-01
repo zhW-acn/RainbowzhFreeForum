@@ -29,6 +29,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public Post selectPostById(int id) {
+        return postMapper.selectPostById(id);
+    }
+
+    @Override
     public int postsCount() {
         return postMapper.postsCount();
     }

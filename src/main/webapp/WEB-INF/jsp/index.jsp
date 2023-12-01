@@ -14,7 +14,7 @@
 <head>
     <title>Title</title>
     <base href="<%=basePath%>">
-    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
     <script src="https://www.layuicdn.com/auto/layui.js" v="2.8.0"></script>
     <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.8.0/css/layui.css"/>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
@@ -110,6 +110,11 @@
             font-size: 15px; /* 调整内容字体大小 */
         }
 
+        .thread-content {
+            font-size: 15px;
+            word-break: break-all
+        }
+
         .info {
             background-color: #B29CFF;
             flex: 1 1 20%;
@@ -117,6 +122,15 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+        }
+
+        .hide {
+            -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent);
+            mask-image: linear-gradient(180deg, #000 60%, transparent);
+            overflow: hidden;
+            padding: 0 10px;
+            max-lines: 2;
+            max-height: 400px
         }
     </style>
 </head>
@@ -131,7 +145,7 @@
             <%--跳转到首页--%>
             <a href="">
                 <video autoplay loop muted playsinline>
-                    <source src="img/logo.webm" type="video/webm">
+                    <source src="/img/logo.webm" type="video/webm">
                     抱歉，您的浏览器不支持内嵌视频。
                 </video>
             </a>
@@ -148,22 +162,26 @@
         <%--用户信息--%>
         <li class="layui-nav-item">
             <%--这里需要改进，登陆后点击跳转到自己主页--%>
-            <a href="login">
-                ${user.username == null?"请登录":user.username}
+            <%if (user == null) {%>
+            <a href="/login">请登录</a>
+            <%} else {%>
+            <a href="/user/${user.id}">
+                ${user.username}
             </a>
+            <%}%>
         </li>
         <%--头像--%>
         <li class="layui-nav-item" lay-unselect="">
-            <img class="layui-nav-img" src="${user == null?"img/default-avatar.png":user.avatar}">
+            <img class="layui-nav-img" src="${user == null?"/img/default-avatar.png":user.avatar}">
             <%--这里点击退出清除session域，并刷新页面--%>
             <dl class="layui-nav-child">
-                <dd style="text-align: center;"><a href="logout">退出</a></dd>
+                <dd style="text-align: center;"><a href="/logout">退出</a></dd>
             </dl>
         </li>
         <%--管理员面板跳转按钮--%>
         <%if (user != null && Integer.parseInt(user.getBanTime()) == -1) {%>
         <li class="layui-nav-item">
-            <a href="admin">
+            <a href="/admin">
                 管理员面板</a>
             <%}%>
         </li>
@@ -190,6 +208,7 @@
     // 当前登录的用户id，没有为false
     currentUserId = <%=user==null?false:user.getId()%>;
 
+    var layer = layui.layer;
     layui.use('flow', function () {
         var flow = layui.flow;
         var carousel = layui.carousel;
@@ -222,7 +241,7 @@
                                 '</div> ' +
                                 '<div class="middle-container" id="post_' + list[i].postId + '"> ' +
                                 '<div class="title">' + list[i].title + '</div>' +
-                                ' <div class="content"> ' +
+                                ' <div class="content hide thread-content"> ' +
                                 '<p>' + list[i].text + '</p> ' +
                                 '</div> ' +
                                 '</div> ' +
@@ -239,14 +258,14 @@
                         next(lis.join(''), page < count);
 
                         // 绑定点击事件
-                        for(var i = 0; i < list.length; i++){
+                        for (var i = 0; i < list.length; i++) {
                             $('#user_' + list[i].userId).on('click', function () {
                                 // 跳转到用户详情页
                                 clickUser($(this).attr('id'));
                             });
                             $('#post_' + list[i].postId).on('click', function () {
                                 // 跳转到帖子详情页
-                                clickPost($(this).attr('id'));
+                                clickPost($(this).attr('id'), this);
                             });
                         }
                     }
@@ -270,19 +289,22 @@
                 location.href = "login";
             } else {
             }
-        }else{
-            alert("用户" + currentUserId + "点击了" + userId + "的头像")
+        } else {
+            // 跳转到目标用户的首页
+            layer.msg("用户" + currentUserId + "点击了" + userId + "的头像")
         }
     }
 
     function clickPost(postId) {
+
         if (currentUserId === false) {
             if (confirm("游客请登录")) {
-                location.href = "login";
+                location.href = "/login";
             } else {
             }
-        }else {
-            alert("用户" + currentUserId + "点击了" + postId + "的帖子")
+        } else {
+            // 跳转到目标帖子详情
+            location.href = "/post/" + postId.replace("post_", "");
         }
     }
 

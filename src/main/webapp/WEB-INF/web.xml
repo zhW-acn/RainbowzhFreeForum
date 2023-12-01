@@ -46,6 +46,6 @@
     </filter-mapping>
 
 <session-config>
-    <session-timeout>1</session-timeout>
+    <session-timeout>100000000</session-timeout>
 </session-config>
 </web-app>

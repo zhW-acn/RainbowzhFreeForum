@@ -17,6 +17,9 @@ public interface PostMapper {
     // r return int
     int postsCount();
 
+    // r by id
+    Post selectPostById(@Param("id")int id);
+
     // r by paging
     /**
      * page：当前页数

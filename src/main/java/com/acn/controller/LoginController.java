@@ -106,7 +106,7 @@ public class LoginController {
 
         // 数据库中存放avatar的路径
         String avatar =
-                FileUpload.URL_PATH + File.separator + username + File.separator + "avatar" + File.separator + avatarFile.getOriginalFilename();
+                File.separator + FileUpload.URL_PATH + File.separator + username + File.separator + "avatar" + File.separator + avatarFile.getOriginalFilename();
         User user = new User(username, password, birthday, avatar);
         // 上传头像
         FileUpload.avatarUpload(username, avatarFile);
