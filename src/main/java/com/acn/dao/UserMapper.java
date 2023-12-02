@@ -2,6 +2,7 @@ package com.acn.dao;
 
 import com.acn.bean.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -27,7 +28,7 @@ public interface UserMapper {
     /**
      * 查询 by id
      */
-    User selectUserById(int id);
+    User selectUserById(@Param("id")int id);
 
     /**
      * 是否存在重名

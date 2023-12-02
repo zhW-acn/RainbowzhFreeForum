@@ -60,10 +60,8 @@ public class indexController {
          * title：标题
          * content：正文
          * replyNum：回帖人数
-         * collectionNum：收藏人数
          * postTime：发帖时间
          */
-        String listString = JSONArray.toJSONString(list);
-        return listString;
+        return JSONArray.toJSONString(list);
     }
 }

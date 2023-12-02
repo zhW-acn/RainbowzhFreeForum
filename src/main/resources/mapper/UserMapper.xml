@@ -14,6 +14,8 @@
         <result property="visits" column="visits"/>
     </resultMap>
 
+
+
     <insert id="insertUser" parameterType="com.acn.bean.User">
         insert into user (banTime, name, pass, birthday, avatar)
         values (0, #{username}, #{password}, #{birthday}, #{avatar});
@@ -47,6 +49,13 @@
                 and visits = #{visits}
             </if>
         </trim>
+    </select>
+
+
+    <select id="selectUserById" resultMap="uMap">
+        select *
+        from user
+        where id = #{id};
     </select>
 
 </mapper>

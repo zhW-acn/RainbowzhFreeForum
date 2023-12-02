@@ -4,6 +4,7 @@ import com.acn.bean.User;
 import com.acn.dao.UserMapper;
 import com.acn.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -32,7 +33,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User selectUserById(int id) {
-        return null;
+        return userMapper.selectUserById(id);
     }
 
     @Override

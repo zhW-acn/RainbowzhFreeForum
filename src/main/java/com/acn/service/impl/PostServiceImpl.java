@@ -18,8 +18,8 @@ public class PostServiceImpl implements PostService {
     @Autowired
     PostMapper postMapper;
     @Override
-    public List<Post> selectAllPosts() {
-        return postMapper.selectAllPosts();
+    public List<Post> selectAllPosts(int userid) {
+        return postMapper.selectAllPosts(userid);
     }
 
 
@@ -38,4 +38,8 @@ public class PostServiceImpl implements PostService {
         return postMapper.postsCount();
     }
 
+    @Override
+    public int postsCountByUser(int userId) {
+        return postMapper.postsCountByUser(userId);
+    }
 }

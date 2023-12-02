@@ -22,73 +22,94 @@
             height: 100%;
         }
 
+        body {
+            background-color: #fff;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+        }
+
         .outer-container {
             width: 70%;
-            height: 200px;
             margin: 0 auto;
         }
 
         .container {
             display: flex;
-            height: 100%; /* 使内部容器填充整个外部容器 */
             box-sizing: border-box;
-        }
-
-        .avatar {
-            box-sizing: border-box;
-            text-align: center;
-            vertical-align: top;
         }
 
         .avatar-container {
             flex: 1 1 20%;
-            height: 100%; /* 适应外部容器的高度 */
             display: flex;
-            background-color: #5256FF;
+            background-color: #3498db; /* 蓝色 */
             flex-direction: column;
             align-items: center;
-            overflow: hidden; /* 防止内容溢出div */
+            overflow: hidden;
+            padding: 20px;
         }
 
         .avatar {
-            max-width: 100%; /* 限制图片最大宽度 */
-            max-height: 80%; /* 调整图片最大高度，为用户名留出空间 */
-            object-fit: cover; /* 保持图片的宽高比 */
+            max-width: 100%;
+            max-height: 80%;
+            object-fit: cover;
         }
 
         .username {
-            font-size: 12px; /* 调整用户名字体大小 */
+            font-size: 16px;
             font-weight: bold;
-            margin-top: 5px; /* 在用户名和头像之间添加间距 */
+            margin-top: 10px;
+            color: #fff; /* 白色 */
         }
-
 
         .middle-container {
             flex: 1 1 60%;
             display: flex;
             flex-direction: column;
-            height: 100%; /* 适应外部容器的高度 */
             box-sizing: border-box;
-        }
-
-        .title, .content {
-            box-sizing: border-box;
+            padding: 20px;
         }
 
         .title {
-            background-color: #0DDCFF;
+            background-color: #3498db; /* 蓝色 */
             font-weight: bold;
-            font-size: 20px; /* 调整标题字体大小 */
+            font-size: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            color: #fff; /* 白色 */
         }
 
         .content {
-            background-color: #1EFFA9;
+            background-color: #8eb4cb; /* 淡蓝色 */
             flex-grow: 1;
             text-align: left;
-            font-size: 15px; /* 调整内容字体大小 */
+            font-size: 18px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .comment-form-container {
+            margin-bottom: 20px;
+        }
+
+        #commentText {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #3498db; /* 蓝色 */
+            color: #fff; /* 白色 */
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
         }
 
         .comment-container {
@@ -99,7 +120,6 @@
 
         .comment {
             display: flex;
-            width: 100%;
             flex-direction: row;
             border: 1px solid #ccc;
             margin-bottom: 10px;
@@ -111,26 +131,20 @@
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
-            margin-right: 100px;
+            margin-right: 20px;
         }
 
         .user-info img {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            margin-right: 10px;
+            margin-bottom: 10px;
         }
 
         .user-info div {
             display: flex;
             flex-direction: column;
-        }
-
-        .user-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            margin-right: 10px;
+            align-items: center;
         }
 
         .comment-body {
@@ -140,11 +154,13 @@
 
         .comment-text {
             flex-grow: 1;
-            text-align: center;
+            text-align: left;
+            font-size: 16px;
         }
 
         .comment .timestamp {
             font-size: 12px;
+            color: #888;
         }
     </style>
 </head>
@@ -174,7 +190,9 @@
     <ul class="layui-nav layui-layout-right layui-bg-green" style="white-space: nowrap;!important;">
         <%--用户信息--%>
         <li class="layui-nav-item">
-            ${user.username}
+            <a href="/user/${user.id}">
+                ${user.username}
+            </a>
         </li>
         <%--头像--%>
         <li class="layui-nav-item" lay-unselect="">
@@ -194,7 +212,6 @@
     </ul>
 </div>
 
-<%--帖子--%>
 <div class="" style="margin:0 auto">
     <div class="outer-container">
         <%--帖子--%>
@@ -210,6 +227,13 @@
                     <p>${post.text}</p>
                 </div>
             </div>
+        </div>
+        <%--发表评论--%>
+        <div class="comment-form-container">
+            <form id="commentForm" action="/addComment" method="post">
+                <textarea id="commentText" name="commentText" placeholder="在这里输入你的评论..."></textarea>
+                <button type="submit">发表评论</button>
+            </form>
         </div>
         <%--评论--%>
         <ul class="comment-container" id="CommentList">
@@ -270,10 +294,12 @@
 </div>
 
 <script>
+    var layer = layui.layer;
     // 评论总数
-    var count = ${count}
+    var count =
+    ${count}
     // 当前登录的用户id，没有为false
-    currentUserId = <%=user==null?false:user.getId()%>;
+    var currentUserId = <%=user==null?false:user.getId()%>;
     window.onload = function () {
         if (currentUserId === false) {
             alert("请登录")
@@ -299,8 +325,9 @@
                             lis.push(
                                 '<li>' +
                                 '<div class="comment" id="comment_' + list[i].id + '">' +
-                                '<div class="user-info">' +
-                                '<img src="' + list[i].userAvatar + '" alt="用户头像" class="user-avatar">' +
+                                '<div class="user-info user_'+list[i].userId+'">' +
+                                '<img src="' + list[i].userAvatar +
+                                '" alt="用户头像" class="user-avatar">' +
                                 '<div>' +
                                 '<p>' + list[i].username + '</p>' +
                                 '<p class="timestamp">' + list[i].createtime + '</p>' +
@@ -316,11 +343,59 @@
                             )
                         }
                         next(lis.join(''), page < count);
+                        // 绑定点击事件
+                        for (var i = 0; i < list.length; i++) {
+                            $('.user_' + list[i].userId).on('click', function () {
+                                // 跳转到用户详情页
+                                clickUser($(this).attr('class'));
+                            });
+                        }
                     }
                 });
             }
         });
     });
+
+    $("#commentForm").submit(function (event) {
+        event.preventDefault();
+        var commentText = $("#commentText").val();
+        if (commentText === "") {
+            alert("输入评论不可为空")
+            return false;
+        }
+        $.ajax({
+            url: '/post/${post.getPostId()}/addComment',
+            type: 'POST',
+            data: {
+                postId: ${post.getPostId()},
+                commentText: commentText,
+                userId: currentUserId
+            },
+            success: function (data) {
+                if (data === "success") {
+                    layer.msg("发表成功")
+                    $("#commentText").val("")
+                    // 按时间排序刷新评论区
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
+                }
+            },
+            error: function (error) {
+                alert("服务器异常")
+            }
+        });
+    });
+
+    /*贴主*/
+    $("#user_${post.userId}").on('click',function () {
+        location.href = "/user/" + $("#user_${post.userId}").selector.replace("#user_", "");
+    })
+
+    /*楼主*/
+    function clickUser(userId) {
+        location.href = "/user/" + userId.replace("user-info user_", "");
+    }
 </script>
 </body>
 </html>

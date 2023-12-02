@@ -12,15 +12,20 @@ import java.util.List;
  * @Date: 2023/12/01/21:18
  */
 public interface CommentMapper {
+    // c
+    int addComment(com.acn.bean.Comment comment);
 
     // r
-    List<Comment> selectAllComments(@Param("id")int postId);
+    List<Comment> selectAllComments(@Param("id") int postId);
 
     // r return int
     int commentsCount();
 
+    // r by post int
+    int commentsCountByPost(@Param("postId") int postId);
+
     /**
      * 查询所有评论数
      */
-    List<Comment> selectCommentsByPaging(@Param("id")int id,@Param("page")int page, @Param("pageSize")int pageSize);
+    List<Comment> selectCommentsByPaging(@Param("id") int id, @Param("page") int page, @Param("pageSize") int pageSize);
 }

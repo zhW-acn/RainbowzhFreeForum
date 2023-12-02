@@ -13,12 +13,12 @@ import java.util.List;
 
 public interface PostService {
     /**
-     * 查询所有帖子
+     * 查询一个用户的所有帖子
      */
-    List<Post> selectAllPosts();
+    List<Post> selectAllPosts(int userId);
 
     /**
-     * 查询所有帖子数
+     * 分页查询所有帖子
      */
     List<Post> selectPostByPaging(int page, int pageSize);
 
@@ -32,4 +32,8 @@ public interface PostService {
      */
     int postsCount();
 
+    /**
+     * 返回用户的发帖数
+     */
+    int postsCountByUser(int userId);
 }

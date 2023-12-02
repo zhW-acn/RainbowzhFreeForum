@@ -1,7 +1,6 @@
 package com.acn.service.impl;
 
-import com.acn.bean.view.Comment;
-import com.acn.bean.view.Post;
+import com.acn.bean.Comment;
 import com.acn.dao.CommentMapper;
 import com.acn.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +18,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     CommentMapper commentMapper;
+
     @Override
-    public List<Comment> selectAllComments(int postId) {
+    public List<com.acn.bean.view.Comment> selectAllComments(int postId) {
         return commentMapper.selectAllComments(postId);
     }
 
@@ -30,7 +30,17 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> selectCommentByPaging(int id, int page, int pageSize) {
-        return commentMapper.selectCommentsByPaging(id, page,pageSize);
+    public List<com.acn.bean.view.Comment> selectCommentByPaging(int id, int page, int pageSize) {
+        return commentMapper.selectCommentsByPaging(id, page, pageSize);
+    }
+
+    @Override
+    public int addComment(com.acn.bean.Comment comment) {
+        return commentMapper.addComment(comment);
+    }
+
+    @Override
+    public int commentsCountByPost(int postId) {
+        return commentMapper.commentsCountByPost(postId);
     }
 }

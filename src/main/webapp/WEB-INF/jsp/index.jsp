@@ -20,7 +20,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
     <style>
         body {
-            background-color: rebeccapurple;
+            background-color: white;
         }
 
         video {
@@ -43,6 +43,7 @@
         .outer-container {
             width: 70%;
             height: 150px; /* 设置外部容器高度为150px */
+            background-color: #3498db;
             margin: 0 auto;
         }
 
@@ -62,7 +63,7 @@
             flex: 1 1 20%;
             height: 100%; /* 适应外部容器的高度 */
             display: flex;
-            background-color: #5256FF;
+            background-color: #5ec3e8;
             flex-direction: column;
             justify-content: center;
             align-items: center;
@@ -79,6 +80,7 @@
             font-size: 12px; /* 调整用户名字体大小 */
             font-weight: bold;
             margin-top: 5px; /* 在用户名和头像之间添加间距 */
+            color: #fff;
         }
 
 
@@ -101,10 +103,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            color: #fff;
         }
 
         .content {
-            background-color: #1EFFA9;
+            background-color: #83ddfc;
             flex-grow: 1;
             text-align: left;
             font-size: 15px; /* 调整内容字体大小 */
@@ -116,7 +119,7 @@
         }
 
         .info {
-            background-color: #B29CFF;
+            background-color: #01b7ef;
             flex: 1 1 20%;
             height: 100%;
             display: flex;
@@ -235,18 +238,18 @@
                                 /*帖子*/
                                 '<div class="outer-container">' +
                                 '<div class="container">' +
-                                '<div class="avatar-container" id="user_' + list[i].userId + '">' +
+                                '<div class="avatar-container user_' + list[i].userId + '">' +
                                 '<img src="' + list[i].userAvatar + '" class="avatar layui-circle" alt="用户头像"> ' +
                                 '<div class="username">' + list[i].username + '</div> ' +
                                 '</div> ' +
-                                '<div class="middle-container" id="post_' + list[i].postId + '"> ' +
+                                '<div class="middle-container post_' + list[i].postId + '"> ' +
                                 '<div class="title">' + list[i].title + '</div>' +
                                 ' <div class="content hide thread-content"> ' +
                                 '<p>' + list[i].text + '</p> ' +
                                 '</div> ' +
                                 '</div> ' +
                                 '<div class="info">' +
-                                '<p>' + list[i].replyCount + ' 人回帖    ' + data[i].collectCount + ' 人收藏</p>' +
+                                '<p>' + list[i].replyCount + ' 人回帖</p>' +
                                 '<p>发帖时间: ' + list[i].createtime + '</p>' +
                                 '</div>' +
                                 '</div>' +
@@ -259,13 +262,13 @@
 
                         // 绑定点击事件
                         for (var i = 0; i < list.length; i++) {
-                            $('#user_' + list[i].userId).on('click', function () {
+                            $('.user_' + list[i].userId).on('click', function () {
                                 // 跳转到用户详情页
-                                clickUser($(this).attr('id'));
+                                clickUser($(this).attr('class'));
                             });
-                            $('#post_' + list[i].postId).on('click', function () {
+                            $('.post_' + list[i].postId).on('click', function () {
                                 // 跳转到帖子详情页
-                                clickPost($(this).attr('id'), this);
+                                clickPost($(this).attr('class'));
                             });
                         }
                     }
@@ -291,7 +294,7 @@
             }
         } else {
             // 跳转到目标用户的首页
-            layer.msg("用户" + currentUserId + "点击了" + userId + "的头像")
+            location.href = "/user/" + userId.replace("avatar-container user_", "");
         }
     }
 
@@ -304,7 +307,7 @@
             }
         } else {
             // 跳转到目标帖子详情
-            location.href = "/post/" + postId.replace("post_", "");
+            location.href = "/post/" + postId.replace("middle-container post_", "");
         }
     }
 

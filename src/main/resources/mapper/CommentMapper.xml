@@ -9,10 +9,17 @@
         <result property="id" column="id"/>
         <result property="commentText" column="comment_text"/>
         <result property="postId" column="postId"/>
+        <result property="userId" column="userId"/>
         <result property="userAvatar" column="userAvatar"/>
         <result property="username" column="name"/>
         <result property="createtime" column="createtime"/>
     </resultMap>
+
+
+    <insert id="addComment" parameterType="com.acn.bean.Comment">
+        insert into comment (comment_text, postId, userId, createTime, flag)
+        values (#{commentText},#{postId},#{userId},#{createtime},#{flag});
+    </insert>
 
     <select id="selectAllComments" parameterType="int" resultMap="commentMap">
         select `comment`.id,
@@ -31,10 +38,17 @@
         from comment
     </select>
 
+    <select id="commentsCountByPost" resultType="int">
+        select count(*)
+        from comment
+        where postId = #{postId}
+    </select>
+
     <select id="selectCommentsByPaging" resultMap="commentMap">
         select `comment`.id,
                `comment`.comment_text,
                `comment`.postId,
+               user.id as userId,
                user.avatar as userAvatar,
                user.`name`,
                `comment`.createTime

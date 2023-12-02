@@ -25,4 +25,14 @@ public interface CommentService {
      * 查询所有评论数
      */
     List<Comment> selectCommentByPaging(int id, int page, int pageSize);
+
+    /**
+     * 添加评论
+     */
+    int addComment(com.acn.bean.Comment comment);
+
+    /**
+     * 查询一个帖子的所有评论数
+     */
+    int commentsCountByPost(int postId);
 }
