@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .page-layout {
+            display: flex;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        .avatar {
+            border: 2px solid black;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+        }
+
+        .content-area {
+            flex-grow: 1;
+        }
+
+        .post-title {
+            border: 2px solid black;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        .comment {
+            border: 2px solid black;
+            padding: 5px;
+            position: relative;
+            height: 150px;
+            overflow: auto;
+        }
+
+        .delete-button {
+            position: absolute;
+            bottom: 5px;
+            left: 5px;
+        }
+
+        .comment-time {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-layout">
+    <div class="avatar">头像</div>
+
+    <div class="content-area">
+        <div class="post-title">帖子标题</div>
+        <div class="comment">
+            我的评论内容
+            <!-- More content here to demonstrate scrolling -->
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+            <button class="delete-button">点击删除</button>
+            <div class="comment-time">评论时间</div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

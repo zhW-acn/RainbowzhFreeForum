@@ -121,12 +121,14 @@
                     <input type="password" name="password" lay-verify placeholder="密码" autocomplete="off"
                            class="layui-input">
                 </div>
-
                 <%if (request.getAttribute("action") == "register") {%>
                 <%--这里存放上传头像和birthday的div--%>
                 <div class="layui-form-item">
+                    <i class="layui-icon">&#xe67c;</i>上传头像
                     <input type="file" class="layui-btn" id="avatar" name="avatarFile">
-                        <i class="layui-icon">&#xe67c;</i>上传头像
+                    <%--头像预览--%>
+                    <img id="avatarPreview" src="" alt="预览"
+                         style="max-width: 100px; max-height: 100px; display: none;">
                 </div>
                 <div class="layui-form-item">
                     生日<input type="date" name="birthday">
@@ -192,7 +194,7 @@
                     formData.append('username', data.username);
                     formData.append('password', data.password);
 
-                    // 如果表单是注册，就加上下面的formData
+                    // 如果表单是注册，就加上下面的formData 和绑定头像上传事件
                     if ("${action}" === "register") {
                         formData.append('birthday', data.birthday);
                         // 获取文件上传的input
@@ -260,6 +262,25 @@
             });
         })
     })
+
+    // 头像上传事件
+    // 处理文件输入的change事件
+    $('#avatar').on('change', function () {
+        // 获取选定的文件
+        var file = this.files[0];
+
+        // 检查是否选择了文件
+        if (file) {
+            // 以数据URL的形式读取文件
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                // 设置预览图像的源并显示它
+                $('#avatarPreview').attr('src', e.target.result);
+                $('#avatarPreview').css('display', 'block');
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 </script>
 </body>
 </html>

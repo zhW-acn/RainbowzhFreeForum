@@ -133,7 +133,7 @@
         <%--logo--%>
         <li class="layui-nav-item">
             <%--跳转到首页--%>
-            <a href="">
+            <a href="<%=basePath%>">
                 <video autoplay loop muted playsinline>
                     <source src="/img/logo.webm" type="video/webm">
                     抱歉，您的浏览器不支持内嵌视频。

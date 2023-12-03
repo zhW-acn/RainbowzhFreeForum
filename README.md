@@ -18,6 +18,12 @@
 点击用户头像跳转到其主页
 
 对帖子发表评论
+
+## 12.3 发烧了
+注册时上传头像可显示
+
+试了试AOP捕获异常。可以是可以，但是没法[跳转](src/main/java/com/acn/controller/GlobalExceptionHandler.java)
+
 ## TODO
 1. 搜索帖子功能，
 2. 轮播公告【点击弹窗详情】，
