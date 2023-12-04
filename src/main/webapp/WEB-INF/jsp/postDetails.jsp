@@ -325,7 +325,7 @@
                             lis.push(
                                 '<li>' +
                                 '<div class="comment" id="comment_' + list[i].id + '">' +
-                                '<div class="user-info user_'+list[i].userId+'">' +
+                                '<div class="user-info user_' + list[i].userId + '">' +
                                 '<img src="' + list[i].userAvatar +
                                 '" alt="用户头像" class="user-avatar">' +
                                 '<div>' +
@@ -388,7 +388,7 @@
     });
 
     /*贴主*/
-    $("#user_${post.userId}").on('click',function () {
+    $("#user_${post.userId}").on('click', function () {
         location.href = "/user/" + $("#user_${post.userId}").selector.replace("#user_", "");
     })
 

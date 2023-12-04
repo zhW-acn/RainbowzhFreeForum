@@ -1,7 +1,6 @@
 package com.acn.dao;
 
 import com.acn.bean.view.Comment;
-import com.acn.bean.view.Post;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -18,6 +17,9 @@ public interface CommentMapper {
     // r
     List<Comment> selectAllComments(@Param("id") int postId);
 
+    // r by one post
+    List<Comment> selectAllCommentsByUserId(@Param("userId") int userId);
+
     // r return int
     int commentsCount();
 
@@ -28,4 +30,7 @@ public interface CommentMapper {
      * 查询所有评论数
      */
     List<Comment> selectCommentsByPaging(@Param("id") int id, @Param("page") int page, @Param("pageSize") int pageSize);
+
+    // u
+    int changeFlag(@Param("postId") int postId,@Param("commentId") int commentId);
 }

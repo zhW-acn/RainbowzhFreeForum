@@ -25,6 +25,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public List<com.acn.bean.view.Comment> selectAllCommentsByUserId(int userId) {
+        return commentMapper.selectAllCommentsByUserId(userId);
+    }
+
+    @Override
     public int commentsCount() {
         return commentMapper.commentsCount();
     }
@@ -42,5 +47,10 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public int commentsCountByPost(int postId) {
         return commentMapper.commentsCountByPost(postId);
+    }
+
+    @Override
+    public int changeFlag(int postId, int commentId) {
+        return commentMapper.changeFlag(postId,commentId);
     }
 }

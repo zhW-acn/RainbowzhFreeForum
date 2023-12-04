@@ -2,6 +2,7 @@ package com.acn.service;
 
 import com.acn.bean.view.Comment;
 import com.acn.bean.view.Post;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,6 +16,11 @@ public interface CommentService {
      * 根据post的id查找评论
      */
     List<Comment> selectAllComments(int postId);
+
+    /**
+     * 根据userid查找评论
+     */
+    List<Comment> selectAllCommentsByUserId(@Param("id") int userId);
 
     /**
      * 评论总数
@@ -35,4 +41,9 @@ public interface CommentService {
      * 查询一个帖子的所有评论数
      */
     int commentsCountByPost(int postId);
+
+    /**
+     * 普通删除评论
+     */
+    int changeFlag(int postId,int commentId);
 }

@@ -42,4 +42,14 @@ public class PostServiceImpl implements PostService {
     public int postsCountByUser(int userId) {
         return postMapper.postsCountByUser(userId);
     }
+
+    @Override
+    public int deletePostById(int postId) {
+        return postMapper.ADMIN_deletePostById(postId);
+    }
+
+    @Override
+    public int changeFlag(int postId) {
+        return postMapper.changeFlag(postId);
+    }
 }

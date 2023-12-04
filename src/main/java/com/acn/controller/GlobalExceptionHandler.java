@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
             throwing = "ex")
     public ModelAndView catchException(Exception ex) {
         log.error(ex.getMessage());
-        // 跳转到指定页面500
+        // 跳转到指定页面
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("ex",ex);
         modelAndView.setViewName("error");

@@ -30,4 +30,10 @@ public interface PostMapper {
      * pageShow：分页数
      */
     List<Post> selectPostByPaging(@Param("page") int page, @Param("pageSize") int pageSize);
+
+    // d
+    int ADMIN_deletePostById(@Param("postId")int postId);
+
+    // d
+    int changeFlag(@Param("postId")int postId);
 }

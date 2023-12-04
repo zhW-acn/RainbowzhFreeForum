@@ -2,6 +2,7 @@ package com.acn.service;
 
 import com.acn.bean.view.Post;
 import javafx.geometry.Pos;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -36,4 +37,11 @@ public interface PostService {
      * 返回用户的发帖数
      */
     int postsCountByUser(int userId);
+
+    /**
+     * 通过Id删除帖子
+     */
+    int deletePostById(int postId);
+
+    int changeFlag(int postId);
 }

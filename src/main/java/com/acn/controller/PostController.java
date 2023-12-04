@@ -41,10 +41,12 @@ public class PostController {
         // 加载评论数
         // 总页数
         int count = commentService.commentsCountByPost(id) % PAGE_SIZE != 0 ?
-                (commentService.commentsCountByPost(id) / PAGE_SIZE + 1) : commentService.commentsCountByPost(id) / PAGE_SIZE;
+                (commentService.commentsCountByPost(id) / PAGE_SIZE + 1) :
+                commentService.commentsCountByPost(id) / PAGE_SIZE;
         model.addAttribute("count", count);
         return "postDetails";
     }
+
     @PostMapping("")
     @ResponseBody
     public String loadComments(@PathVariable int id,
@@ -65,9 +67,23 @@ public class PostController {
             @RequestParam("userId") int userId) {
 
         commentService.addComment(new com.acn.bean.Comment(commentText, postId, userId,
-                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()),1));
+                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()), 1));
         return "success";
     }
 
+    // 普通删除帖子
+    @PostMapping("/delete/{id}")
+    @ResponseBody
+    public String deletePost(@PathVariable int id) {
+        int i = postService.changeFlag(id);
+        return i == 1 ? "success" : "fail";
+    }
 
+    // 普通删除帖子评论
+    @PostMapping("/deleteComment/{commentId}")
+    @ResponseBody
+    public String deleteComment(@PathVariable("id") int postId, @PathVariable int commentId){
+        int i = commentService.changeFlag(postId, commentId);
+        return i == 1 ? "success" : "fail";
+    }
 }

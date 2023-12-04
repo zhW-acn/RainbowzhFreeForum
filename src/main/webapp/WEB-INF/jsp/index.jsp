@@ -162,9 +162,14 @@
     </ul>
     <%--居右--%>
     <ul class="layui-nav layui-layout-right layui-bg-green" style="white-space: nowrap;!important;">
+        <%--去发帖，未实现--%>
+        <%if (user != null){%>
+        <li class="layui-nav-item">
+            <a href="/fatie">去发帖</a>
+        </li>
+        <%}%>
         <%--用户信息--%>
         <li class="layui-nav-item">
-            <%--这里需要改进，登陆后点击跳转到自己主页--%>
             <%if (user == null) {%>
             <a href="/login">请登录</a>
             <%} else {%>

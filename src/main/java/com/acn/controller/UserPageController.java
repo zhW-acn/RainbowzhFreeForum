@@ -1,7 +1,9 @@
 package com.acn.controller;
 
 import com.acn.bean.User;
+import com.acn.bean.view.Comment;
 import com.acn.bean.view.Post;
+import com.acn.service.CommentService;
 import com.acn.service.PostService;
 import com.acn.service.UserService;
 import com.alibaba.fastjson.JSONArray;
@@ -28,6 +30,9 @@ public class UserPageController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    CommentService commentService;
+
     @GetMapping("")
     public String toUserPage(@PathVariable("userId") int userid, Model model, HttpServletRequest request) {
         int postCount = postService.postsCountByUser(userid);
@@ -48,10 +53,11 @@ public class UserPageController {
         return JSONArray.toJSONString(posts);
     }
 
-    @GetMapping("/commentsList")
+    @GetMapping("/commentsList/{userId}")
     @ResponseBody
-    public String commentsList(@PathVariable String userId){
-
-        return "";
+    public String commentsList(@PathVariable int userId){
+        List<Comment> comments = commentService.selectAllCommentsByUserId(userId);
+        System.out.println(JSONArray.toJSONString(comments));
+        return JSONArray.toJSONString(comments);
     }
 }

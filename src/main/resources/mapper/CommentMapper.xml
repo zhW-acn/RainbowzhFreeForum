@@ -18,7 +18,7 @@
 
     <insert id="addComment" parameterType="com.acn.bean.Comment">
         insert into comment (comment_text, postId, userId, createTime, flag)
-        values (#{commentText},#{postId},#{userId},#{createtime},#{flag});
+        values (#{commentText}, #{postId}, #{userId}, #{createtime}, #{flag});
     </insert>
 
     <select id="selectAllComments" parameterType="int" resultMap="commentMap">
@@ -48,7 +48,7 @@
         select `comment`.id,
                `comment`.comment_text,
                `comment`.postId,
-               user.id as userId,
+               user.id     as userId,
                user.avatar as userAvatar,
                user.`name`,
                `comment`.createTime
@@ -57,4 +57,28 @@
         where comment.postId = #{id}
         limit #{page}, #{pageSize}
     </select>
+
+
+    <select id="selectAllCommentsByUserId" resultType="com.acn.bean.view.UserComment">
+        select comment.id,
+               post_user.avatar AS userAvatar,
+               post.title,
+               comment.postId,
+               comment.comment_text,
+               comment.createTime
+        from user
+                 LEFT JOIN comment ON user.id = comment.userId
+                 LEFT JOIN post ON comment.postId = post.id
+                 LEFT JOIN user AS post_user ON post.userid = post_user.id
+        WHERE user.id = #{userId}
+          and post.flag != 0;
+    </select>
+
+
+    <update id="changeFlag">
+        update comment
+        set flag = 0
+        where id = #{commentId}
+          and postId = #{postId};
+    </update>
 </mapper>

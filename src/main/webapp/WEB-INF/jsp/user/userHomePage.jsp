@@ -124,6 +124,50 @@
             max-lines: 2;
             max-height: 400px
         }
+
+        .page-layout {
+            display: flex;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        .avatar {
+            border: 2px solid black;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
+        }
+
+        .content-area {
+            flex-grow: 1;
+        }
+
+        .post-title {
+            border: 2px solid black;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        .comment {
+            border: 2px solid black;
+            padding: 5px;
+            position: relative;
+            height: 150px;
+            overflow: auto;
+        }
+
+        .delete-button {
+            position: absolute;
+            bottom: 5px;
+            left: 5px;
+        }
+
+        .comment-time {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+        }
     </style>
 </head>
 <body>
@@ -149,6 +193,10 @@
     </ul>
     <%--居右--%>
     <ul class="layui-nav layui-layout-right layui-bg-green" style="white-space: nowrap;!important;">
+        <%--去发帖，未实现--%>
+        <li class="layui-nav-item">
+            <a href="/fatie">去发帖</a>
+        </li>
         <%--用户信息--%>
         <li class="layui-nav-item">
             ${user.username == null?"请登录":user.username}
@@ -185,8 +233,6 @@
                 <fieldset class="layui-elem-field layui-field-title">
                     <legend>留言记录</legend>
                     <ul id="myComments" style="border: 2px solid black">
-                        <li style="border: 2px solid black">记录1</li>
-                        <li style="border: 2px solid black">记录2</li>
                     </ul>
                     <!-- 留言内容 -->
                 </fieldset>
@@ -207,17 +253,14 @@
 </div>
 <script>
     // 当前登录的用户id，没有为false
-    currentUserId = <%=user==null?false:user.getId()%>;
+    var currentUserId = <%=user==null?false:user.getId()%>;
     window.onload = function () {
         if (currentUserId === false) {
             alert("请登录")
             location.href = "/login";
         }
     }
-    // 如果不是自己的主页
-    if (currentUserId !== <%=userOwner.getId()%>) {
-        $(".user-comments").remove()
-    }
+
 
     layui.use('flow', function () {
         var flow = layui.flow;
@@ -254,6 +297,8 @@
                                 '<div class="info">' +
                                 '<p>' + list[i].replyCount + ' 人回帖</p>' +
                                 '<p>发帖时间: ' + list[i].createtime + '</p>' +
+                                '<button class="deleteBtn" onclick="clickDelete(' + list[i].postId + ')">删除该帖' +
+                                '</button>' +
                                 '</div>' +
                                 '</div>' +
                                 '</div>'
@@ -273,30 +318,89 @@
                 });
             }
         });
-
         /*留言记录*/
         flow.load({
             elem: '#myComments',
-            done: function (page, next){
+            done: function (page, next) {
                 $.ajax({
-                    url: '',
-                    type: '',
-                    data: {
-
-                    },
-                    success: function () {
+                    url: '/user/${userId}/commentsList/${userId}',
+                    type: 'get',
+                    success: function (data) {
                         var list = JSON.parse(data);
                         var lis = [];
+                        for (var i = 0; i < list.length; i++) {
+                            lis.push(
+                                '<div class="page-layout">' +
+                                '<img src="' + list[i].userAvatar +
+                                '" class="avatar layui-circle" alt="用户头像" style="height: 50px; width: 50px"> ' +
+                                '<div class="content-area">' +
+                                '<div class="post-title comment_post_' + list[i].postId + '">' + list[i].title +
+                                '</div>' +
+                                '<div class="comment">' +
+                                '<p>' + list[i].comment_text + '</p>' +
+                                '<button class="layui-btn delete-button" onclick="deleteComment(' + list[i].postId + ',' + list[i].commentId + ')">点击删除</button>' +
+                                '<div class="comment-time">' + list[i].createTime + '</div>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>'
+                            );
 
+                        }
                         next(lis.join(''), false);
+
+                        // 绑定点击事件
+                        for (var i = 0; i < list.length; i++) {
+                            $('.comment_post_' + list[i].postId).on('click', function () {
+                                // 跳转到帖子详情页
+                                clickCommentPost($(this).attr('class'), this);
+                            });
+                        }
                     }
                 })
             }
         });
     });
 
+    /*右侧点击跳转帖子*/
     function clickPost(postId) {
         location.href = "/post/" + postId.replace("post_", "");
+    }
+
+    /*左侧点击跳转帖子*/
+    function clickCommentPost(postId) {
+        location.href = "/post/" + postId.replace("post-title comment_post_", "");
+    }
+
+    /*右侧点击删除帖子*/
+    function clickDelete(postId) {
+        $.ajax({
+            url: "/post/" + postId + "/delete/" + postId,
+            type: 'post',
+            success: function (res) {
+                if (res === "success") {
+                    layer.msg("删除成功")
+
+                } else {
+                    layer.msg("服务器异常")
+                }
+            }
+        })
+    }
+
+    /*左侧点击删除评论*/
+    function deleteComment(postId, commentId) {
+        $.ajax({
+            url: "/post/" + postId + "/deleteComment/" + commentId,
+            type: 'post',
+            success: function (res) {
+                if (res === "success") {
+                    layer.msg("删除成功")
+
+                } else {
+                    layer.msg("服务器异常")
+                }
+            }
+        })
     }
 </script>
 </body>
