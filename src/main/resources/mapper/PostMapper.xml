@@ -23,7 +23,7 @@
         FROM post
                  LEFT JOIN user ON post.userId = user.id
                  LEFT JOIN `comment` ON post.id = `comment`.postId
-        where user.id =  #{userId}
+        where user.id =  #{userId} and post.flag != 0
         GROUP BY user.id, post.id, user.avatar, user.`name`, post.title, post.text, post.createTime
 
     </select>
@@ -63,6 +63,24 @@
         where post.flag != 0
         GROUP BY user.id, post.id, user.avatar, user.`name`, post.title, post.text, post.createTime
         limit #{page}, #{pageSize}
+    </select>
+
+
+    <select id="selectPostByLike" resultMap="postMap">
+        SELECT user.id             AS userid,
+               post.id             AS postid,
+               user.avatar,
+               user.`name`,
+               post.title,
+               post.text,
+               post.createTime,
+               COUNT(`comment`.id) AS replyCount
+        FROM post
+                 LEFT JOIN user ON post.userId = user.id
+                 LEFT JOIN `comment` ON post.id = `comment`.postId
+        where text like CONCAT('%', #{text}, '%')
+           or title like CONCAT('%', #{text}, '%')
+        GROUP BY user.id, post.id, user.avatar, user.`name`, post.title, post.text, post.createTime
     </select>
 
     <delete id="ADMIN_deletePostById">

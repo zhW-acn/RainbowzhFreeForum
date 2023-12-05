@@ -26,9 +26,14 @@ public interface UserMapper {
     User selectUserByCond(HashMap<String,Object> hashMap);
 
     /**
-     * 查询 by id
+     * r by id
      */
     User selectUserById(@Param("id")int id);
+
+    /**
+     * r by name
+     */
+    List<User> selectUserByName(@Param("name")String name);
 
     /**
      * 是否存在重名

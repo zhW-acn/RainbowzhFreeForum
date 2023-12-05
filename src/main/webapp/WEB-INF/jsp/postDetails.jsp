@@ -181,9 +181,7 @@
         </li>
         <%--搜索，未实现--%>
         <li class="layui-nav-item">
-            <label>
-                <input type="text" placeholder="搜索帖子" value="" class="layui-input">
-            </label>
+            <a href="/search">去搜索</a>
         </li>
     </ul>
     <%--居右--%>
@@ -237,58 +235,6 @@
         </div>
         <%--评论--%>
         <ul class="comment-container" id="CommentList">
-            <%--一楼--%>
-            <%--                        <li>--%>
-            <%--                            <div class="comment">--%>
-            <%--                                <div class="user-info">--%>
-            <%--                                    <img src="avatar.jpg" alt="用户头像" class="user-avatar">--%>
-            <%--                                    <div>用户名</div>--%>
-            <%--                                    <div class="timestamp">2023-12-01 16:11</div>--%>
-            <%--                                </div>--%>
-            <%--                                <div class="comment-body">--%>
-            <%--                                    <div class="comment-text">--%>
-            <%--                                        这里是评论的文本内容。--%>
-            <%--                                    </div>--%>
-            <%--                                    &lt;%&ndash;一楼的评论&ndash;%&gt;--%>
-            <%--                                    <ul class="comment-container">--%>
-            <%--                                        &lt;%&ndash;评论一&ndash;%&gt;--%>
-            <%--                                        <li>--%>
-            <%--                                            <div class="comment">--%>
-            <%--                                                <div class="user-info">--%>
-            <%--                                                    <img src="回复用户头像.jpg" alt="回复用户头像" class="user-avatar">--%>
-            <%--                                                    <div>--%>
-            <%--                                                        <p>回复用户名</p>--%>
-            <%--                                                        <p class="timestamp">2023-12-01 16:15</p>--%>
-            <%--                                                    </div>--%>
-            <%--                                                </div>--%>
-            <%--                                                <div class="comment-body">--%>
-            <%--                                                    <div class="comment-text">--%>
-            <%--                                                        这里是回复评论的文本内容。--%>
-            <%--                                                    </div>--%>
-            <%--                                                </div>--%>
-            <%--                                            </div>--%>
-            <%--                                        </li>--%>
-            <%--                                        &lt;%&ndash;评论二&ndash;%&gt;--%>
-            <%--                                        <li>--%>
-            <%--                                            <div class="comment">--%>
-            <%--                                                <div class="user-info">--%>
-            <%--                                                    <img src="回复用户头像.jpg" alt="回复用户头像" class="user-avatar">--%>
-            <%--                                                    <div>--%>
-            <%--                                                        <p>回复用户名</p>--%>
-            <%--                                                        <p class="timestamp">2023-12-01 16:15</p>--%>
-            <%--                                                    </div>--%>
-            <%--                                                </div>--%>
-            <%--                                                <div class="comment-body">--%>
-            <%--                                                    <div class="comment-text">--%>
-            <%--                                                        这里是回复评论的文本内容。--%>
-            <%--                                                    </div>--%>
-            <%--                                                </div>--%>
-            <%--                                            </div>--%>
-            <%--                                        </li>--%>
-            <%--                                    </ul>--%>
-            <%--                                </div>--%>
-            <%--                            </div>--%>
-            <%--                        </li>--%>
         </ul>
     </div>
 </div>

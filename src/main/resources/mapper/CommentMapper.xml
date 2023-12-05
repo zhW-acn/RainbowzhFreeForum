@@ -60,7 +60,7 @@
 
 
     <select id="selectAllCommentsByUserId" resultType="com.acn.bean.view.UserComment">
-        select comment.id,
+        select comment.id AS commentId,
                post_user.avatar AS userAvatar,
                post.title,
                comment.postId,
@@ -71,7 +71,8 @@
                  LEFT JOIN post ON comment.postId = post.id
                  LEFT JOIN user AS post_user ON post.userid = post_user.id
         WHERE user.id = #{userId}
-          and post.flag != 0;
+          and post.flag != 0
+            and comment.flag != 0;
     </select>
 
 

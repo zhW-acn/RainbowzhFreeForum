@@ -29,6 +29,11 @@ public interface PostService {
     Post selectPostById(int id);
 
     /**
+     * 模糊查询帖子标题和正文
+     */
+    List<Post> selectPostByLike(String text);
+
+    /**
      * 返回帖子总数
      */
     int postsCount();

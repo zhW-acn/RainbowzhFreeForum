@@ -225,7 +225,7 @@
                                         data: data,
                                         type: "post",
                                         success: function (response) {
-                                            // 等待三秒再跳转
+                                            // 等待1秒再跳转
                                             setTimeout(
                                                 function () {
                                                     window.location.href = "<%=basePath%>";

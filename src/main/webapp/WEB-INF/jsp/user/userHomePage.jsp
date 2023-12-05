@@ -177,7 +177,7 @@
         <%--logo--%>
         <li class="layui-nav-item">
             <%--跳转到首页--%>
-            <a href="<%=basePath%>">
+            <a href="/">
                 <video autoplay loop muted playsinline>
                     <source src="/img/logo.webm" type="video/webm">
                     抱歉，您的浏览器不支持内嵌视频。
@@ -186,9 +186,7 @@
         </li>
         <%--搜索，未实现--%>
         <li class="layui-nav-item">
-            <label>
-                <input type="text" placeholder="搜索帖子" value="" class="layui-input">
-            </label>
+            <a href="/search">去搜索</a>
         </li>
     </ul>
     <%--居右--%>
@@ -199,7 +197,9 @@
         </li>
         <%--用户信息--%>
         <li class="layui-nav-item">
-            ${user.username == null?"请登录":user.username}
+            <a href="/user/${user.id}">
+                ${user.username}
+            </a>
         </li>
         <%--头像--%>
         <li class="layui-nav-item" lay-unselect="">
@@ -224,17 +224,16 @@
         <div class="layui-col-md4">
             <!-- 用户大头像 -->
             <div class="user-avatar" style="margin-bottom: 300px;">
-                <img src="${userOwner.avatar}" class="layui-circle" style="width: 300px; height: 300px;" alt="用户头像">
+                <img src="${userOwner.getAvatar()}" class="layui-circle" style="width: 300px; height: 300px;"
+                     alt="用户头像">
                 <p style="font-size: 2em; font-weight: bold; margin-top: 10px; margin-bottom:
-                        0; white-space: nowrap;">${userOwner.username}</p>
+                        0; white-space: nowrap;">${userOwner.getUsername()}</p>
             </div>
             <!-- 用户留言记录 -->
             <div class="user-comments" style="width: 100%;">
                 <fieldset class="layui-elem-field layui-field-title">
                     <legend>留言记录</legend>
-                    <ul id="myComments" style="border: 2px solid black">
-                    </ul>
-                    <!-- 留言内容 -->
+                    <ul id="myComments" style="border: 2px solid black"></ul>
                 </fieldset>
             </div>
         </div>
@@ -259,11 +258,15 @@
             alert("请登录")
             location.href = "/login";
         }
+        // 如果不是自己的主页
+        if (currentUserId !== <%=userOwner.getId()%>) {
+            $(".user-comments").remove()
+        }
     }
 
-
+    var layer = layui.layer;
+    var flow = layui.flow;
     layui.use('flow', function () {
-        var flow = layui.flow;
         /*帖子*/
         flow.load({
             elem: '#myPost', //流加载容器
@@ -378,10 +381,11 @@
             type: 'post',
             success: function (res) {
                 if (res === "success") {
-                    layer.msg("删除成功")
-
+                    layer.alert("删除成功", {offset: 't'}, function () {
+                        location.reload();
+                    })
                 } else {
-                    layer.msg("服务器异常")
+                    layer.msg("服务器异常", {offset: 't'})
                 }
             }
         })
@@ -394,10 +398,11 @@
             type: 'post',
             success: function (res) {
                 if (res === "success") {
-                    layer.msg("删除成功")
-
+                    layer.alert("删除成功", {offset: 't'}, function () {
+                        location.reload();
+                    })
                 } else {
-                    layer.msg("服务器异常")
+                    layer.msg("服务器异常", {offset: 't'})
                 }
             }
         })

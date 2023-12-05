@@ -23,12 +23,10 @@ public interface PostMapper {
     // r by id
     Post selectPostById(@Param("id") int id);
 
-    // r by paging
+    // r by text
+    List<Post> selectPostByLike(String text);
 
-    /**
-     * page：当前页数
-     * pageShow：分页数
-     */
+    // r by paging
     List<Post> selectPostByPaging(@Param("page") int page, @Param("pageSize") int pageSize);
 
     // d

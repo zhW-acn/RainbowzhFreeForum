@@ -3,6 +3,7 @@ package com.acn.controller;
 import com.acn.bean.User;
 import com.acn.bean.view.Comment;
 import com.acn.bean.view.Post;
+import com.acn.bean.view.UserComment;
 import com.acn.service.CommentService;
 import com.acn.service.PostService;
 import com.acn.service.UserService;
@@ -56,7 +57,7 @@ public class UserPageController {
     @GetMapping("/commentsList/{userId}")
     @ResponseBody
     public String commentsList(@PathVariable int userId){
-        List<Comment> comments = commentService.selectAllCommentsByUserId(userId);
+        List<UserComment> comments = commentService.selectAllCommentsByUserId(userId);
         System.out.println(JSONArray.toJSONString(comments));
         return JSONArray.toJSONString(comments);
     }

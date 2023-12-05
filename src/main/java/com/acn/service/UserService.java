@@ -1,6 +1,7 @@
 package com.acn.service;
 
 import com.acn.bean.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,11 @@ public interface UserService {
      * 查询 by id
      */
     User selectUserById(int id);
+
+    /**
+     * 模糊查找用户
+     */
+    List<User> selectUserByName(@Param("name")String name);
 
     /**
      * 是否存在重名

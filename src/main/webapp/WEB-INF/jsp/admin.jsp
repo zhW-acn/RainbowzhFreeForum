@@ -55,7 +55,7 @@
                     ${user.username}
                 </a>
                 <dl class="layui-nav-child">
-                    <dd><a href="">我的主页</a></dd>
+                    <dd><a href="/user/${user.id}">我的主页</a></dd>
                     <dd><a href="">Settings</a></dd>
                     <dd><a href="logout">登出</a></dd>
                 </dl>

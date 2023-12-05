@@ -58,4 +58,10 @@
         where id = #{id};
     </select>
 
+    <select id="selectUserByName" resultMap="uMap">
+        select *
+        from user
+        where user.name like CONCAT('%', #{name}, '%')
+    </select>
+
 </mapper>

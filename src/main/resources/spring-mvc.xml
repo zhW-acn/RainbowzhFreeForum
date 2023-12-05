@@ -21,6 +21,14 @@
 
     <mvc:default-servlet-handler/>
 
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/user/**" />
+            <mvc:mapping path="/search/**"/>
+            <bean class="com.acn.controller.LoginInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
+
     <!--注解驱动-->
     <mvc:annotation-driven>
         <!--@Responsebody乱码-->

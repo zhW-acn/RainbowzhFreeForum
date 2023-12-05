@@ -155,15 +155,13 @@
         </li>
         <%--搜索，未实现--%>
         <li class="layui-nav-item">
-            <label>
-                <input type="text" placeholder="搜索帖子" value="" class="layui-input">
-            </label>
+            <a href="/search">去搜索</a>
         </li>
     </ul>
     <%--居右--%>
     <ul class="layui-nav layui-layout-right layui-bg-green" style="white-space: nowrap;!important;">
         <%--去发帖，未实现--%>
-        <%if (user != null){%>
+        <%if (user != null) {%>
         <li class="layui-nav-item">
             <a href="/fatie">去发帖</a>
         </li>
@@ -221,7 +219,6 @@
     layui.use('flow', function () {
         var flow = layui.flow;
         var carousel = layui.carousel;
-
 
 
         flow.load({
@@ -293,10 +290,7 @@
 
     function clickUser(userId) {
         if (currentUserId === false) {
-            if (confirm("游客请登录")) {
-                location.href = "login";
-            } else {
-            }
+            isLogin()
         } else {
             // 跳转到目标用户的首页
             location.href = "/user/" + userId.replace("avatar-container user_", "");
@@ -304,18 +298,19 @@
     }
 
     function clickPost(postId) {
-
         if (currentUserId === false) {
-            if (confirm("游客请登录")) {
-                location.href = "/login";
-            } else {
-            }
+            isLogin()
         } else {
             // 跳转到目标帖子详情
             location.href = "/post/" + postId.replace("middle-container post_", "");
         }
     }
 
+    function isLogin() {
+        if (confirm("游客请登录")) {
+            location.href = "/login";
+        }
+    }
 
 </script>
 </body>

@@ -1,6 +1,7 @@
 package com.acn.service.impl;
 
 import com.acn.bean.Comment;
+import com.acn.bean.view.UserComment;
 import com.acn.dao.CommentMapper;
 import com.acn.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<com.acn.bean.view.Comment> selectAllCommentsByUserId(int userId) {
+    public List<UserComment> selectAllCommentsByUserId(int userId) {
         return commentMapper.selectAllCommentsByUserId(userId);
     }
 

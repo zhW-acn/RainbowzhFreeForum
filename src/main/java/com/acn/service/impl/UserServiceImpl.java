@@ -37,6 +37,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> selectUserByName(String name) {
+        return userMapper.selectUserByName(name);
+    }
+
+    @Override
     public int isExist(String username) {
         return userMapper.isExist(username);
     }

@@ -34,6 +34,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public List<Post> selectPostByLike(String text) {
+        return postMapper.selectPostByLike(text);
+    }
+
+    @Override
     public int postsCount() {
         return postMapper.postsCount();
     }
