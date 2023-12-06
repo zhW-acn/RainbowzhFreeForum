@@ -169,6 +169,7 @@
             <img class="layui-nav-img" src="${user == null?"/img/default-avatar.png":user.avatar}">
             <%--这里点击退出清除session域，并刷新页面--%>
             <dl class="layui-nav-child">
+                <dd style="text-align: center;"><a href="/setting">设置</a></dd>
                 <dd style="text-align: center;"><a href="/logout">退出</a></dd>
             </dl>
         </li>
@@ -182,7 +183,7 @@
     </ul>
 </div>
 <%--搜索栏--%>
-<div class="layui-form-item" id="search" style="text-align: center">
+<div class="layui-form-item" id="search">
     <div class="layui-inline">
         <label class="layui-form-label">查找</label>
         <div class="layui-input-inline">
@@ -195,7 +196,7 @@
         <div class="layui-input-inline">
             <select name="id_type" id="select_type" class="layui-input">
                 <option value="post">帖子</option>
-                <option value="username">用户名</option>
+                <option value="username">用户</option>
             </select>
         </div>
     </div>
@@ -205,7 +206,15 @@
             <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
         </button>
     </div>
+
+    <%--排序--%>
+    <div>
+        <button class="layui-btn layui-btn-normal" id="sortHot">按最热</button>
+        <button class="layui-btn layui-btn-normal" id="sortNew">按最新</button>
+    </div>
 </div>
+
+
 </body>
 <%--搜索结果--%>
 <div>
@@ -214,9 +223,11 @@
 <script>
     var flow = layui.flow;
 
+    var dataList = [];
+
     function load() {
-        // 先清空之前的结果
         $("#PostList").empty();
+        dataList = [];
         layui.use('flow', function () {
             flow.load({
                 elem: '#PostList', //流加载容器
@@ -231,6 +242,8 @@
                         },
                         dataType: 'json',
                         success: function (data) {
+                            // 先清空之前查找的内容
+                            // $("#PostList").empty();
                             var list = JSON.parse(data.data);
                             var lis = [];
                             if (data.code === 0) {// 展示用户
@@ -254,33 +267,8 @@
                                     );
                                 }
                             } else if (data.code === 1) {// 展示帖子
-                                // 处理返回的帖子数据
-                                for (var i = 0; i < list.length; i++) {
-                                    lis.push(
-                                        '<li style="text-align: center; margin-top: 5px">' +
-                                        /*帖子*/
-                                        '<div class="outer-container">' +
-                                        '<div class="container">' +
-                                        '<div class="avatar-container user_' + list[i].userId + '">' +
-                                        '<img src="' + list[i].userAvatar + '" class="avatar layui-circle" alt="用户头像"> ' +
-                                        '<div class="username">' + list[i].username + '</div> ' +
-                                        '</div> ' +
-                                        '<div class="middle-container post_' + list[i].postId + '"> ' +
-                                        '<div class="title">' + list[i].title + '</div>' +
-                                        ' <div class="content hide thread-content"> ' +
-                                        '<p>' + list[i].text + '</p> ' +
-                                        '</div> ' +
-                                        '</div> ' +
-                                        '<div class="info">' +
-                                        '<p>' + list[i].replyCount + ' 人回帖</p>' +
-                                        '<p>发帖时间: ' + list[i].createtime + '</p>' +
-                                        '</div>' +
-                                        '</div>' +
-                                        '</div>'
-                                        + '</li>'
-                                    );
-                                }
-
+                                dataList = dataList.concat(list);
+                                var lis = renderList(dataList);
                             } else {
                                 alert("服务器出错")
                             }
@@ -311,6 +299,60 @@
         })
     }
 
+    // 渲染列表
+    function renderList(list) {
+        var lis = [];
+        for (var i = 0; i < list.length; i++) {
+            lis.push(
+                '<li style="text-align: center; margin-top: 5px">' +
+                /*帖子*/
+                '<div class="outer-container">' +
+                '<div class="container">' +
+                '<div class="avatar-container user_' + list[i].userId + '">' +
+                '<img src="' + list[i].userAvatar + '" class="avatar layui-circle" alt="用户头像"> ' +
+                '<div class="username">' + list[i].username + '</div> ' +
+                '</div> ' +
+                '<div class="middle-container post_' + list[i].postId + '"> ' +
+                '<div class="title">' + list[i].title + '</div>' +
+                ' <div class="content hide thread-content"> ' +
+                '<p>' + list[i].text + '</p> ' +
+                '</div> ' +
+                '</div> ' +
+                '<div class="info">' +
+                '<p class="reply-count">' + list[i].replyCount + ' 人回帖</p>' +
+                '<p class="create-time">发帖时间: ' + list[i].createtime + '</p>' +
+                '</div>' +
+                '</div>' +
+                '</div>'
+                + '</li>'
+            );
+        }
+        return lis;
+    }
+
+    // 按回帖数排序
+    function sortByReplyCount() {
+        dataList.sort(function (a, b) {
+            return b.replyCount - a.replyCount;
+        });
+        var lis = renderList(dataList);
+        $("#PostList").empty().append(lis.join(''));
+    }
+
+    // 按发帖时间排序
+    function sortByCreateTime() {
+        dataList.sort(function (a, b) {
+            return new Date(b.createtime) - new Date(a.createtime);
+        });
+        var lis = renderList(dataList);
+        $("#PostList").empty().append(lis.join(''));
+    }
+
+    // 绑定排序按钮事件
+    $("#sortHot").on('click', sortByReplyCount);
+    $("#sortNew").on('click', sortByCreateTime);
+
+    // 初始加载
     $("#doSearch").on('click', load)
 </script>
 </html>

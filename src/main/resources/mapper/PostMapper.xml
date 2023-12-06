@@ -62,6 +62,7 @@
                  LEFT JOIN `comment` ON post.id = `comment`.postId
         where post.flag != 0
         GROUP BY user.id, post.id, user.avatar, user.`name`, post.title, post.text, post.createTime
+        order by post.createTime desc
         limit #{page}, #{pageSize}
     </select>
 

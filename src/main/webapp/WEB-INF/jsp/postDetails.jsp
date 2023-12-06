@@ -197,6 +197,7 @@
             <img class="layui-nav-img" src="${user.avatar}">
             <%--这里点击退出清除session域，并刷新页面--%>
             <dl class="layui-nav-child">
+                <dd style="text-align: center;"><a href="/setting">设置</a></dd>
                 <dd style="text-align: center;"><a href="/logout">退出</a></dd>
             </dl>
         </li>

@@ -239,8 +239,8 @@
                                     }, 1000);
                             }
                             if (response.data === "false") {
-                                // 清空表内容，提示登陆&注册失败
-                                $('input').val('');
+                                // 清空密码，提示登陆&注册失败
+                                $($('input')[1]).val("")
                                 slider.reset();
                                 alert("${action}失败，请检查用户名和密码。");
                             }
