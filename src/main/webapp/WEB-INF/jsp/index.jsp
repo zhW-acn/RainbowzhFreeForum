@@ -180,10 +180,13 @@
         <li class="layui-nav-item" lay-unselect="">
             <img class="layui-nav-img" src="${user == null?"/img/default-avatar.png":user.avatar}">
             <%--这里点击退出清除session域，并刷新页面--%>
+            <%if (user == null) {%>
+            <%} else {%>
             <dl class="layui-nav-child">
                 <dd style="text-align: center;"><a href="/setting">设置</a></dd>
                 <dd style="text-align: center;"><a href="/logout">退出</a></dd>
             </dl>
+            <%}%>
         </li>
         <%--管理员面板跳转按钮--%>
         <%if (user != null && Integer.parseInt(user.getBanTime()) == -1) {%>

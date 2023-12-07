@@ -52,8 +52,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int updateUser(User user) {
-        return 0;
+    public int updateUser(HashMap<String,Object> hashMap) {
+        return userMapper.updateUser(hashMap);
     }
 
     @Override

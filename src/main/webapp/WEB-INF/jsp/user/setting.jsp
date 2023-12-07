@@ -131,34 +131,74 @@
 </div>
 <body>
 <h2>修改你的信息</h2>
+<form id="form" action="" enctype="multipart/form-data">
+    <label>头像</label>
+    <img src="${user.avatar}" alt="User Avatar" id="userAvatar">
+    <input type="file" id="avatar" value="更新头像" style="display: none">
 
+    <label for="username">用户名</label>
+    <input type="text" id="username" name="username" value="${user.username}" autocomplete="false">
 
-<form id="form" action="" method="post">
-    <label for="avatar">Avatar</label>
-    <img src="${user.avatar}" alt="User Avatar" id="avatar">
-
-    <label for="username">Username</label>
-    <input type="text" id="username" name="username" value="${user.username}" readonly>
-
-    <label for="oldPassword">Old Password<span class="passwordMatchIcon" style="display: none;">✅</span><span
+    <label for="oldPassword">密码<span class="passwordMatchIcon" style="display: none;">✅</span><span
             class="passwordMismatchIcon" style="display: none; color: red;">❌</span></label>
-    <input type="password" id="oldPassword" name="oldPassword" placeholder="你的旧密码">
+    <input type="password" lay-verify="required" id="oldPassword" name="oldPassword" placeholder="你的旧密码">
 
-    <label for="newPassword">New Password<span class="passwordMatchIcon" style="display: none;">✅</span><span
+    <label for="newPassword">新密码 【为空则不修改密码】<span class="passwordMatchIcon" style="display: none;">✅</span><span
             class="passwordMismatchIcon" style="display: none; color: red;">❌</span></label>
     <input type="password" id="newPassword" name="newPassword" placeholder="你的新密码" oninput="checkPasswordEqual()">
 
-    <label for="birthday">Birthday</label>
+    <label for="birthday">生日</label>
     <input type="date" id="birthday" name="birthday" value="${user.birthday}">
 
-    <input class="submit" onclick="update()" value="Update Settings"/>
+    <input class="submit" onclick="update()" value="Update Settings" readonly/>
 </form>
 
 
 <script>
-    function checkPasswordEqual() {// 密码检测
+    // 封装表单数据
+    function getFormData() {
+        var formData = new FormData();
+        if($('#avatar')[0].files[0] !== undefined){// 用户更新了头像
+            formData.append('avatar', $('#avatar')[0].files[0]);
+        }
+        formData.append('username', $('#username').val());
+        formData.append('oldPassword', $('#oldPassword').val());
+        formData.append('newPassword', $('#newPassword').val());
+        formData.append('birthday', $('#birthday').val());
+        return formData;
+    }
+
+    // 图片点击事件
+    $('#userAvatar').on('click', function () {
+        // 触发文件选择框点击事件
+        $('#avatar').click();
+    });
+
+    // 文件选择框改变事件
+    $('#avatar').on('change', function (event) {
+        // 获取选中的文件
+        const selectedFile = event.target.files[0];
+
+        // 如果有文件
+        if (selectedFile) {
+            // 替换图片
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#userAvatar').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(selectedFile);
+        }
+    });
+
+
+    // 密码检测
+    function checkPasswordEqual() {
         var newPassword = $('#newPassword').val();
         var oldPassword = $('#oldPassword').val();
+
+        if (newPassword === '') {// 不需要修改密码
+            return true;
+        }
 
         if (newPassword === oldPassword) {
             // 显示红色的×
@@ -174,15 +214,16 @@
     }
 
 
-
+    // 表单提交
     function update() {
+        var formData = getFormData();
         if (checkPasswordEqual()) {
             $.ajax({
                 url: '/setting',
                 type: 'post',
-                data: {
-                    data: $('#form').serialize()
-                },
+                data: formData,
+                processData: false,
+                contentType: false,
                 success: function (res) {
                     if (res === 'falsePassword') {
                         alert('密码有误，请重新输入');
@@ -192,11 +233,13 @@
                     if (res === 'success') {
                         alert('成功修改，将跳转到你的主页')
                         location.href = 'user/${user.id}'
+                    }else{
+                        alert("服务器异常")
                     }
                 }
             })
             return true;
-        }else {
+        } else {
             alert("密码重复捏")
             $('#newPassword').val('')
             return false;

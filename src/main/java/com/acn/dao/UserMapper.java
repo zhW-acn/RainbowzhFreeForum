@@ -48,7 +48,7 @@ public interface UserMapper {
     /**
      * 更新
      */
-    int updateUser(User user);
+    int updateUser(HashMap<String,Object> hashMap);
 
     /**
      * 删除 by id

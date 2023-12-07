@@ -39,9 +39,6 @@ public class FileUpload {
 
     /**
      * 更新&上传头像
-     *
-     * @param username
-     * @param avatar
      */
     public static void avatarUpload(String username, CommonsMultipartFile avatar) {
         // 拿到路径

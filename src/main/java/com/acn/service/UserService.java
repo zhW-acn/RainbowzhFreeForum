@@ -46,7 +46,7 @@ public interface UserService {
     /**
      * 更新
      */
-    int updateUser(User user);
+    int updateUser(HashMap<String,Object> hashMap);
 
     /**
      * 删除 by id

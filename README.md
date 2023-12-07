@@ -48,6 +48,17 @@
 5. 总体而言，过滤器更为通用，适用于处理各种类型的请求和响应，而拦截器更专注于对 Spring MVC 控制器的请求进行处理。
 
 ## 12.6 发烧了 修改用户信息还没调试完
+
+## 12.7 大雪，烧得更厉害了
+优化了search页面的函数，修复了点击“按最新”“按最热”后帖子不能跳转的bug
+
+完善了用户信息修改页面
+
+学到了使用ajax上传头像的注意事项:
+1. enctype="multipart/form-data"
+2. processData: false, // 告诉 jQuery 不要处理发送的数据
+3. contentType: false   // 告诉 jQuery 不要设置 Content-Type 请求头
+4. 使用CommonsMultipartFile
 ## TODO
 1. 轮播公告【点击弹窗详情】
 2. 发帖

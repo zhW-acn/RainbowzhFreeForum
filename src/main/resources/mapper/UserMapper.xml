@@ -21,6 +21,28 @@
         values (0, #{username}, #{password}, #{birthday}, #{avatar});
     </insert>
 
+
+    <update id="updateUser">
+        update user
+        <set>
+            <if test="avatar!=null and avatar!=''">
+                avatar = #{avatar},
+            </if>
+            <if test="username!=null and username!=''">
+                name = #{username},
+            </if>
+            <if test="password!=null and password!=''">
+                pass = #{password},
+            </if>
+            <if test="birthday!=null and birthday!=''">
+                birthday = #{birthday},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
     <select id="isExist" resultType="int">
         select count(*)
         from user

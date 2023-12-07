@@ -273,24 +273,7 @@
                                 alert("服务器出错")
                             }
                             next(lis.join(''), false);
-                            // 绑定点击事件
-                            for (var i = 0; i < list.length; i++) {
-                                // 这个是用户的绑定事件
-                                $('.users_' + list[i].id).on('click',function(){
-                                    location.href = "/user/" + $(this).attr('class').replace("users_", "");
-                                })
-
-                                // 这个是帖子的绑定事件
-                                $('.user_' + list[i].userId).on('click', function () {
-                                    // 跳转到用户详情页
-                                    location.href = "/user/" + $(this).attr('class').replace("avatar-container user_", "");
-                                });
-                                $('.post_' + list[i].postId).on('click', function () {
-                                    // 跳转到帖子详情页
-                                    location.href = "/post/" + $(this).attr('class').replace("middle-container post_", "");
-                                });
-
-                            }
+                            bindFunction(list);
                         }
                     });
                 }
@@ -337,6 +320,7 @@
         });
         var lis = renderList(dataList);
         $("#PostList").empty().append(lis.join(''));
+        bindFunction(dataList);
     }
 
     // 按发帖时间排序
@@ -346,11 +330,32 @@
         });
         var lis = renderList(dataList);
         $("#PostList").empty().append(lis.join(''));
+        bindFunction(dataList);
     }
 
     // 绑定排序按钮事件
     $("#sortHot").on('click', sortByReplyCount);
     $("#sortNew").on('click', sortByCreateTime);
+
+    // 绑定点击事件函数
+    function bindFunction(list) {
+        for (var i = 0; i < list.length; i++) {
+            // 这个是用户的绑定事件
+            $('.users_' + list[i].id).on('click', function () {
+                location.href = "/user/" + $(this).attr('class').replace("users_", "");
+            })
+
+            // 这个是帖子的绑定事件
+            $('.user_' + list[i].userId).on('click', function () {
+                // 跳转到用户详情页
+                location.href = "/user/" + $(this).attr('class').replace("avatar-container user_", "");
+            });
+            $('.post_' + list[i].postId).on('click', function () {
+                // 跳转到帖子详情页
+                location.href = "/post/" + $(this).attr('class').replace("middle-container post_", "");
+            });
+        }
+    }
 
     // 初始加载
     $("#doSearch").on('click', load)
