@@ -17,13 +17,19 @@
     </resultMap>
 
 
+    <insert id="addPost" parameterType="com.acn.bean.Post">
+        insert into post (title, text, userId, createTime, flag)
+        values (#{title},#{text},#{userId},#{createtime},#{flag});
+    </insert>
+
+
     <select id="selectAllPosts" resultMap="postMap">
         SELECT user.id AS userid, post.id AS postid, user.avatar, user.`name`, post.title, post.text, post.createTime,
                COUNT(`comment`.id) AS replyCount
         FROM post
                  LEFT JOIN user ON post.userId = user.id
                  LEFT JOIN `comment` ON post.id = `comment`.postId
-        where user.id =  #{userId} and post.flag != 0
+        where user.id =  #{userId} and post.flag = 1
         GROUP BY user.id, post.id, user.avatar, user.`name`, post.title, post.text, post.createTime
 
     </select>
@@ -37,7 +43,7 @@
         select count(*)
         from post
         where post.userId = #{userId}
-          and flag != 0
+          and flag = 1
     </select>
 
     <select id="selectPostById" resultMap="postMap">
@@ -45,7 +51,7 @@
         from post
                  LEFT JOIN user on post.userId = user.id
         where post.id = #{id}
-          and flag != 0
+          and flag = 1
     </select>
 
     <select id="selectPostByPaging" resultMap="postMap">
@@ -60,7 +66,7 @@
         FROM post
                  LEFT JOIN user ON post.userId = user.id
                  LEFT JOIN `comment` ON post.id = `comment`.postId
-        where post.flag != 0
+        where post.flag = 1
         GROUP BY user.id, post.id, user.avatar, user.`name`, post.title, post.text, post.createTime
         order by post.createTime desc
         limit #{page}, #{pageSize}
@@ -84,6 +90,21 @@
         GROUP BY user.id, post.id, user.avatar, user.`name`, post.title, post.text, post.createTime
     </select>
 
+    <select id="selectLastPost" resultType="java.lang.Integer">
+        select post.id
+        from post
+        where post.userId = ${userId}
+        order by createTime desc
+    </select>
+
+
+    <select id="selectAllAnnouncements" resultMap="postMap">
+        select post.id AS postid, `user`.`name`, post.title,post.text, post.createTime
+        from post
+                 LEFT JOIN user ON post.userId = user.id
+        where flag = -1;
+    </select>
+
     <delete id="ADMIN_deletePostById">
         delete
         from post
@@ -94,5 +115,18 @@
         update post
         set flag = 0
         where id = #{postId};
+    </update>
+
+    <update id="updatePost">
+        update post
+        <set>
+            <if test="title!=null and title!=''">
+                title = #{title},
+            </if>
+            <if test="text!=null and text!=''">
+                text = #{text},
+            </if>
+        </set>
+        where post.id = #{id};
     </update>
 </mapper>

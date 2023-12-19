@@ -62,4 +62,12 @@ public class UserSettingController {
         session.setAttribute("user",userService.selectUserById(user.getId()));
         return i == 1 ? "success" : "fail";
     }
+
+    @PostMapping("/setting/{id}")
+    @ResponseBody
+    public String deleteUser(@PathVariable int id,HttpSession session){
+        int i = userService.deleteUserById(id);
+        session.removeAttribute("user");
+        return i == 1 ? "success" : "fail";
+    }
 }

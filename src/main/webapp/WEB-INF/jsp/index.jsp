@@ -12,7 +12,7 @@
 %>
 <html>
 <head>
-    <title>Title</title>
+    <title>RFF</title>
     <base href="<%=basePath%>">
     <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
     <script src="https://www.layuicdn.com/auto/layui.js" v="2.8.0"></script>
@@ -153,17 +153,15 @@
                 </video>
             </a>
         </li>
-        <%--搜索，未实现--%>
         <li class="layui-nav-item">
             <a href="/search">去搜索</a>
         </li>
     </ul>
     <%--居右--%>
     <ul class="layui-nav layui-layout-right layui-bg-green" style="white-space: nowrap;!important;">
-        <%--去发帖，未实现--%>
         <%if (user != null) {%>
         <li class="layui-nav-item">
-            <a href="/fatie">去发帖</a>
+            <a href="/user/${user.id}/post">去发帖</a>
         </li>
         <%}%>
         <%--用户信息--%>
@@ -202,15 +200,15 @@
 <div class="layui-carousel layui-layout-center" id="announcement" style="margin:0 auto">
     <div carousel-item="" class="announcement">
         <%--循环，需要改进--%>
-        <div style="background-color: hotpink"><p>美国卡内基梅隆大学开设《原神》研究课程：考试要在 2 分钟内击败 BOSS</p>
-        </div>
-        <div style="background-color: hotpink"><p>美国核反应堆实验室遭到黑客攻击，被要求制造“猫娘”</p></div>
+        <%--        <div style="background-color: hotpink" onclick="alert(11111)"><p>美国卡内基梅隆大学开设《原神》研究课程：考试要在 2 分钟内击败 BOSS</p>--%>
+        <%--        </div>--%>
+        <%--        <div style="background-color: hotpink"><p>美国核反应堆实验室遭到黑客攻击，被要求制造“猫娘”</p></div>--%>
     </div>
 </div>
 
 <%--帖子信息流--%>
 <div>
-    <ul class="flow-default" id="PostList"></ul>
+    <ul id="PostList"></ul>
 </div>
 
 
@@ -220,7 +218,7 @@
     // 总页数
     var count = ${count};
     var layer = layui.layer;
-    layui.use('flow', function () {
+    layui.use(['flow', 'carousel'], function () {
         var flow = layui.flow;
         var carousel = layui.carousel;
 
@@ -281,14 +279,9 @@
                 });
             }
         });
-        /*轮播公告*/
-        carousel.render({
-            elem: '#announcement'
-            , interval: 5000
-            , anim: 'fade'
-            , height: '200px'
-            , width: '70%'
-        });
+        // 加载轮播公告
+        getAnnouncement()
+
     });
 
 
@@ -316,6 +309,39 @@
         }
     }
 
+    // 加载轮播公告
+    function getAnnouncement() {
+        $.ajax({
+            url: '/getannouncement',
+            success: function (res) {
+                var response = JSON.parse(res)
+                // 公告数组
+                var announcements = response.data
+                // 遍历公告数组，添加到轮播中
+                for (var i = 0; i < announcements.length; i++) {
+                    let text = announcements[i].text
+                    var announcementDiv = $("<div>").attr("style", "background-color: hotpink").click(function () {
+                        layer.confirm(text);  // 这里可以添加点击事件的处理逻辑
+                    });
+                    var announcementParagraph = $("<p>").text(announcements[i].title);
+
+                    // 将 <p> 元素添加到 <div> 中
+                    announcementDiv.append(announcementParagraph);
+
+                    // 将整个 <div> 添加到轮播容器中
+                    $(".announcement").append(announcementDiv);
+                }
+                // 渲染轮播公告
+                layui.carousel.render({
+                    elem: '#announcement'
+                    , interval: 5000
+                    , anim: 'fade'
+                    , height: '200px'
+                    , width: '70%'
+                });
+            }
+        })
+    }
 </script>
 </body>
 </html>

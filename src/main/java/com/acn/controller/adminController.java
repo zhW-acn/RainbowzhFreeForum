@@ -1,7 +1,19 @@
 package com.acn.controller;
 
+import com.acn.bean.User;
+import com.acn.bean.view.Post;
+import com.acn.service.PostService;
+import com.acn.utils.JSONConstructor;
+import com.alibaba.fastjson.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @Description:
@@ -11,8 +23,53 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class adminController {
 
-    @GetMapping("/admin")
-    public String toAdmin(){
-        return "admin";
+    @Autowired
+    PostService postService;
+
+    @GetMapping("admin")
+    public String toAdmin() {
+        return "admin/admin";
+    }
+
+    @GetMapping("admin/announcement")
+    public String toAnnouncement() {
+        return "admin/announcement";
+    }
+
+    @GetMapping("/getannouncement")
+    @ResponseBody
+    public String getAnnouncement() {
+        List<Post> posts = postService.selectAllAnnouncements();
+        System.out.println(new JSONConstructor(0, "公告", posts));
+        return new JSONConstructor(0, "公告", posts).toString();
+    }
+
+    @PostMapping("admin/addAnnAjax")
+    @ResponseBody
+    public String addAnn(@RequestParam("title") String title, @RequestParam("text") String text, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        com.acn.bean.Post post = new com.acn.bean.Post(title, text, user.getId(), new SimpleDateFormat("yyyy-MM-dd " +
+                "HH:mm:ss").format(new Date()),
+                -1);
+        int i = postService.addPost(post);
+        return i == 1 ? "success" : "fail";
+    }
+
+    @PostMapping("admin/updAnnAjax")
+    @ResponseBody
+    public String updAnn(@RequestParam("field") String filed, @RequestParam("value") String value,
+                         @RequestParam("postId") int postId) {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("id", postId);
+        hashMap.put(filed, value);
+        int i = postService.updatePost(hashMap);
+        return i == 1 ? "success" : "fail";
+    }
+
+    @PostMapping("admin/deleteAnno")
+    @ResponseBody
+    public String delAnno(@RequestParam("id") int postId) {
+        int i = postService.deletePostById(postId);
+        return i == 1 ? "success" : "fail";
     }
 }

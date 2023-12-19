@@ -43,6 +43,12 @@
         </where>
     </update>
 
+    <update id="deleteUserById">
+        update user
+            set user.banTime = -2
+        where user.id = #{id};
+    </update>
+
     <select id="isExist" resultType="int">
         select count(*)
         from user

@@ -6,6 +6,7 @@ import com.acn.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -17,9 +18,25 @@ import java.util.List;
 public class PostServiceImpl implements PostService {
     @Autowired
     PostMapper postMapper;
+
+    @Override
+    public int addPost(com.acn.bean.Post post) {
+        return postMapper.addPost(post);
+    }
+
     @Override
     public List<Post> selectAllPosts(int userid) {
         return postMapper.selectAllPosts(userid);
+    }
+
+    @Override
+    public int selectLastPost(int userid) {
+        return postMapper.selectLastPost(userid);
+    }
+
+    @Override
+    public List<Post> selectAllAnnouncements() {
+        return postMapper.selectAllAnnouncements();
     }
 
 
@@ -56,5 +73,10 @@ public class PostServiceImpl implements PostService {
     @Override
     public int changeFlag(int postId) {
         return postMapper.changeFlag(postId);
+    }
+
+    @Override
+    public int updatePost(HashMap<String, Object> hashMap) {
+        return postMapper.updatePost(hashMap);
     }
 }

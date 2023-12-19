@@ -65,8 +65,8 @@ public class LoginController {
         hashMap.put("password", password);
         User user = userService.selectUserByCond(hashMap);
 
-        // 存在用户，登录；不存在，重新登陆
-        if (user != null) {
+        // 存在用户且不为注销用户，登录；不存在，重新登陆
+        if (user != null && !user.getBanTime().equals("-2")) {
             session.setAttribute("user", user);
 
             return new JSONConstructor(0, "成功", "success").toString();

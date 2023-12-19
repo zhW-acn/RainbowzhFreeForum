@@ -51,8 +51,8 @@ public interface UserMapper {
     int updateUser(HashMap<String,Object> hashMap);
 
     /**
-     * 删除 by id
+     * 普通删除 by id
      */
-    int deleteUserById(int id);
+    int deleteUserById(@Param("id") int id);
 
 }

@@ -12,7 +12,7 @@
 %>
 <html>
 <head>
-    <title>用户主页</title>
+    <title>${userOwner.username}的主页</title>
     <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
     <script src="https://www.layuicdn.com/auto/layui.js" v="2.8.0"></script>
     <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.8.0/css/layui.css"/>
@@ -192,9 +192,11 @@
     <%--居右--%>
     <ul class="layui-nav layui-layout-right layui-bg-green" style="white-space: nowrap;!important;">
         <%--去发帖，未实现--%>
+        <%if (user != null) {%>
         <li class="layui-nav-item">
-            <a href="/fatie">去发帖</a>
+            <a href="/user/${user.id}/post">去发帖</a>
         </li>
+        <%}%>
         <%--用户信息--%>
         <li class="layui-nav-item">
             <a href="/user/${user.id}">
@@ -301,8 +303,9 @@
                                 '<div class="info">' +
                                 '<p>' + list[i].replyCount + ' 人回帖</p>' +
                                 '<p>发帖时间: ' + list[i].createtime + '</p>' +
-                                '<button class="deleteBtn" onclick="clickDelete(' + list[i].postId + ')">删除该帖' +
-                                '</button>' +
+                                <%if(user.getId()==userOwner.getId()){%>
+                                '<button class="deleteBtn" onclick="clickDelete(' + list[i].postId + ')">删除该帖' + '</button>' +
+                                <%}%>
                                 '</div>' +
                                 '</div>' +
                                 '</div>'

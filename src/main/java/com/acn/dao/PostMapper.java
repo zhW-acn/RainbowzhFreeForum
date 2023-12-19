@@ -3,6 +3,7 @@ package com.acn.dao;
 import com.acn.bean.view.Post;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -11,6 +12,9 @@ import java.util.List;
  * @Date: 2023/11/28/0:00
  */
 public interface PostMapper {
+
+    int addPost(com.acn.bean.Post post);
+
     // r return list by userId
     List<Post> selectAllPosts(@Param("userId") int userId);
 
@@ -19,6 +23,8 @@ public interface PostMapper {
 
     // r by 1
     int postsCountByUser(int userId);
+
+    int selectLastPost(int userId);
 
     // r by id
     Post selectPostById(@Param("id") int id);
@@ -34,4 +40,9 @@ public interface PostMapper {
 
     // d
     int changeFlag(@Param("postId")int postId);
+
+
+    List<Post> selectAllAnnouncements();
+
+    int updatePost(HashMap<String, Object> hashMap);
 }

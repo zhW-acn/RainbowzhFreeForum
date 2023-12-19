@@ -26,7 +26,13 @@
             <mvc:mapping path="/user/**" />
             <mvc:mapping path="/search/**"/>
             <mvc:mapping path="/setting"/>
+            <mvc:mapping path="/admin/**"/>
             <bean class="com.acn.controller.LoginInterceptor" />
+        </mvc:interceptor>
+
+        <mvc:interceptor>
+            <mvc:mapping path="/admin/**"/>
+            <bean class="com.acn.controller.adminInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 

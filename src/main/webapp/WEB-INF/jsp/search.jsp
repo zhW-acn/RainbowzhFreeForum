@@ -10,7 +10,7 @@
 %>
 <html>
 <head>
-    <title>搜索结果</title>
+    <title>搜索页面</title>
     <base href="<%=basePath%>">
     <link rel="icon" href="img/favicon.ico" type="image/x-icon">
     <script src="https://www.layuicdn.com/auto/layui.js" v="2.8.0"></script>
@@ -151,7 +151,7 @@
         <%--去发帖，未实现--%>
         <%if (user != null) {%>
         <li class="layui-nav-item">
-            <a href="/fatie">去发帖</a>
+            <a href="/user/${user.id}/post">去发帖</a>
         </li>
         <%}%>
         <%--用户信息--%>

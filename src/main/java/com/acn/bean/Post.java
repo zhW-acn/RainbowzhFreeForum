@@ -19,5 +19,12 @@ public class Post {
     private int userId;
     private String createtime;
     private int flag;
-    private String tag;
+
+    public Post(String title, String content, int userId, String createtime, int flag) {
+        this.title = title;
+        this.text = content;
+        this.userId = userId;
+        this.createtime =createtime;
+        this.flag = flag;
+    }
 }

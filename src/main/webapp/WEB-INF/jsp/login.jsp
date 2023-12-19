@@ -11,7 +11,7 @@
 %>
 <html>
 <head>
-    <title>Title</title>
+    <title>${name}</title>
     <base href="<%=basePath%>">
     <style>
         html, body {
@@ -131,7 +131,8 @@
                          style="max-width: 100px; max-height: 100px; display: none;">
                 </div>
                 <div class="layui-form-item">
-                    生日<input type="date" name="birthday">
+                    生日<input type="date" id="test-laydate-mark" name="birthday" class="layui-input test-laydate-item"
+                               placeholder="yyyy-MM-dd">
                 </div>
                 <%}%>
 

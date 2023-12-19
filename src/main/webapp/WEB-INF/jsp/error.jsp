@@ -9,7 +9,7 @@
 %>
 <html>
 <head>
-    <title>Title</title>
+    <title>错误页面</title>
     <base href="<%=basePath%>">
 </head>
 <body>

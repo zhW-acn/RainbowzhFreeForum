@@ -11,7 +11,7 @@
 %>
 <html>
 <head>
-    <title>Title</title>
+    <title>设置</title>
     <base href="<%=basePath%>">
     <script src="https://www.layuicdn.com/auto/layui.js" v="2.8.0"></script>
     <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.8.0/css/layui.css"/>
@@ -75,6 +75,17 @@
             width: 100%;
         }
 
+        input.delete {
+            text-align: center;
+            background-color: #fc0000;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
         input.submit:hover {
             background-color: #45a049;
         }
@@ -102,10 +113,11 @@
     </ul>
     <%--居右--%>
     <ul class="layui-nav layui-layout-right layui-bg-green" style="white-space: nowrap;!important;">
-        <%--去发帖，未实现--%>
+        <%if (user != null) {%>
         <li class="layui-nav-item">
-            <a href="/fatie">去发帖</a>
+            <a href="/user/${user.id}/post">去发帖</a>
         </li>
+        <%}%>
         <%--用户信息--%>
         <li class="layui-nav-item">
             <a href="/user/${user.id}">
@@ -150,7 +162,9 @@
     <label for="birthday">生日</label>
     <input type="date" id="birthday" name="birthday" value="${user.birthday}">
 
-    <input class="submit" onclick="update()" value="Update Settings" readonly/>
+    <input class="submit" onclick="update()" value="确定修改" readonly/>
+
+    <input class="delete" onclick="deleteUser()" value="注销用户" readonly/>
 </form>
 
 
@@ -244,6 +258,21 @@
             $('#newPassword').val('')
             return false;
         }
+    }
+
+    function deleteUser() {
+        $.ajax({
+            url:'/setting/${user.id}',
+            type: 'post',
+            success: function (res){
+                if(res === 'success'){
+                    alert('注销成功，即将跳转首页');
+                    location.href = '/';
+                }else{
+                    alert('服务器异常');
+                }
+            }
+        })
     }
 
 </script>

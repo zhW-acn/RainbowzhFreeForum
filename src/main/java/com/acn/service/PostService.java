@@ -4,6 +4,7 @@ import com.acn.bean.view.Post;
 import javafx.geometry.Pos;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -13,10 +14,25 @@ import java.util.List;
  */
 
 public interface PostService {
+
+    // 发帖
+    int addPost(com.acn.bean.Post post);
+
+
     /**
      * 查询一个用户的所有帖子
      */
     List<Post> selectAllPosts(int userId);
+
+    /**
+     * 返回最后一次发帖的id
+     */
+    int selectLastPost(int userid);
+
+    /**
+     * 查询所有公告 flag == -1
+     */
+    List<Post> selectAllAnnouncements();
 
     /**
      * 分页查询所有帖子
@@ -48,5 +64,13 @@ public interface PostService {
      */
     int deletePostById(int postId);
 
+    /**
+     * 改变帖子的权限
+     */
     int changeFlag(int postId);
+
+    /**
+     * 修改帖子的内容
+     */
+    int updatePost(HashMap<String,Object> hashMap);
 }

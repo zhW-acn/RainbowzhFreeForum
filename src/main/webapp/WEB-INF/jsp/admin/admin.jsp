@@ -10,7 +10,7 @@
 %>
 <html>
 <head>
-    <title>Title</title>
+    <title>管理员页面</title>
     <base href="<%=basePath%>">
     <link rel="icon" href="img/favicon.ico" type="image/x-icon">
     <script src="https://www.layuicdn.com/auto/layui.js" v="2.8.0"></script>
@@ -32,11 +32,11 @@
                 抱歉，您的浏览器不支持内嵌视频。
             </video>
         </a>
-        <!-- 头部区域（可配合layui 已有的水平导航） -->
+        <!-- 头部区域-->
         <ul class="layui-nav layui-layout-left">
-            <!-- 移动端显示 -->
             <li class="layui-nav-item layui-hide-xs"><a href="">我的主页</a></li>
-            <li class="layui-nav-item layui-hide-xs"><a href="">公告管理</a></li>
+            <li class="layui-nav-item layui-hide-xs" onclick="updateIframe('admin/announcement')"><a
+                    href="javascript:void(0)">公告管理</a></li>
             <li class="layui-nav-item layui-hide-xs"><a href="">nav 3</a></li>
             <li class="layui-nav-item">
                 <a href="javascript:;">nav groups</a>
@@ -56,7 +56,7 @@
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="/user/${user.id}">我的主页</a></dd>
-                    <dd><a href="">Settings</a></dd>
+                    <dd><a href="/setting">设置</a></dd>
                     <dd><a href="logout">登出</a></dd>
                 </dl>
             </li>
@@ -105,6 +105,11 @@
         var iframe = document.getElementById('content-frame');
         // 更新iframe的src属性
         iframe.src = url;
+    }
+
+    // 加载公告
+    function getAnnouncement() {
+
     }
 
     layui.use(['element', 'layer', 'util'], function () {
