@@ -106,7 +106,9 @@
                 </video>
             </a>
         </li>
-        <%--搜索，未实现--%>
+        <li class="layui-nav-item">
+            <a href="/hottopic">热门话题</a>
+        </li>
         <li class="layui-nav-item">
             <a href="/search">去搜索</a>
         </li>
@@ -155,7 +157,8 @@
             class="passwordMismatchIcon" style="display: none; color: red;">❌</span></label>
     <input type="password" lay-verify="required" id="oldPassword" name="oldPassword" placeholder="你的旧密码">
 
-    <label for="newPassword">新密码 【为空则不修改密码】<span class="passwordMatchIcon" style="display: none;">✅</span><span
+    <label for="newPassword">新密码 【为空则不修改密码】<span class="passwordMatchIcon"
+                                                            style="display: none;">✅</span><span
             class="passwordMismatchIcon" style="display: none; color: red;">❌</span></label>
     <input type="password" id="newPassword" name="newPassword" placeholder="你的新密码" oninput="checkPasswordEqual()">
 
@@ -172,7 +175,7 @@
     // 封装表单数据
     function getFormData() {
         var formData = new FormData();
-        if($('#avatar')[0].files[0] !== undefined){// 用户更新了头像
+        if ($('#avatar')[0].files[0] !== undefined) {// 用户更新了头像
             formData.append('avatar', $('#avatar')[0].files[0]);
         }
         formData.append('username', $('#username').val());
@@ -247,7 +250,7 @@
                     if (res === 'success') {
                         alert('成功修改，将跳转到你的主页')
                         location.href = 'user/${user.id}'
-                    }else{
+                    } else {
                         alert("服务器异常")
                     }
                 }
@@ -262,13 +265,13 @@
 
     function deleteUser() {
         $.ajax({
-            url:'/setting/${user.id}',
+            url: '/setting/${user.id}',
             type: 'post',
-            success: function (res){
-                if(res === 'success'){
+            success: function (res) {
+                if (res === 'success') {
                     alert('注销成功，即将跳转首页');
                     location.href = '/';
-                }else{
+                } else {
                     alert('服务器异常');
                 }
             }

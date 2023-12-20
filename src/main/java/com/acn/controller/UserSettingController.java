@@ -63,6 +63,7 @@ public class UserSettingController {
         return i == 1 ? "success" : "fail";
     }
 
+    // 用户注销
     @PostMapping("/setting/{id}")
     @ResponseBody
     public String deleteUser(@PathVariable int id,HttpSession session){

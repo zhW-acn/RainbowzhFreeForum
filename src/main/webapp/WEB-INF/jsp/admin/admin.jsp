@@ -34,18 +34,8 @@
         </a>
         <!-- 头部区域-->
         <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item layui-hide-xs"><a href="">我的主页</a></li>
             <li class="layui-nav-item layui-hide-xs" onclick="updateIframe('admin/announcement')"><a
-                    href="javascript:void(0)">公告管理</a></li>
-            <li class="layui-nav-item layui-hide-xs"><a href="">nav 3</a></li>
-            <li class="layui-nav-item">
-                <a href="javascript:;">nav groups</a>
-                <dl class="layui-nav-child">
-                    <dd><a href="">menu 11</a></dd>
-                    <dd><a href="">menu 22</a></dd>
-                    <dd><a href="">menu 33</a></dd>
-                </dl>
-            </li>
+                    href="javascript:;">公告管理</a></li>
         </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item layui-hide layui-show-md-inline-block">
@@ -70,26 +60,24 @@
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:;">用户</a>
                     <dl class="layui-nav-child">
-                        <dd onclick="updateIframe('all.jsp')"><a href="javascript:;">全部用户</a></dd>
-                        <dd><a href="javascript:;">封禁用户</a></dd>
-                        <dd><a href="javascript:;">menu 3</a></dd>
+                        <dd onclick="updateIframe('/admin/user')"><a href="javascript:;">全部用户</a></dd>
+                        <dd><a href="javascript:;">权限管理</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
                     <a href="javascript:;">帖子</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">全部帖</a></dd>
+                        <dd><a href="javascript:;">可见帖</a></dd>
                         <dd><a href="javascript:;">封禁贴</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a href="javascript:;">click menu item</a></li>
             </ul>
         </div>
     </div>
 
     <div class="layui-body">
         <!-- 内容主体区域 -->
-        <iframe id="content-frame" style="width:100%; height:100%;"></iframe>
+        <iframe id="content-frame" style="width:100%; height:100%;" src="/admin/user"></iframe>
     </div>
 
     <div class="layui-footer">

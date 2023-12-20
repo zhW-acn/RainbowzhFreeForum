@@ -27,6 +27,7 @@
             <mvc:mapping path="/search/**"/>
             <mvc:mapping path="/setting"/>
             <mvc:mapping path="/admin/**"/>
+            <mvc:mapping path="/hottopic"/>
             <bean class="com.acn.controller.LoginInterceptor" />
         </mvc:interceptor>
 

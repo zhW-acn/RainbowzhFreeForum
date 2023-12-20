@@ -52,7 +52,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int updateUser(HashMap<String,Object> hashMap) {
+    public List<User> selectAllUsersByPaging(int page, int limit) {
+
+        return userMapper.selectAllUsersByPaging((page - 1) * limit, limit);
+    }
+
+    @Override
+    public int updateUser(HashMap<String, Object> hashMap) {
         return userMapper.updateUser(hashMap);
     }
 

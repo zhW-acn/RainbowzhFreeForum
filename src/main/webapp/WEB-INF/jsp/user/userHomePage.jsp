@@ -184,14 +184,15 @@
                 </video>
             </a>
         </li>
-        <%--搜索，未实现--%>
+        <li class="layui-nav-item">
+            <a href="/hottopic">热门话题</a>
+        </li>
         <li class="layui-nav-item">
             <a href="/search">去搜索</a>
         </li>
     </ul>
     <%--居右--%>
     <ul class="layui-nav layui-layout-right layui-bg-green" style="white-space: nowrap;!important;">
-        <%--去发帖，未实现--%>
         <%if (user != null) {%>
         <li class="layui-nav-item">
             <a href="/user/${user.id}/post">去发帖</a>

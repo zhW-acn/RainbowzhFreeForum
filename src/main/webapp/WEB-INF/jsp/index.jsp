@@ -154,6 +154,9 @@
             </a>
         </li>
         <li class="layui-nav-item">
+            <a href="/hottopic">热门话题</a>
+        </li>
+        <li class="layui-nav-item">
             <a href="/search">去搜索</a>
         </li>
     </ul>
@@ -198,12 +201,7 @@
 
 <%--轮播公告，点击显示详情--%>
 <div class="layui-carousel layui-layout-center" id="announcement" style="margin:0 auto">
-    <div carousel-item="" class="announcement">
-        <%--循环，需要改进--%>
-        <%--        <div style="background-color: hotpink" onclick="alert(11111)"><p>美国卡内基梅隆大学开设《原神》研究课程：考试要在 2 分钟内击败 BOSS</p>--%>
-        <%--        </div>--%>
-        <%--        <div style="background-color: hotpink"><p>美国核反应堆实验室遭到黑客攻击，被要求制造“猫娘”</p></div>--%>
-    </div>
+    <div carousel-item="" class="announcement"></div>
 </div>
 
 <%--帖子信息流--%>
@@ -321,7 +319,19 @@
                 for (var i = 0; i < announcements.length; i++) {
                     let text = announcements[i].text
                     var announcementDiv = $("<div>").attr("style", "background-color: hotpink").click(function () {
-                        layer.confirm(text);  // 这里可以添加点击事件的处理逻辑
+                        layer.open({// 添加点击事件
+                            type: 1
+                            ,title: false
+                            ,closeBtn: false
+                            ,area: '300px;'
+                            ,shade: 0.8
+                            ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                            ,btn: ['确定']
+                            ,btnAlign: 'c'
+                            ,moveType: 1
+                            ,content:
+                                '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">'+text+'</div>'
+                        });
                     });
                     var announcementParagraph = $("<p>").text(announcements[i].title);
 

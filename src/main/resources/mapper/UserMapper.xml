@@ -55,7 +55,7 @@
         where name = #{username}
     </select>
 
-    <select id="selectAllUsers" resultType="com.acn.bean.User">
+    <select id="selectAllUsers" resultMap="uMap">
         select *
         from user
     </select>
@@ -90,6 +90,12 @@
         select *
         from user
         where user.name like CONCAT('%', #{name}, '%')
+    </select>
+
+    <select id="selectAllUsersByPaging" resultMap="uMap">
+        select *
+        from user
+        limit #{pageSize}, #{pageIndex}
     </select>
 
 </mapper>

@@ -11,23 +11,18 @@
 <head>
     <title>Title</title>
     <base href="<%=basePath%>">
-    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
     <script src="https://www.layuicdn.com/auto/layui.js" v="2.8.0"></script>
     <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.8.0/css/layui.css"/>
 </head>
 <body>
 
 <div class="demoTable">
-    搜索ID：
-    <div class="layui-inline">
-        <input class="layui-input" name="id" id="demoReload" autocomplete="off">
-    </div>
-    <button class="layui-btn" data-type="reload">搜索</button>
     <div class="layui-inline">
         <button class="layui-btn" onclick="addAnnouncement()">新建公告</button>
     </div>
 </div>
 
+<%--数据表格--%>
 <table class="layui-hide" id="annTable" lay-filter="annTable"></table>
 
 <!--单元格的删除-->
@@ -56,30 +51,6 @@
             ]]
             , id: 'announcementTable'
         });
-
-        var $ = layui.$, active = {
-            reload: function () {
-                var demoReload = $('#demoReload');
-
-                //执行重载
-                table.reload('announcementTable', {
-                    page: {
-                        curr: 1 //重新从第 1 页开始
-                    }
-                    , where: {
-                        key: {
-                            id: demoReload.val()
-                        }
-                    }
-                });
-            }
-        };
-
-        $('.demoTable .layui-btn').on('click', function () {
-            var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
-        });
-
 
         // 单元格修改公告
         table.on('edit(annTable)', function (obj) {

@@ -44,6 +44,11 @@ public interface UserService {
     List<User> selectAllUsers();
 
     /**
+     * 分页查找
+     */
+    List<User> selectAllUsersByPaging(int page, int limit);
+
+    /**
      * 更新
      */
     int updateUser(HashMap<String,Object> hashMap);

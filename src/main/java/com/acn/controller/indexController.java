@@ -64,4 +64,9 @@ public class indexController {
          */
         return JSONArray.toJSONString(list);
     }
+
+    @GetMapping("/hottopic")
+    public String toHotTopic(){
+        return "HotTopic";
+    }
 }

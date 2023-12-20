@@ -55,4 +55,8 @@ public interface UserMapper {
      */
     int deleteUserById(@Param("id") int id);
 
+    /**
+     * 分页查找
+     */
+    List<User> selectAllUsersByPaging(@Param("pageSize") int page, @Param("pageIndex") int limit);
 }
