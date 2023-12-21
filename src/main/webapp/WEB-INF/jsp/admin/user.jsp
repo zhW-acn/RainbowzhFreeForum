@@ -88,47 +88,74 @@
         form.on('switch(role)', function (obj) {
             var id = $($(obj.elem).parent().parent().parent().children()[0]).children().text()
             var roleName = this.value === '0' ? "管理员" : "用户";
+            var role = this.value === '0' ? -1 : 0;
             layer.confirm('确定更改权限为：' + roleName + "？", {
-                btn: ['确定', '取消'],
-                closeBtn: 0
-            }, function () {
-                // 发送请求，更改权限
-
-            }, function () {// 取消选中后重新渲染表格
-                obj.elem.checked = !obj.elem.checked;
-                table.reload();
-            });
+                    btn: ['确定', '取消'],
+                    closeBtn: 0
+                }, function () {
+                    changeRole(id, role)
+                }
+                , function () {// 取消选中后重新渲染表格
+                    obj.elem.checked = !obj.elem.checked;
+                    table.reload();
+                });
         });
 
         //锁定操作
         form.on('checkbox(lock)', function (obj) {
             var id = $($(obj.elem).parent().parent().parent().children()[0]).children().text()
-            layer.confirm('确定锁定用户ID为：' + id + "？", {
-                btn: ['确定', '取消'],
-                closeBtn: 0
-            }, function () {
-                // 发送请求，
-
-            }, function () {// 取消选中后重新渲染表格
-                obj.elem.checked = !obj.elem.checked;
-                table.reload();
-            });
+            var role = this.value === '-3' ? 0 : -3
+            var confirmInfo = this.value !== '-3' ? '确定锁定用户ID为：':'确定解锁用户ID为：';
+            layer.confirm(confirmInfo + id + "？", {
+                    btn: ['确定', '取消'],
+                    closeBtn: 0
+                },
+                function () {
+                    changeRole(id, role)
+                }
+                , function () {// 取消选中后重新渲染表格
+                    obj.elem.checked = !obj.elem.checked;
+                    table.reload();
+                });
         });
 
         //注销操作
         form.on('switch(unable)', function (obj) {
             var id = $($(obj.elem).parent().parent().parent().children()[0]).children().text()
-            layer.confirm('确定注销用户ID为：' + id + "？", {
-                btn: ['确定', '取消'],
-                closeBtn: 0
-            }, function () {
-                // 发送请求，
-
-            }, function () {// 取消选中后重新渲染表格
-                obj.elem.checked = !obj.elem.checked;
-                table.reload();
-            });
+            var role = this.value === '-2' ? 0 : -2
+            var confirmInfo = this.value !== '-2' ? '确定注销用户ID为：':'确定重新注册用户ID为：';
+            layer.confirm(confirmInfo + id + "？", {
+                    btn: ['确定', '取消'],
+                    closeBtn: 0
+                },
+                function () {
+                    changeRole(id, role)
+                }
+                , function () {// 取消选中后重新渲染表格
+                    obj.elem.checked = !obj.elem.checked;
+                    table.reload();
+                });
         });
+
+        function changeRole(id, role) {
+            // 发送请求，更改权限
+            $.ajax({
+                url: '/admin/role'
+                , type: 'post'
+                , data: {
+                    id: id,
+                    role: role
+                }
+                , success: function (res) {
+                    if (res === "success") {
+                        layer.msg(res)
+                        table.reload();
+                    } else {
+                        layer.msg("服务器异常")
+                    }
+                }
+            })
+        }
     });
 </script>
 </body>

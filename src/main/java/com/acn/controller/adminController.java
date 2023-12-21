@@ -50,24 +50,24 @@ public class adminController {
     }
 
     @GetMapping("/admin/user")
-    public String toUser(){
+    public String toUser() {
         return "admin/user";
     }
 
     @GetMapping("/admin/getusers")
     @ResponseBody
-    public String getAllUser(@RequestParam("page")int page,@RequestParam("limit")int limit){
-        List<User> users = userService.selectAllUsersByPaging(page,limit);
+    public String getAllUser(@RequestParam("page") int page, @RequestParam("limit") int limit) {
+        List<User> users = userService.selectAllUsersByPaging(page, limit);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("count",userService.selectAllUsers().size());
-        jsonObject.put("code",0);
-        jsonObject.put("msg","所有用户");
-        jsonObject.put("data",users);
+        jsonObject.put("count", userService.selectAllUsers().size());
+        jsonObject.put("code", 0);
+        jsonObject.put("msg", "所有用户");
+        jsonObject.put("data", users);
         return jsonObject.toJSONString();
     }
 
     @GetMapping("/admin/post")
-    public String toPost(){
+    public String toPost() {
         return "admin/post";
     }
 
@@ -97,6 +97,17 @@ public class adminController {
     @ResponseBody
     public String delAnno(@RequestParam("id") int postId) {
         int i = postService.deletePostById(postId);
+        return i == 1 ? "success" : "fail";
+    }
+
+    @PostMapping("/admin/role")
+    @ResponseBody
+    public String updRole(@RequestParam("id") int id, @RequestParam("role") int role) {
+        System.out.println(id + "------" + role);
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("id", id);
+        hashMap.put("banTime", role);
+        int i = userService.updateUser(hashMap);
         return i == 1 ? "success" : "fail";
     }
 }

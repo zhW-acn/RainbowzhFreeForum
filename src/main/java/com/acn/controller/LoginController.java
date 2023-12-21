@@ -66,7 +66,14 @@ public class LoginController {
         User user = userService.selectUserByCond(hashMap);
 
         // 存在用户且不为注销用户，登录；不存在，重新登陆
-        if (user != null && !user.getBanTime().equals("-2")) {
+        if (user != null) {
+            if(user.getBanTime().equals("-2")){
+                return new JSONConstructor(-2, "成功", "success").toString();
+            }
+            if(user.getBanTime().equals("-3")){
+                return new JSONConstructor(-3, "成功", "success").toString();
+            }
+
             session.setAttribute("user", user);
 
             return new JSONConstructor(0, "成功", "success").toString();

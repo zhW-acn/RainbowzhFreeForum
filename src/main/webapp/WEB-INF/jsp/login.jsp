@@ -217,6 +217,14 @@
                             response = JSON.parse(response)
                             console.log(response)
                             if (response.data === "success") {
+                                if(response.code === -2){
+                                    layer.msg('你的账户已被注销')
+                                    return false;
+                                }
+                                if(response.code === -3){
+                                    layer.msg('你的账户已被封禁')
+                                    return false;
+                                }
                                 //携带session信息跳转到首页
                                 layer.msg('${name}成功，一秒后跳转首页');
                                 if ("${action}" === "register") {
