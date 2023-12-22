@@ -16,7 +16,9 @@ public interface PostMapper {
     int addPost(com.acn.bean.Post post);
 
     // r return list by userId
-    List<Post> selectAllPosts(@Param("userId") int userId);
+    List<Post> selectAllPostsByUserId(@Param("userId") int userId);
+
+    List<Post> selectAllPosts();
 
     // r return int
     int postsCount();

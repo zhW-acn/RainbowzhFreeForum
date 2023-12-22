@@ -13,7 +13,7 @@ import java.util.List;
  * @Date: 2023/11/28/0:02
  */
 
-public interface PostService {
+public interface  PostService {
 
     // 发帖
     int addPost(com.acn.bean.Post post);
@@ -22,7 +22,7 @@ public interface PostService {
     /**
      * 查询一个用户的所有帖子
      */
-    List<Post> selectAllPosts(int userId);
+    List<Post> selectAllPostsByUserId(int userId);
 
     /**
      * 返回最后一次发帖的id
@@ -33,6 +33,10 @@ public interface PostService {
      * 查询所有公告 flag == -1
      */
     List<Post> selectAllAnnouncements();
+    /**
+     * 查询所有帖子 flag == 1
+     */
+    List<Post> selectAllPosts();
 
     /**
      * 分页查询所有帖子

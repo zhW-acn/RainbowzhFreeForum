@@ -16,6 +16,12 @@
         <result property="replyCount" column="replyCount"/>
     </resultMap>
 
+    <resultMap id="postEcharts" type="com.acn.bean.view.Post">
+        <result property="postId" column="id"/>
+        <result property="title" column="title"/>
+        <result property="replyCount" column="replyCount"/>
+    </resultMap>
+
 
     <insert id="addPost" parameterType="com.acn.bean.Post">
         insert into post (title, text, userId, createTime, flag)
@@ -23,7 +29,7 @@
     </insert>
 
 
-    <select id="selectAllPosts" resultMap="postMap">
+    <select id="selectAllPostsByUserId" resultMap="postMap">
         SELECT user.id AS userid, post.id AS postid, user.avatar, user.`name`, post.title, post.text, post.createTime,
                COUNT(`comment`.id) AS replyCount
         FROM post
@@ -37,6 +43,7 @@
     <select id="postsCount" resultType="int">
         select count(*)
         from post
+        where flag = 1;
     </select>
 
     <select id="postsCountByUser" parameterType="int" resultType="java.lang.Integer">
@@ -103,6 +110,14 @@
         from post
                  LEFT JOIN user ON post.userId = user.id
         where flag = -1;
+    </select>
+
+    <select id="selectAllPosts" resultMap="postEcharts">
+        select post.id, post.title, count(post.id) AS replyCount
+        from post
+                 left join rainbowzh.comment c on post.id = c.postId
+        where post.flag = 1
+        group by post.id
     </select>
 
     <delete id="ADMIN_deletePostById">

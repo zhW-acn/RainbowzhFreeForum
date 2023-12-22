@@ -25,8 +25,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> selectAllPosts(int userid) {
-        return postMapper.selectAllPosts(userid);
+    public List<Post> selectAllPostsByUserId(int userid) {
+        return postMapper.selectAllPostsByUserId(userid);
     }
 
     @Override
@@ -37,6 +37,11 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<Post> selectAllAnnouncements() {
         return postMapper.selectAllAnnouncements();
+    }
+
+    @Override
+    public List<Post> selectAllPosts() {
+        return postMapper.selectAllPosts();
     }
 
 

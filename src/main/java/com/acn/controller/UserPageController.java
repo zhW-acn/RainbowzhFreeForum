@@ -51,7 +51,7 @@ public class UserPageController {
     @ResponseBody
     public String ajax(@PathVariable("userId") int userid) {
         // 查找用户创建的所有帖子，不分页
-        List<Post> posts = postService.selectAllPosts(userid);
+        List<Post> posts = postService.selectAllPostsByUserId(userid);
         return JSONArray.toJSONString(posts);
     }
 

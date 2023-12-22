@@ -17,6 +17,7 @@
     <script src="https://www.layuicdn.com/auto/layui.js" v="2.8.0"></script>
     <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.8.0/css/layui.css"/>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <style>
         video {
             height: 100%;
@@ -80,6 +81,72 @@
         </li>
     </ul>
 </div>
+<div id="main" style="width: 100%;height: 90%;">
 
+</div>
+
+<script>
+    var myChart = echarts.init($("#main")[0])
+
+    window.onload = function () {
+        $.ajax({
+            url: '/hot',
+            type: 'post',
+            success: function (data) {
+                draw(JSON.parse(data));
+            }
+        })
+    }
+
+    // 跳转
+    myChart.on('click', function (params) {
+        window.location.href = '/post/' + encodeURIComponent(params.data.id);
+    });
+
+    function draw(data) {
+        var option = {
+            // 图表标题
+            title: {
+                show: true,//显示策略
+                text: 'RFF话题榜',//主标题文本
+                x: 'center',        // 水平安放位置，
+                y: 'bottom',             // 垂直安放位置
+                backgroundColor: 'rgba(0,0,0,0)',
+                borderWidth: 0,         // 标题边框线宽，单位px
+                padding: 5,             // 标题内边距，单位px
+                itemGap: 10,            // 主副标题纵向间隔，单位px
+                textStyle: {
+                    fontSize: 100,
+                    color: '#a300f5'        // 主标题文字颜色
+                }
+            },
+            backgroundColor: '#ffffff',
+            tooltip: {
+                trigger: 'item',
+                formatter: function (params) {
+                    return "《" + params.data.name + "》回复数:" + params.data.symbolSize / 10;
+                }
+            },
+            animationEasingUpdate: 'bounceIn',
+            series: [{
+                type: 'graph',
+                layout: 'force',
+                force: {
+                    repulsion: 250,
+                    edgeLength: 100
+                },
+                roam: true,
+                label: {
+                    normal: {
+                        show: true,
+                    }
+                },
+                data: data
+            }]
+        }
+        myChart.setOption(option)
+    }
+
+</script>
 </body>
 </html>

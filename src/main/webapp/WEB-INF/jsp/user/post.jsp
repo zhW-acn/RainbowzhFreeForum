@@ -12,6 +12,7 @@
 <head>
     <title>发帖页面</title>
     <base href="<%=basePath%>">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
     <script src="https://www.layuicdn.com/auto/layui.js" v="2.8.0"></script>
     <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.8.0/css/layui.css"/>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
@@ -119,7 +120,7 @@
     <h2>发表新帖</h2>
     <form id="form">
         <label for="title">标题:</label>
-        <input type="text" id="title" name="title" required>
+        <input type="text" id="title" name="title" required onblur="checkTitleLength()">
 
         <label for="content">内容:</label>
         <textarea id="content" name="content" rows="6" required></textarea>
@@ -147,6 +148,15 @@
                 }
             }
         })
+    }
+
+    function checkTitleLength(){
+        var title = $("#title").val();
+        if (title.length > 10) {
+            layer.alert("标题不能超过十个字符");
+            title = title.substring(0, 10);
+            $("#title").val(title);
+        }
     }
 </script>
 

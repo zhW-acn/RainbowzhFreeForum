@@ -57,12 +57,8 @@
         <div class="layui-side-scroll">
             <!-- 左导航栏-->
             <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                <li class="layui-nav-item layui-nav-itemed">
-                    <a class="" href="javascript:;">用户</a>
-                    <dl class="layui-nav-child">
-                        <dd onclick="updateIframe('/admin/user')"><a href="javascript:;">全部用户</a></dd>
-                        <dd><a href="javascript:;">权限管理</a></dd>
-                    </dl>
+                <li class="layui-nav-item layui-this">
+                    <a class="" href="javascript:;" onclick="updateIframe('/admin/user')">用户管理</a>
                 </li>
                 <li class="layui-nav-item">
                     <a href="javascript:;">帖子</a>
@@ -79,25 +75,15 @@
         <!-- 内容主体区域 -->
         <iframe id="content-frame" style="width:100%; height:100%;" src="/admin/user"></iframe>
     </div>
-
-    <div class="layui-footer">
-        <!-- 底部固定区域 -->
-        底部固定区域
-    </div>
 </div>
 <script>
 
-    // 当导航项被点击时调用此函数
+    // 当导航项被点击时调用
     function updateIframe(url) {
         // 获取iframe元素
         var iframe = document.getElementById('content-frame');
         // 更新iframe的src属性
         iframe.src = url;
-    }
-
-    // 加载公告
-    function getAnnouncement() {
-
     }
 
     layui.use(['element', 'layer', 'util'], function () {
