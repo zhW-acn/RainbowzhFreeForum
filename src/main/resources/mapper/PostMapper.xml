@@ -92,8 +92,9 @@
         FROM post
                  LEFT JOIN user ON post.userId = user.id
                  LEFT JOIN `comment` ON post.id = `comment`.postId
-        where text like CONCAT('%', #{text}, '%')
-           or title like CONCAT('%', #{text}, '%')
+        where (text like CONCAT('%', #{text}, '%') or
+              title like CONCAT('%', #{text}, '%'))and
+              post.flag = 1
         GROUP BY user.id, post.id, user.avatar, user.`name`, post.title, post.text, post.createTime
     </select>
 
@@ -112,12 +113,28 @@
         where flag = -1;
     </select>
 
-    <select id="selectAllPosts" resultMap="postEcharts">
+    <select id="selectAllVisiblePosts" resultMap="postEcharts">
         select post.id, post.title, count(post.id) AS replyCount
         from post
                  left join rainbowzh.comment c on post.id = c.postId
         where post.flag = 1
         group by post.id
+    </select>
+    <select id="selectAllPost" resultMap="postMap">
+        SELECT user.id             AS userid,
+               post.id             AS postid,
+               user.`name`,
+               post.title,
+               post.text,
+               post.createTime,
+               COUNT(`comment`.id) AS replyCount,
+               post.flag
+        FROM post
+                 LEFT JOIN user ON post.userId = user.id
+                 LEFT JOIN `comment` ON post.id = `comment`.postId
+        where post.flag != -1
+        GROUP BY user.id, post.id, user.avatar, user.`name`, post.title, post.text, post.createTime
+        limit #{page}, #{pageSize}
     </select>
 
     <delete id="ADMIN_deletePostById">
@@ -128,7 +145,7 @@
 
     <update id="changeFlag">
         update post
-        set flag = 0
+        set flag = #{flag}
         where id = #{postId};
     </update>
 

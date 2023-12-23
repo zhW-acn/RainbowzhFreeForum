@@ -21,4 +21,5 @@ public class Post {
     private String text;
     private String createtime;
     private int replyCount;
+    private int flag;
 }

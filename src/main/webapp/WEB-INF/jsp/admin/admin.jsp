@@ -33,10 +33,6 @@
             </video>
         </a>
         <!-- 头部区域-->
-        <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item layui-hide-xs" onclick="updateIframe('admin/announcement')"><a
-                    href="javascript:;">公告管理</a></li>
-        </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item layui-hide layui-show-md-inline-block">
                 <%--头像--%>
@@ -60,11 +56,13 @@
                 <li class="layui-nav-item layui-this">
                     <a class="" href="javascript:;" onclick="updateIframe('/admin/user')">用户管理</a>
                 </li>
+                <li class="layui-nav-item layui-hide-xs" onclick="updateIframe('admin/announcement')">
+                    <a href="javascript:;">公告管理</a></li>
                 <li class="layui-nav-item">
-                    <a href="javascript:;">帖子</a>
+                    <a href="javascript:;">帖子管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">可见帖</a></dd>
-                        <dd><a href="javascript:;">封禁贴</a></dd>
+                        <dd onclick="updateIframe('admin/post')"><a href="javascript:;">所有帖子</a></dd>
+                        <dd><a href="javascript:;">违禁</a></dd>
                     </dl>
                 </li>
             </ul>

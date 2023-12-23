@@ -18,7 +18,7 @@ public interface PostMapper {
     // r return list by userId
     List<Post> selectAllPostsByUserId(@Param("userId") int userId);
 
-    List<Post> selectAllPosts();
+    List<Post> selectAllVisiblePosts();
 
     // r return int
     int postsCount();
@@ -38,13 +38,15 @@ public interface PostMapper {
     List<Post> selectPostByPaging(@Param("page") int page, @Param("pageSize") int pageSize);
 
     // d
-    int ADMIN_deletePostById(@Param("postId")int postId);
+    int ADMIN_deletePostById(@Param("postId") int postId);
 
     // d
-    int changeFlag(@Param("postId")int postId);
+    int changeFlag(@Param("postId") int postId,@Param("flag")int flag);
 
 
     List<Post> selectAllAnnouncements();
 
     int updatePost(HashMap<String, Object> hashMap);
+
+    List<Post> selectAllPost(@Param("page") int page, @Param("pageSize") int pageSize);
 }

@@ -73,7 +73,7 @@ public class PostController {
     @PostMapping("/delete/{id}")
     @ResponseBody
     public String deletePost(@PathVariable int id) {
-        int i = postService.changeFlag(id);
+        int i = postService.changeFlag(id,0);
         return i == 1 ? "success" : "fail";
     }
 

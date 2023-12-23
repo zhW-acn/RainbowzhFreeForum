@@ -36,7 +36,12 @@ public interface  PostService {
     /**
      * 查询所有帖子 flag == 1
      */
-    List<Post> selectAllPosts();
+    List<Post> selectAllVisiblePosts();
+
+    /**
+     * 根据flag查询
+     */
+    List<Post> selectAllPost(int page,int pageSize);
 
     /**
      * 分页查询所有帖子
@@ -71,7 +76,7 @@ public interface  PostService {
     /**
      * 改变帖子的权限
      */
-    int changeFlag(int postId);
+    int changeFlag(int postId,int flag);
 
     /**
      * 修改帖子的内容

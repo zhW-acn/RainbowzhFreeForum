@@ -56,19 +56,48 @@ public class adminController {
 
     @GetMapping("/admin/getusers")
     @ResponseBody
-    public String getAllUser(@RequestParam("page") int page, @RequestParam("limit") int limit) {
-        List<User> users = userService.selectAllUsersByPaging(page, limit);
+    public String getAllUser(@RequestParam("page") int page, @RequestParam("limit") int limit,
+                             @RequestParam(value = "username", required = false) String username) {
+        // 这个username不是必须的，当客户端发起搜索请求时才会携带username参数
+
+
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("count", userService.selectAllUsers().size());
-        jsonObject.put("code", 0);
-        jsonObject.put("msg", "所有用户");
-        jsonObject.put("data", users);
-        return jsonObject.toJSONString();
+        // 没有查询
+        if (username == null) {
+            List<User> users = userService.selectAllUsersByPaging(page, limit);
+            jsonObject.put("count", userService.selectAllUsers().size());
+            jsonObject.put("code", 0);
+            jsonObject.put("msg", "所有用户");
+            jsonObject.put("data", users);
+            return jsonObject.toJSONString();
+        } else {// 存在username，查询
+            List<User> users = userService.selectUserByName(username);
+            jsonObject.put("count", userService.selectAllUsers().size());
+            jsonObject.put("code", 0);
+            jsonObject.put("msg", "");
+            jsonObject.put("data", users);
+            return jsonObject.toJSONString();
+        }
     }
 
     @GetMapping("/admin/post")
     public String toPost() {
         return "admin/post";
+    }
+
+    @GetMapping("/admin/getposts")
+    @ResponseBody
+    public String getAllPosts(@RequestParam("page") int page, @RequestParam("limit") int limit) {
+        List<Post> posts = postService.selectAllPost(page,limit);
+
+        return new JSONConstructor(0,"帖子",posts).toString();
+    }
+
+    @PostMapping("/admin/changepost")
+    @ResponseBody
+    public String changePost(@RequestParam("flag")int flag,@RequestParam("id")int postId){
+        int i = postService.changeFlag(postId, flag);
+        return i == 1 ? "success" : "fail";
     }
 
     @PostMapping("admin/addAnnAjax")
@@ -103,7 +132,6 @@ public class adminController {
     @PostMapping("/admin/role")
     @ResponseBody
     public String updRole(@RequestParam("id") int id, @RequestParam("role") int role) {
-        System.out.println(id + "------" + role);
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("id", id);
         hashMap.put("banTime", role);

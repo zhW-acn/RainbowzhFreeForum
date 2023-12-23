@@ -37,7 +37,7 @@ public class searchController {
 
     @PostMapping("/")
     @ResponseBody
-    public String getPostList(String page, String searchType,String text) {
+    public String getPostList(String searchType,String text) {
         switch (searchType) {
             case "username":
                 List<User> users = userService.selectUserByName(text);

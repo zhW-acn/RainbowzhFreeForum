@@ -25,6 +25,23 @@
     </style>
 </head>
 <body>
+<form class="layui-form" style="width: 500px">
+    <div class="layui-input-wrap">
+        <div class="layui-form-item">
+            <div class="layui-input-inline" style="width: 70%;">
+                <div class="layui-input-prefix">
+                    <i class="layui-icon layui-icon-username"></i>
+                </div>
+                <input id="search" type="text" name="username" value="" placeholder="用户名" class="layui-input"
+                       lay-affix="clear"
+                       autocomplete="off">
+            </div>
+            <div class="layui-input-inline" style="width: 15%;">
+                <button id="btn" class="layui-btn" lay-submit lay-filter="search-user">搜索</button>
+            </div>
+        </div>
+    </div>
+</form>
 <%--数据表格--%>
 <table class="layui-hide" id="userTable" lay-filter="userTable"></table>
 
@@ -65,7 +82,7 @@
         var table = layui.table;
         var util = layui.util;
         //方法级渲染
-        var table = table.render({
+        var tableAll= table.render({
             elem: '#userTable'
             , url: '/admin/getusers'
             , editTrigger: 'click'// 触发点击事件
@@ -81,6 +98,7 @@
                 , {field: 'banTime', title: '注销', templet: '#unableTpl'}
             ]]
             , id: 'userTable'
+            , height: 650
         });
 
 
@@ -97,7 +115,7 @@
                 }
                 , function () {// 取消选中后重新渲染表格
                     obj.elem.checked = !obj.elem.checked;
-                    table.reload();
+                    tableAll.reload();
                 });
         });
 
@@ -105,7 +123,7 @@
         form.on('checkbox(lock)', function (obj) {
             var id = $($(obj.elem).parent().parent().parent().children()[0]).children().text()
             var role = this.value === '-3' ? 0 : -3
-            var confirmInfo = this.value !== '-3' ? '确定锁定用户ID为：':'确定解锁用户ID为：';
+            var confirmInfo = this.value !== '-3' ? '确定锁定用户ID为：' : '确定解锁用户ID为：';
             layer.confirm(confirmInfo + id + "？", {
                     btn: ['确定', '取消'],
                     closeBtn: 0
@@ -115,7 +133,7 @@
                 }
                 , function () {// 取消选中后重新渲染表格
                     obj.elem.checked = !obj.elem.checked;
-                    table.reload();
+                    tableAll.reload();
                 });
         });
 
@@ -123,7 +141,7 @@
         form.on('switch(unable)', function (obj) {
             var id = $($(obj.elem).parent().parent().parent().children()[0]).children().text()
             var role = this.value === '-2' ? 0 : -2
-            var confirmInfo = this.value !== '-2' ? '确定注销用户ID为：':'确定重新注册用户ID为：';
+            var confirmInfo = this.value !== '-2' ? '确定注销用户ID为：' : '确定重新注册用户ID为：';
             layer.confirm(confirmInfo + id + "？", {
                     btn: ['确定', '取消'],
                     closeBtn: 0
@@ -133,7 +151,7 @@
                 }
                 , function () {// 取消选中后重新渲染表格
                     obj.elem.checked = !obj.elem.checked;
-                    table.reload();
+                    tableAll.reload();
                 });
         });
 
@@ -156,6 +174,41 @@
                 }
             })
         }
+
+        // 搜索用户
+        $("#btn").on('click', function () {
+            // 执行搜索重载
+            $.ajax({
+                url: "/admin/getusers"
+                , type: "get"
+                , data: {
+                    page: 1,
+                    limit: 5,
+                    username: $("#search").val()
+                },
+                success: function (res) {
+                    table.render({
+                        elem: '#userTable'
+                        , data: JSON.parse(res).data
+                        , editTrigger: 'click'// 触发点击事件
+                        , page: true
+                        , limit: 5
+                        , cols: [[
+                            {field: "id", title: 'ID'}
+                            , {field: 'username', title: '用户', templet: username}
+                            , {field: 'avatar', title: '头像', templet: avatar}
+                            , {field: 'birthday', title: '生日'}
+                            , {field: 'banTime', title: '角色', templet: '#switchTpl'}
+                            , {field: 'banTime', title: '锁定', templet: '#lockTpl'}
+                            , {field: 'banTime', title: '注销', templet: '#unableTpl'}
+                        ]]
+                        , id: 'userTable'
+                        , height: 650
+                    })
+                }
+            })
+            return false; // 阻止form跳转
+        });
     });
 </script>
 </body>

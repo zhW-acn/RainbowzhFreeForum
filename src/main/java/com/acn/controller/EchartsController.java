@@ -25,7 +25,7 @@ public class EchartsController {
     @ResponseBody
     public String test1() {
         Random random = new Random();
-        List<Post> posts = postService.selectAllPosts();
+        List<Post> posts = postService.selectAllVisiblePosts();
 
         String[] colorList = {
                 "#ff7f50", "#87cefa", "#da70d6", "#32cd32", "#6495ed",

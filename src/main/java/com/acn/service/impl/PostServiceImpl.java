@@ -40,14 +40,19 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> selectAllPosts() {
-        return postMapper.selectAllPosts();
+    public List<Post> selectAllVisiblePosts() {
+        return postMapper.selectAllVisiblePosts();
+    }
+
+    @Override
+    public List<Post> selectAllPost(int page, int pageSize) {
+        return postMapper.selectAllPost((page - 1) * pageSize, pageSize);
     }
 
 
     @Override
     public List<Post> selectPostByPaging(int page, int pageSize) {
-        return postMapper.selectPostByPaging(page,pageSize);
+        return postMapper.selectPostByPaging(page, pageSize);
     }
 
     @Override
@@ -76,8 +81,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public int changeFlag(int postId) {
-        return postMapper.changeFlag(postId);
+    public int changeFlag(int postId,int flag) {
+        return postMapper.changeFlag(postId,flag);
     }
 
     @Override
