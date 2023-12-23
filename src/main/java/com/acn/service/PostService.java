@@ -59,6 +59,11 @@ public interface  PostService {
     List<Post> selectPostByLike(String text);
 
     /**
+     * 管理员模糊查询
+     */
+    List<Post> adminSelectPostByLike(String text);
+
+    /**
      * 返回帖子总数
      */
     int postsCount();

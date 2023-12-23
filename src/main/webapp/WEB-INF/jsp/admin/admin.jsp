@@ -62,7 +62,7 @@
                     <a href="javascript:;">帖子管理</a>
                     <dl class="layui-nav-child">
                         <dd onclick="updateIframe('admin/post')"><a href="javascript:;">所有帖子</a></dd>
-                        <dd><a href="javascript:;">违禁</a></dd>
+                        <dd><a href="javascript:;">违禁词管理</a></dd>
                     </dl>
                 </li>
             </ul>

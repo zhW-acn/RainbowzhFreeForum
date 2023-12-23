@@ -26,14 +26,15 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public List<com.acn.bean.view.Comment> adminSelectAllComments(int postId) {
+        return commentMapper.adminSelectAllComments(postId);
+    }
+
+    @Override
     public List<UserComment> selectAllCommentsByUserId(int userId) {
         return commentMapper.selectAllCommentsByUserId(userId);
     }
 
-    @Override
-    public int commentsCount() {
-        return commentMapper.commentsCount();
-    }
 
     @Override
     public List<com.acn.bean.view.Comment> selectCommentByPaging(int id, int page, int pageSize) {
@@ -51,7 +52,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public int changeFlag(int postId, int commentId) {
-        return commentMapper.changeFlag(postId,commentId);
+    public int changeFlag(int flag, int postId, int commentId) {
+        return commentMapper.changeFlag(flag, postId, commentId);
     }
 }

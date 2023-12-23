@@ -1,7 +1,9 @@
 package com.acn.controller;
 
 import com.acn.bean.User;
+import com.acn.bean.view.Comment;
 import com.acn.bean.view.Post;
+import com.acn.service.CommentService;
 import com.acn.service.PostService;
 import com.acn.service.UserService;
 import com.acn.utils.JSONConstructor;
@@ -10,6 +12,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
@@ -30,6 +33,9 @@ public class adminController {
 
     @Autowired
     PostService postService;
+
+    @Autowired
+    CommentService commentService;
 
     @GetMapping("/admin")
     public String toAdmin() {
@@ -87,15 +93,50 @@ public class adminController {
 
     @GetMapping("/admin/getposts")
     @ResponseBody
-    public String getAllPosts(@RequestParam("page") int page, @RequestParam("limit") int limit) {
-        List<Post> posts = postService.selectAllPost(page,limit);
+    public String getAllPosts(@RequestParam("page") int page, @RequestParam("limit") int limit,
+                              @RequestParam(value = "search", required = false) String search) {
+        JSONObject jsonObject = new JSONObject();
+        List<Post> posts = postService.selectAllPost(page, limit);
+        int size = posts.size();
+        jsonObject.put("count", size);
+        jsonObject.put("code", 0);
+        jsonObject.put("msg", "帖子");
+        if (search == null) {
+            jsonObject.put("data", posts);
+        } else {
+            List<Post> postsLike = postService.adminSelectPostByLike(search);
+            jsonObject.put("data", postsLike);
+        }
+        return jsonObject.toJSONString();
+    }
 
-        return new JSONConstructor(0,"帖子",posts).toString();
+
+    @GetMapping("/admin/comment/{id}")
+    public ModelAndView toComment(ModelAndView modelAndView, @PathVariable String id) {
+        modelAndView.addObject("postId", id);
+        modelAndView.setViewName("admin/comment");
+        return modelAndView;
+    }
+
+    @GetMapping("/admin/getcomment/{postId}")
+    @ResponseBody
+    public String getComment(@PathVariable int postId) {
+        List<Comment> comments = commentService.adminSelectAllComments(postId);
+
+        return new JSONConstructor(0, "", comments).toString();
+    }
+
+    @PostMapping("/admin/changecomment")
+    @ResponseBody
+    public String changeComment(@RequestParam("flag") int flag, @RequestParam("postId") int postId,
+                                @RequestParam("commentId") int commentId) {
+        int i = commentService.changeFlag(flag,postId,commentId);
+        return i == 1 ? "success" : "fail";
     }
 
     @PostMapping("/admin/changepost")
     @ResponseBody
-    public String changePost(@RequestParam("flag")int flag,@RequestParam("id")int postId){
+    public String changePost(@RequestParam("flag") int flag, @RequestParam("id") int postId) {
         int i = postService.changeFlag(postId, flag);
         return i == 1 ? "success" : "fail";
     }

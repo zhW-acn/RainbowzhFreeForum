@@ -17,6 +17,8 @@ public interface CommentMapper {
 
     // r
     List<Comment> selectAllComments(@Param("id") int postId);
+     // r
+    List<Comment> adminSelectAllComments(@Param("id") int postId);
 
     // r by one post
     List<UserComment> selectAllCommentsByUserId(@Param("userId") int userId);
@@ -33,5 +35,5 @@ public interface CommentMapper {
     List<Comment> selectCommentsByPaging(@Param("id") int id, @Param("page") int page, @Param("pageSize") int pageSize);
 
     // u
-    int changeFlag(@Param("postId") int postId,@Param("commentId") int commentId);
+    int changeFlag(@Param("flag") int flag,@Param("postId") int postId,@Param("commentId") int commentId);
 }

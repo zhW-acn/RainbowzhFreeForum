@@ -25,6 +25,7 @@
     </style>
 </head>
 <body>
+<%--搜索栏--%>
 <form class="layui-form" style="width: 500px">
     <div class="layui-input-wrap">
         <div class="layui-form-item">
@@ -183,7 +184,7 @@
                 , type: "get"
                 , data: {
                     page: 1,
-                    limit: 5,
+                    limit: 10,
                     username: $("#search").val()
                 },
                 success: function (res) {

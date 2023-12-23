@@ -13,6 +13,7 @@
         <result property="userAvatar" column="userAvatar"/>
         <result property="username" column="name"/>
         <result property="createtime" column="createtime"/>
+        <result property="flag" column="flag"/>
     </resultMap>
 
 
@@ -30,6 +31,19 @@
                `comment`.createTime
         from comment
                  LEFT JOIN user on `comment`.userId = `user`.id
+        where comment.postId = #{id} and comment.flag != 0
+    </select>
+
+    <select id="adminSelectAllComments" parameterType="int" resultMap="commentMap">
+        select `comment`.id,
+               `comment`.comment_text,
+               `comment`.postId,
+               user.avatar as userAvatar,
+               user.`name`,
+               `comment`.createTime,
+               comment.flag
+        from comment
+                 LEFT JOIN user on `comment`.userId = `user`.id
         where comment.postId = #{id}
     </select>
 
@@ -41,7 +55,7 @@
     <select id="commentsCountByPost" resultType="int">
         select count(*)
         from comment
-        where postId = #{postId}
+        where postId = #{postId} and comment.flag != 0
     </select>
 
     <select id="selectCommentsByPaging" resultMap="commentMap">
@@ -54,7 +68,7 @@
                `comment`.createTime
         from comment
                  LEFT JOIN user on `comment`.userId = `user`.id
-        where comment.postId = #{id}
+        where comment.postId = #{id} and comment.flag != 0
         limit #{page}, #{pageSize}
     </select>
 
@@ -78,7 +92,7 @@
 
     <update id="changeFlag">
         update comment
-        set flag = 0
+        set flag = #{flag}
         where id = #{commentId}
           and postId = #{postId};
     </update>

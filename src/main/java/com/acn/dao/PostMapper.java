@@ -34,6 +34,8 @@ public interface PostMapper {
     // r by text
     List<Post> selectPostByLike(String text);
 
+    List<Post> adminSelectPostByLike(String text);
+
     // r by paging
     List<Post> selectPostByPaging(@Param("page") int page, @Param("pageSize") int pageSize);
 

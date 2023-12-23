@@ -73,15 +73,15 @@ public class PostController {
     @PostMapping("/delete/{id}")
     @ResponseBody
     public String deletePost(@PathVariable int id) {
-        int i = postService.changeFlag(id,0);
+        int i = postService.changeFlag(id, 0);
         return i == 1 ? "success" : "fail";
     }
 
     // 普通删除帖子评论
     @PostMapping("/deleteComment/{commentId}")
     @ResponseBody
-    public String deleteComment(@PathVariable("id") int postId, @PathVariable int commentId){
-        int i = commentService.changeFlag(postId, commentId);
+    public String deleteComment(@PathVariable("id") int postId, @PathVariable int commentId) {
+        int i = commentService.changeFlag(0, postId, commentId);
         return i == 1 ? "success" : "fail";
     }
 }

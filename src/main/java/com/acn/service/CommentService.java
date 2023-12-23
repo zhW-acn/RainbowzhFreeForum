@@ -14,19 +14,20 @@ import java.util.List;
  */
 public interface CommentService {
     /**
-     * 根据post的id查找评论
+     * 根据post的id查找评论 普通查找
      */
     List<Comment> selectAllComments(int postId);
+
+    /**
+     * 根据post的id查找评论 管理员查找
+     */
+    List<Comment> adminSelectAllComments(int postId);
+
 
     /**
      * 根据userid查找评论
      */
     List<UserComment> selectAllCommentsByUserId(@Param("id") int userId);
-
-    /**
-     * 评论总数
-     */
-    int commentsCount();
 
     /**
      * 查询所有评论数
@@ -46,5 +47,5 @@ public interface CommentService {
     /**
      * 普通删除评论
      */
-    int changeFlag(int postId,int commentId);
+    int changeFlag(int flag,int postId, int commentId);
 }

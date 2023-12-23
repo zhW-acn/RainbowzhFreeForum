@@ -14,6 +14,7 @@
         <result property="userId" column="userid"/>
         <result property="postId" column="postid"/>
         <result property="replyCount" column="replyCount"/>
+        <result property="flag" column="flag"/>
     </resultMap>
 
     <resultMap id="postEcharts" type="com.acn.bean.view.Post">
@@ -95,6 +96,24 @@
         where (text like CONCAT('%', #{text}, '%') or
               title like CONCAT('%', #{text}, '%'))and
               post.flag = 1
+        GROUP BY user.id, post.id, user.avatar, user.`name`, post.title, post.text, post.createTime
+    </select>
+
+    <select id="adminSelectPostByLike" resultMap="postMap">
+        SELECT user.id             AS userid,
+               post.id             AS postid,
+               user.`name`,
+               post.flag,
+               post.title,
+               post.text,
+               post.createTime,
+               COUNT(`comment`.id) AS replyCount
+        FROM post
+                 LEFT JOIN user ON post.userId = user.id
+                 LEFT JOIN `comment` ON post.id = `comment`.postId
+        where (text like CONCAT('%', #{text}, '%') or
+               title like CONCAT('%', #{text}, '%'))and
+            post.flag != -1
         GROUP BY user.id, post.id, user.avatar, user.`name`, post.title, post.text, post.createTime
     </select>
 
