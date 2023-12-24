@@ -1,9 +1,11 @@
 package com.acn.controller;
 
+import com.acn.bean.Illegal;
 import com.acn.bean.User;
 import com.acn.bean.view.Comment;
 import com.acn.bean.view.Post;
 import com.acn.service.CommentService;
+import com.acn.service.IllegalService;
 import com.acn.service.PostService;
 import com.acn.service.UserService;
 import com.acn.utils.JSONConstructor;
@@ -16,9 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @Description:
@@ -36,6 +37,9 @@ public class adminController {
 
     @Autowired
     CommentService commentService;
+
+    @Autowired
+    IllegalService illegalService;
 
     @GetMapping("/admin")
     public String toAdmin() {
@@ -130,7 +134,7 @@ public class adminController {
     @ResponseBody
     public String changeComment(@RequestParam("flag") int flag, @RequestParam("postId") int postId,
                                 @RequestParam("commentId") int commentId) {
-        int i = commentService.changeFlag(flag,postId,commentId);
+        int i = commentService.changeFlag(flag, postId, commentId);
         return i == 1 ? "success" : "fail";
     }
 
@@ -179,4 +183,69 @@ public class adminController {
         int i = userService.updateUser(hashMap);
         return i == 1 ? "success" : "fail";
     }
+
+    @GetMapping("/admin/Illegal")
+    public String toIllegal() {
+        return "admin/Illegal";
+    }
+
+    @GetMapping("/admin/getIllegal")
+    @ResponseBody
+    public String getIllegal() {
+        List<Illegal> illegals = illegalService.selectAllIllegals();
+        return new JSONConstructor(0, "", illegals).toString();
+    }
+
+    @PostMapping("/admin/changeIllegal")
+    @ResponseBody
+    public String changeIllegal(@RequestParam("id") int id, @RequestParam("flag") int flag) {
+        int i = illegalService.changeIllegalFlag(id, flag);
+        return i == 1 ? "success" : "fail";
+    }
+
+    @PostMapping("/admin/addIllegal")
+    @ResponseBody
+    public String addIllegal(@RequestParam("nword") String nword) {
+        Illegal illegal = new Illegal(nword, 1);
+        int i = illegalService.addIllegal(illegal);
+        return i == 1 ? "success" : "fail";
+    }
+
+    @PostMapping("/admin/checkIllAvailable")
+    @ResponseBody
+    public String checkIllAvailable(@RequestParam("nword") String nword) {
+        int i = illegalService.checkIllAvailable(nword);
+        return i == 0 ? "available" : "unavailable";
+    }
+
+    @PostMapping("/admin/deleteIll")
+    @ResponseBody
+    public String deleteIll(@RequestParam("id") int id) {
+        int i = illegalService.deleteIll(id);
+        return i == 1 ? "success" : "fail";
+    }
+
+    @GetMapping("/admin/IllegalPost")
+    public String toIllegalPost() {
+        return "admin/IllegalPost";
+    }
+
+    @GetMapping("/admin/getIllegalPostTable")
+    @ResponseBody
+    public String getIllegalPost() {
+        List<Post> posts = postService.selectAllVisiblePosts();
+        List<String> illegals = illegalService.selectAllAvailableIllegals();
+        Set<String> illegalSet = new HashSet<>(illegals);
+
+        List<Post> illegalPosts =
+                posts.parallelStream().filter(
+                        p -> illegalSet.stream().anyMatch(
+                                illegal -> p.getText().contains(illegal)
+                        )
+                ).collect(Collectors.toList());
+
+        return new JSONConstructor(0, "", illegalPosts).toString();
+    }
+
+
 }

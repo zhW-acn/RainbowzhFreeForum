@@ -16,7 +16,7 @@
 </head>
 <body>
 
-<div class="demoTable">
+<div>
     <div class="layui-inline">
         <button class="layui-btn" onclick="addAnnouncement()">新建公告</button>
     </div>
@@ -71,6 +71,7 @@
             })
         });
 
+        // 删除公告
         table.on('tool(annTable)', function (obj) {
             var data = obj.data //获得当前行数据
                 , layEvent = obj.event;
@@ -142,7 +143,6 @@
                       autocomplete="off" class="layui-input"></textarea>
             </div>
         </div>
-
         <div class="layui-form-item" align="center">
             <div class="layui-input-blockd">
                 <button class="layui-btn" lay-submit lay-filter="submit">立即提交</button>

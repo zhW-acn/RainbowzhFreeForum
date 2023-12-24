@@ -39,7 +39,7 @@ public class EchartsController {
             stringBuilder.append(
                     "{ \"name\":\"" + post.getTitle() + "\"," +
                             "\"symbolSize\":" + post.getReplyCount() * 10 + "," +
-                            "\"id\":" + post.getPostId() + "," +
+                            "\"postid\":" + post.getPostId() + "," +
                             "\"draggable\": true," +
                             "\"itemStyle\": {" +
                             "\"normal\": {" +

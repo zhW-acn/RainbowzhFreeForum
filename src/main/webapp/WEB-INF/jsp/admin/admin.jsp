@@ -62,7 +62,7 @@
                     <a href="javascript:;">帖子管理</a>
                     <dl class="layui-nav-child">
                         <dd onclick="updateIframe('admin/post')"><a href="javascript:;">所有帖子</a></dd>
-                        <dd><a href="javascript:;">违禁词管理</a></dd>
+                        <dd onclick="updateIframe('admin/Illegal')"><a href="javascript:;">违禁词管理</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -71,7 +71,7 @@
 
     <div class="layui-body">
         <!-- 内容主体区域 -->
-        <iframe id="content-frame" style="width:100%; height:100%;" src="/admin/user"></iframe>
+        <iframe scrolling="no" id="content-frame" style="width:100%; height:100%;" src="/admin/user"></iframe>
     </div>
 </div>
 <script>
@@ -83,14 +83,6 @@
         // 更新iframe的src属性
         iframe.src = url;
     }
-
-    layui.use(['element', 'layer', 'util'], function () {
-        var element = layui.element
-            , layer = layui.layer
-            , util = layui.util
-            , $ = layui.$;
-    });
-
 
 </script>
 </body>

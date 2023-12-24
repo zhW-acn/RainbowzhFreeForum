@@ -96,28 +96,30 @@
                     obj.elem.checked = !obj.elem.checked;
                     tableAll.reload();
                 });
+
         });
+        // 发送请求，更改权限
+        function changePostFlag(id, flag) {
+            $.ajax({
+                url: '/admin/changepost'
+                , type: 'post'
+                , data: {
+                    id: id,
+                    flag: flag
+                }
+                , success: function (res) {
+                    if (res === "success") {
+                        layer.msg(res)
+                        tableAll.reload();
+                    } else {
+                        layer.msg("服务器异常")
+                    }
+                }
+            })
+        }
     })
 
-    // 发送请求，更改权限
-    function changePostFlag(id, flag) {
-        $.ajax({
-            url: '/admin/changepost'
-            , type: 'post'
-            , data: {
-                id: id,
-                flag: flag
-            }
-            , success: function (res) {
-                if (res === "success") {
-                    layer.msg(res)
-                    table.reload();
-                } else {
-                    layer.msg("服务器异常")
-                }
-            }
-        })
-    }
+
 
     // 搜索用户
     $("#btn").on('click', function () {

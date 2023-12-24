@@ -100,7 +100,7 @@
 
     // 跳转
     myChart.on('click', function (params) {
-        window.location.href = '/post/' + encodeURIComponent(params.data.id);
+        window.location.href = '/post/' + encodeURIComponent(params.data.postid);
     });
 
     function draw(data) {

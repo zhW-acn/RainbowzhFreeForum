@@ -17,12 +17,6 @@
         <result property="flag" column="flag"/>
     </resultMap>
 
-    <resultMap id="postEcharts" type="com.acn.bean.view.Post">
-        <result property="postId" column="id"/>
-        <result property="title" column="title"/>
-        <result property="replyCount" column="replyCount"/>
-    </resultMap>
-
 
     <insert id="addPost" parameterType="com.acn.bean.Post">
         insert into post (title, text, userId, createTime, flag)
@@ -132,9 +126,17 @@
         where flag = -1;
     </select>
 
-    <select id="selectAllVisiblePosts" resultMap="postEcharts">
-        select post.id, post.title, count(post.id) AS replyCount
+    <select id="selectAllVisiblePosts" resultMap="postMap">
+        SELECT user.id             AS userid,
+               post.id             AS postid,
+               user.`name`,
+               post.flag,
+               post.title,
+               post.text,
+               post.createTime,
+               count(post.id) AS replyCount
         from post
+                 LEFT JOIN user ON post.userId = user.id
                  left join rainbowzh.comment c on post.id = c.postId
         where post.flag = 1
         group by post.id
