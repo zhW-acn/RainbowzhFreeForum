@@ -52,7 +52,6 @@ public class PostController {
         int start = (page - 1) * PAGE_SIZE;
 
         List<Comment> comments = commentService.selectCommentByPaging(id, start, PAGE_SIZE);
-        System.out.println(JSONArray.toJSONString(comments));
         return JSONArray.toJSONString(comments);
     }
 

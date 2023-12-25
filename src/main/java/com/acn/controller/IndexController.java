@@ -20,7 +20,7 @@ import java.util.List;
  * @Date: 2023/11/25/14:34
  */
 @Controller
-public class indexController {
+public class IndexController {
     // 分页大小
     static final int PAGE_SIZE = 4;
 
@@ -65,8 +65,8 @@ public class indexController {
         return JSONArray.toJSONString(list);
     }
 
-    @GetMapping("/hottopic")
-    public String toHotTopic(){
-        return "HotTopic";
+    @GetMapping("/hotpost")
+    public String toHotPost(){
+        return "HotPost";
     }
 }

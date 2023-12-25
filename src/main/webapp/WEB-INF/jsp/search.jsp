@@ -146,7 +146,7 @@
             </a>
         </li>
         <li class="layui-nav-item">
-            <a href="/hottopic">热门话题</a>
+            <a href="/hot">热门</a>
         </li>
     </ul>
     <%--居右--%>
@@ -227,10 +227,29 @@
 
     var dataList = [];
 
-    function load() {
+     var echartsText = '${text}'
+    // 初始加载
+    if (echartsText !== "") {
+        load(echartsText)
+    }
+    $("#doSearch").on('click', function () {
+        load("click")
+    })
+
+    function load(echartsText) {
+        var text
+        var searchType
+        if (echartsText !== "click") {
+            text = echartsText
+            searchType = 'post'
+        } else {
+            text = $('#text').val()
+            searchType = $("#select_type").val()
+        }
         $("#PostList").empty();
         dataList = [];
         layui.use('flow', function () {
+            debugger
             flow.load({
                 elem: '#PostList', //流加载容器
                 done: function (page, next) { //下一页的回调
@@ -239,8 +258,8 @@
                         type: 'POST',
                         data: {
                             page: page,
-                            searchType: $("#select_type").val(),
-                            text: $('#text').val()
+                            searchType: searchType,
+                            text: text
                         },
                         dataType: 'json',
                         success: function (data) {
@@ -280,7 +299,6 @@
                     });
                 }
             });
-
         })
     }
 
@@ -358,8 +376,5 @@
             });
         }
     }
-
-    // 初始加载
-    $("#doSearch").on('click', load)
 </script>
 </html>

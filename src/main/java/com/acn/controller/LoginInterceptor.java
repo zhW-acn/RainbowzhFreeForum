@@ -13,8 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (request.getSession().getAttribute("user") == null){
-            System.out.println("没有登录");
+        if (request.getSession().getAttribute("user") == null){// 没有登陆
             response.sendRedirect("/login");
             return false;
         }

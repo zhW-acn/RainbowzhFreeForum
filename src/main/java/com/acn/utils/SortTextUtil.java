@@ -20,10 +20,9 @@ public class SortTextUtil {
     /**
      *
      * @param text 排序文本
-     * @param topN 排序长度
      * @return list
      */
-    public static List<Map.Entry<String, Integer>> findMostCommonWords(String text, int topN) {
+    public static List<Map.Entry<String, Integer>> findMostCommonWords(String text) {
         // 去除标点符号
         text = removePunctuation(text);
 
@@ -42,12 +41,12 @@ public class SortTextUtil {
         sortedWords.sort((entry1, entry2) -> entry2.getValue().compareTo(entry1.getValue()));
 
         // 截取前topN个
-        return sortedWords.subList(0, Math.min(topN, sortedWords.size()));
+        return sortedWords;
     }
 
     private static String removePunctuation(String text) {
         // 去除标点符号
-        return text.replaceAll("[\\pP\\p{Punct}\\s]", " ");
+        return text.replaceAll("[\\pP\\p{Punct}\\s]", "");
     }
 
     public static void main(String[] args) {
@@ -55,13 +54,13 @@ public class SortTextUtil {
         ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
 
         PostService postService = classPathXmlApplicationContext.getBean("postServiceImpl", PostService.class);
-        List<Post> posts = postService.selectPostByPaging(0, 100000);
+        List<Post> posts = postService.selectAllVisiblePosts();
         StringBuilder sb = new StringBuilder();
         posts.forEach(post -> {
             sb.append(post.getText());
         });
         // 找到最频繁的5个词
-        List<Map.Entry<String, Integer>> result = findMostCommonWords(sb.toString(), 10);
+        List<Map.Entry<String, Integer>> result = findMostCommonWords(sb.toString());
 
         // 打印结果
         for (Map.Entry<String, Integer> entry : result) {

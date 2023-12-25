@@ -33,7 +33,7 @@
 
         <mvc:interceptor>
             <mvc:mapping path="/admin/**"/>
-            <bean class="com.acn.controller.adminInterceptor"/>
+            <bean class="com.acn.controller.AdminInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 

@@ -55,7 +55,6 @@ public class adminController {
     @ResponseBody
     public String getAnnouncement() {
         List<Post> posts = postService.selectAllAnnouncements();
-        System.out.println(new JSONConstructor(0, "公告", posts));
         return new JSONConstructor(0, "公告", posts).toString();
     }
 

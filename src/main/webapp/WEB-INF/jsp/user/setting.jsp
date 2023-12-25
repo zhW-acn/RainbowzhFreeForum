@@ -107,7 +107,7 @@
             </a>
         </li>
         <li class="layui-nav-item">
-            <a href="/hottopic">热门话题</a>
+            <a href="/hot">热门</a>
         </li>
         <li class="layui-nav-item">
             <a href="/search">去搜索</a>

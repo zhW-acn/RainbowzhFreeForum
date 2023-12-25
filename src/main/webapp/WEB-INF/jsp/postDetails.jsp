@@ -180,7 +180,7 @@
             </a>
         </li>
         <li class="layui-nav-item">
-            <a href="/hottopic">热门话题</a>
+            <a href="/hot">热门</a>
         </li>
         <li class="layui-nav-item">
             <a href="/search">去搜索</a>
@@ -250,8 +250,7 @@
 <script>
     var layer = layui.layer;
     // 评论总数
-    var count =
-    ${count}
+    var count = ${count}
     // 当前登录的用户id，没有为false
     var currentUserId = <%=user==null?false:user.getId()%>;
     window.onload = function () {

@@ -11,14 +11,13 @@ import javax.servlet.http.HttpServletResponse;
  * @Author: acn
  * @Date: 2023/12/19/19:57
  */
-public class adminInterceptor implements HandlerInterceptor {
+public class AdminInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         User user = (User)request.getSession().getAttribute("user");
 
-        if (Integer.parseInt(user.getBanTime()) != -1){
-            System.out.println("没有权限");
+        if (Integer.parseInt(user.getBanTime()) != -1){// 没有权限
             response.sendRedirect("/");
             return false;
         }

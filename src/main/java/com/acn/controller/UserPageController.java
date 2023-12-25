@@ -59,7 +59,6 @@ public class UserPageController {
     @ResponseBody
     public String commentsList(@PathVariable int userId) {
         List<UserComment> comments = commentService.selectAllCommentsByUserId(userId);
-        System.out.println(JSONArray.toJSONString(comments));
         return JSONArray.toJSONString(comments);
     }
 
