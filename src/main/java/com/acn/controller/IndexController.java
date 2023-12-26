@@ -1,6 +1,9 @@
 package com.acn.controller;
 
+import com.acn.bean.User;
+import com.acn.bean.view.Comment;
 import com.acn.bean.view.Post;
+import com.acn.service.CommentService;
 import com.acn.service.PostService;
 import com.acn.service.UserService;
 import com.alibaba.fastjson.JSONArray;
@@ -12,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -29,6 +36,9 @@ public class IndexController {
 
     @Autowired
     PostService postService;
+
+    @Autowired
+    CommentService commentService;
 
     /**
      * 查询PAGE_SIZE条帖子，没有登录不能查看帖子和【加载更多】
@@ -68,5 +78,23 @@ public class IndexController {
     @GetMapping("/hotpost")
     public String toHotPost(){
         return "HotPost";
+    }
+
+    @GetMapping("/getmessage")
+    @ResponseBody
+    public String getMessage(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+
+        // 查询评论数
+        List<Comment> unreadCommentId = commentService.selectUnreadComment(user.getId());
+
+        // 更新最后访问"消息"的时间
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("id",user.getId());
+        hashMap.put("lastVisit",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+        userService.updateUser(hashMap);
+
+        return String.valueOf(unreadCommentId.size());
     }
 }

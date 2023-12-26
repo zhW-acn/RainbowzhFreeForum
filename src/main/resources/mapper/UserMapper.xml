@@ -11,7 +11,7 @@
         <result property="password" column="pass"/>
         <result property="birthday" column="birthday"/>
         <result property="banTime" column="banTime"/>
-        <result property="visits" column="visits"/>
+        <result property="lastVisit" column="lastVisit"/>
     </resultMap>
 
 
@@ -39,6 +39,9 @@
             </if>
             <if test="banTime!=null">
                 banTime = #{banTime},
+            </if>
+            <if test="lastVisit!=null and lastVisit!=''">
+                lastVisit = #{lastVisit},
             </if>
         </set>
         <where>
@@ -76,8 +79,8 @@
             <if test="birthday!=null and birthday!=''">
                 and birthday = #{birthday}
             </if>
-            <if test="visits!=null and visits!=''">
-                and visits = #{visits}
+            <if test="lastVisit!=null and lastVisit!=''">
+                and lastVisit = #{lastVisit}
             </if>
         </trim>
     </select>

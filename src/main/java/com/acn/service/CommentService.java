@@ -1,7 +1,6 @@
 package com.acn.service;
 
 import com.acn.bean.view.Comment;
-import com.acn.bean.view.Post;
 import com.acn.bean.view.UserComment;
 import org.apache.ibatis.annotations.Param;
 
@@ -22,6 +21,16 @@ public interface CommentService {
      * 根据post的id查找评论 管理员查找
      */
     List<Comment> adminSelectAllComments(int postId);
+
+    /**
+     * 查找未读评论
+     */
+    List<Comment> selectUnreadComment(int id);
+
+    /**
+     * 查找一个用户收到的所有评论
+     */
+    List<Comment> selectComment(int id);
 
 
     /**

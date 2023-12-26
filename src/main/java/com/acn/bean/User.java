@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 
 /**
  * @Description: 用户类
@@ -43,9 +45,9 @@ public class User {
     private String banTime;
 
     /**
-     * 访问次数
+     * 最后一次访问消息时间
      */
-    private int visits;
+    private Date lastVisit;
 
     /**
      * 头像

@@ -166,6 +166,11 @@
         <li class="layui-nav-item">
             <a href="/user/${user.id}/post">去发帖</a>
         </li>
+        <li class="layui-nav-item">
+            <a href="/user/${user.id}/message">
+                消息<span class="layui-badge" id="message"></span>
+            </a>
+        </li>
         <%}%>
         <%--用户信息--%>
         <li class="layui-nav-item">
@@ -321,16 +326,16 @@
                     var announcementDiv = $("<div>").attr("style", "background-color: hotpink").click(function () {
                         layer.open({// 添加点击事件
                             type: 1
-                            ,title: false
-                            ,closeBtn: false
-                            ,area: '300px;'
-                            ,shade: 0.8
-                            ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
-                            ,btn: ['确定']
-                            ,btnAlign: 'c'
-                            ,moveType: 1
-                            ,content:
-                                '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">'+text+'</div>'
+                            , title: false
+                            , closeBtn: false
+                            , area: '300px;'
+                            , shade: 0.8
+                            , id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                            , btn: ['确定']
+                            , btnAlign: 'c'
+                            , moveType: 1
+                            , content:
+                                '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">' + text + '</div>'
                         });
                     });
                     var announcementParagraph = $("<p>").text(announcements[i].title);
@@ -350,6 +355,17 @@
                     , width: '70%'
                 });
             }
+        })
+    }
+
+    if (currentUserId !== false) {
+        $.ajax({
+            url: '/getmessage',
+            type: 'get',
+            success: function (res) {
+                $("#message").text(res)
+            }
+
         })
     }
 </script>

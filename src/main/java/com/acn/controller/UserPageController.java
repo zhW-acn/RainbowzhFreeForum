@@ -1,6 +1,7 @@
 package com.acn.controller;
 
 import com.acn.bean.User;
+import com.acn.bean.view.Comment;
 import com.acn.bean.view.Post;
 import com.acn.bean.view.UserComment;
 import com.acn.service.CommentService;
@@ -8,6 +9,7 @@ import com.acn.service.PostService;
 import com.acn.service.UserService;
 import com.acn.utils.JSONConstructor;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -81,4 +83,31 @@ public class UserPageController {
         return i == 1 ? new JSONConstructor(postId, "成功", "success").toString() :
                 new JSONConstructor(0, "失败", "fail").toString();
     }
+
+    @GetMapping("/message")
+    public String toMessage(@PathVariable String userId){
+
+        return "user/message";
+    }
+
+    @PostMapping("/message")
+    @ResponseBody
+    public String getMessage(@PathVariable int userId){
+
+        // 得到未读消息ID列表
+        List<Comment> unreadComment = commentService.selectUnreadComment(userId);
+
+        // 全部消息
+        List<Comment> readedComment = commentService.selectComment(userId);
+
+        // 从全部消息中移除未读消息
+        readedComment.removeAll(unreadComment);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("unread",unreadComment);
+        jsonObject.put("readed",readedComment);
+
+        return jsonObject.toJSONString();
+    }
+
 }

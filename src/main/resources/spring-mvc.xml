@@ -2,7 +2,6 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:c="http://www.springframework.org/schema/c"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="
@@ -33,6 +32,7 @@
 
         <mvc:interceptor>
             <mvc:mapping path="/admin/**"/>
+            <mvc:mapping path="/hot"/>
             <bean class="com.acn.controller.AdminInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>

@@ -16,6 +16,7 @@ public class Comment {
     private int id;
     private String commentText;
     private int postId;
+    private String postTitle;
     private int userId;
     private String userAvatar;
     private String username;

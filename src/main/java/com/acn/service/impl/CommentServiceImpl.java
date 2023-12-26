@@ -7,6 +7,7 @@ import com.acn.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,6 +29,16 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<com.acn.bean.view.Comment> adminSelectAllComments(int postId) {
         return commentMapper.adminSelectAllComments(postId);
+    }
+
+    @Override
+    public List<com.acn.bean.view.Comment> selectUnreadComment(int id) {
+        return commentMapper.selectUnreadComment(id);
+    }
+
+    @Override
+    public List<com.acn.bean.view.Comment> selectComment(int id) {
+        return commentMapper.selectComment(id);
     }
 
     @Override

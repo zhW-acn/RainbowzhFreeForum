@@ -1,6 +1,7 @@
-<%@ page import="com.acn.bean.User" %><%--
+<%@ page import="com.acn.bean.User" %>
+<%--
   User: acane
-  Date: 2023/12/2
+  Date: 2023/12/26
   --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%
@@ -10,9 +11,9 @@
 %>
 <html>
 <head>
-    <title>搜索页面</title>
+    <title>${user.username}的消息</title>
     <base href="<%=basePath%>">
-    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
     <script src="https://www.layuicdn.com/auto/layui.js" v="2.8.0"></script>
     <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.8.0/css/layui.css"/>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
@@ -148,6 +149,9 @@
         <li class="layui-nav-item">
             <a href="/hot">热门</a>
         </li>
+        <li class="layui-nav-item">
+            <a href="/search">去搜索</a>
+        </li>
     </ul>
     <%--居右--%>
     <ul class="layui-nav layui-layout-right layui-bg-green" style="white-space: nowrap;!important;">
@@ -170,10 +174,13 @@
         <li class="layui-nav-item" lay-unselect="">
             <img class="layui-nav-img" src="${user == null?"/img/default-avatar.png":user.avatar}">
             <%--这里点击退出清除session域，并刷新页面--%>
+            <%if (user == null) {%>
+            <%} else {%>
             <dl class="layui-nav-child">
                 <dd style="text-align: center;"><a href="/setting">设置</a></dd>
                 <dd style="text-align: center;"><a href="/logout">退出</a></dd>
             </dl>
+            <%}%>
         </li>
         <%--管理员面板跳转按钮--%>
         <%if (user != null && Integer.parseInt(user.getBanTime()) == -1) {%>
@@ -184,113 +191,52 @@
         </li>
     </ul>
 </div>
-<%--搜索栏--%>
-<div class="layui-form-item" id="search">
-    <div class="layui-inline">
-        <label class="layui-form-label">查找</label>
-        <div class="layui-input-inline">
-            <input type="text" id="text" required placeholder="请输入" class="layui-input" autocomplete="off">
-        </div>
-    </div>
 
-    <div class="layui-inline">
-        <label class="layui-form-label">类型</label>
-        <div class="layui-input-inline">
-            <select name="id_type" id="select_type" class="layui-input">
-                <option value="post">帖子</option>
-                <option value="username">用户</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="layui-inline">
-        <button id="doSearch" class="layui-btn layuiadmin-btn-admin" lay-filter="LAY-user-back-search">
-            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
-        </button>
-    </div>
-
-    <%--排序--%>
-    <div>
-        <button class="layui-btn layui-btn-normal" id="sortHot">按最热</button>
-        <button class="layui-btn layui-btn-normal" id="sortNew">按最新</button>
-    </div>
-</div>
-
-
-</body>
-<%--搜索结果--%>
 <div>
-    <ul class="flow" id="PostList"></ul>
+    <ul class="flow" id="CommentList"></ul>
 </div>
 <script>
     var flow = layui.flow;
 
     var dataList = [];
 
-     var echartsText = '${text}'
-    // 初始加载
-    if (echartsText !== "") {
-        load(echartsText)
-    }
-    $("#doSearch").on('click', function () {
-        load("click")
-    })
-
-    function load(echartsText) {
-        var text
-        var searchType
-        if (echartsText !== "click") {
-            text = echartsText
-            searchType = 'post'
-        } else {
-            text = $('#text').val()
-            searchType = $("#select_type").val()
-        }
-        $("#PostList").empty();
-        dataList = [];
+    function load() {
         layui.use('flow', function () {
             flow.load({
-                elem: '#PostList', //流加载容器
+                elem: '#CommentList', //流加载容器
                 done: function (page, next) { //下一页的回调
                     $.ajax({
-                        url: '/search/',
+                        url: '/user/${user.id}/message',
                         type: 'POST',
-                        data: {
-                            page: page,
-                            searchType: searchType,
-                            text: text
-                        },
                         dataType: 'json',
                         success: function (data) {
-                            // 先清空之前查找的内容
-                            // $("#PostList").empty();
-                            var list = JSON.parse(data.data);
+                            var unreadList = data.unread;
+                            var readedList = data.readed;
                             var lis = [];
-                            if (data.code === 0) {// 展示用户
-                                for (var i = 0; i < list.length; i++) {
-                                    lis.push(
-                                        '<li class="users_' + list[i].id +
-                                        '" style="text-align: center; margin-top: 5px">' +
-                                        /*帖子*/
-                                        '<div class="outer-container">' +
-                                        '<div class="container">' +
-                                        '<div class="avatar-container">' +
-                                        '<img src="' + list[i].avatar +
-                                        '" class="avatar layui-circle" alt="用户头像"> ' +
-                                        '</div> ' +
-                                        '<div class="middle-container"> ' +
-                                        '<div class="username" style="font-size: 500%">' +
-                                        list[i].username +
-                                        '</div> ' +
-                                        '</div>' +
-                                        '</li>'
-                                    );
-                                }
-                            } else if (data.code === 1) {// 展示帖子
-                                dataList = dataList.concat(list);
-                                var lis = renderList(dataList);
-                            } else {
-                                alert("服务器出错")
+                            for (var i = 0; i < unreadList.length; i++) {
+                                lis.push(
+                                    '<li style="text-align: center; margin-top: 5px">' +
+                                    /*帖子*/
+                                    '<div class="outer-container">' +
+                                    '<div class="container">' +
+                                    '<div class="avatar-container user_' + list[i].userId + '">' +
+                                    '<img src="' + list[i].userAvatar + '" class="avatar layui-circle" alt="用户头像"> ' +
+                                    '<div class="username">' + list[i].username + '</div> ' +
+                                    '</div> ' +
+                                    '<div class="middle-container post_' + list[i].postId + '"> ' +
+                                    '<div class="title">' + list[i].title + '</div>' +
+                                    ' <div class="content hide thread-content"> ' +
+                                    '<p>' + list[i].text + '</p> ' +
+                                    '</div> ' +
+                                    '</div> ' +
+                                    '<div class="info">' +
+                                    '<p class="reply-count">' + list[i].replyCount + ' 人回帖</p>' +
+                                    '<p class="create-time">发帖时间: ' + list[i].createtime + '</p>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>'
+                                    + '</li>'
+                                );
                             }
                             next(lis.join(''), false);
                             bindFunction(list);
@@ -301,60 +247,7 @@
         })
     }
 
-    // 渲染列表
-    function renderList(list) {
-        var lis = [];
-        for (var i = 0; i < list.length; i++) {
-            lis.push(
-                '<li style="text-align: center; margin-top: 5px">' +
-                /*帖子*/
-                '<div class="outer-container">' +
-                '<div class="container">' +
-                '<div class="avatar-container user_' + list[i].userId + '">' +
-                '<img src="' + list[i].userAvatar + '" class="avatar layui-circle" alt="用户头像"> ' +
-                '<div class="username">' + list[i].username + '</div> ' +
-                '</div> ' +
-                '<div class="middle-container post_' + list[i].postId + '"> ' +
-                '<div class="title">' + list[i].title + '</div>' +
-                ' <div class="content hide thread-content"> ' +
-                '<p>' + list[i].text + '</p> ' +
-                '</div> ' +
-                '</div> ' +
-                '<div class="info">' +
-                '<p class="reply-count">' + list[i].replyCount + ' 人回帖</p>' +
-                '<p class="create-time">发帖时间: ' + list[i].createtime + '</p>' +
-                '</div>' +
-                '</div>' +
-                '</div>'
-                + '</li>'
-            );
-        }
-        return lis;
-    }
-
-    // 按回帖数排序
-    function sortByReplyCount() {
-        dataList.sort(function (a, b) {
-            return b.replyCount - a.replyCount;
-        });
-        var lis = renderList(dataList);
-        $("#PostList").empty().append(lis.join(''));
-        bindFunction(dataList);
-    }
-
-    // 按发帖时间排序
-    function sortByCreateTime() {
-        dataList.sort(function (a, b) {
-            return new Date(b.createtime) - new Date(a.createtime);
-        });
-        var lis = renderList(dataList);
-        $("#PostList").empty().append(lis.join(''));
-        bindFunction(dataList);
-    }
-
-    // 绑定排序按钮事件
-    $("#sortHot").on('click', sortByReplyCount);
-    $("#sortNew").on('click', sortByCreateTime);
+    load()
 
     // 绑定点击事件函数
     function bindFunction(list) {
@@ -376,4 +269,6 @@
         }
     }
 </script>
+
+</body>
 </html>

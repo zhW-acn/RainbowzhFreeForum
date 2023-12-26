@@ -9,6 +9,7 @@
         <result property="id" column="id"/>
         <result property="commentText" column="comment_text"/>
         <result property="postId" column="postId"/>
+        <result property="postTitle" column="title"/>
         <result property="userId" column="userId"/>
         <result property="userAvatar" column="userAvatar"/>
         <result property="username" column="name"/>
@@ -87,6 +88,42 @@
         WHERE user.id = #{userId}
           and post.flag != 0
             and comment.flag != 0;
+    </select>
+    <select id="selectUnreadComment" resultMap="commentMap">
+        select `comment`.comment_text,
+               `user`.`name`,
+               `user`.id as userId,
+               `user`.avatar AS userAvatar,
+               post.title,
+               `comment`.createTime
+        from `comment`
+                 left join post on post.id = `comment`.postId
+                 left join user on user.id = `comment`.userId
+        where post.id in (select post.id
+                          from post
+                                   left join user on user.id = post.userId
+                          where user.id = #{id}
+                            and post.flag = 1)
+          and `comment`.flag = 1
+          and `comment`.createTime > `user`.lastVisit
+    </select>
+
+    <select id="selectComment" resultMap="commentMap">
+        select `comment`.comment_text,
+               `user`.`name`,
+               `user`.id as userId,
+               `user`.avatar AS userAvatar,
+               post.title,
+               `comment`.createTime
+        from `comment`
+                 left join post on post.id = `comment`.postId
+                 left join user on user.id = `comment`.userId
+        where post.id in (select post.id
+                          from post
+                                   left join user on user.id = post.userId
+                          where user.id = #{id}
+                            and post.flag = 1)
+          and `comment`.flag = 1
     </select>
 
 

@@ -4,6 +4,7 @@ import com.acn.bean.view.Comment;
 import com.acn.bean.view.UserComment;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,7 +18,8 @@ public interface CommentMapper {
 
     // r
     List<Comment> selectAllComments(@Param("id") int postId);
-     // r
+
+    // r
     List<Comment> adminSelectAllComments(@Param("id") int postId);
 
     // r by one post
@@ -35,5 +37,10 @@ public interface CommentMapper {
     List<Comment> selectCommentsByPaging(@Param("id") int id, @Param("page") int page, @Param("pageSize") int pageSize);
 
     // u
-    int changeFlag(@Param("flag") int flag,@Param("postId") int postId,@Param("commentId") int commentId);
+    int changeFlag(@Param("flag") int flag, @Param("postId") int postId, @Param("commentId") int commentId);
+
+
+    List<Comment> selectUnreadComment(@Param("id") int id);
+
+    List<Comment> selectComment(int id);
 }
