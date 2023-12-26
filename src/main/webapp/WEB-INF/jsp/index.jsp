@@ -327,6 +327,7 @@
                         layer.open({// 添加点击事件
                             type: 1
                             , title: false
+                            , offset: 't'
                             , closeBtn: false
                             , area: '300px;'
                             , shade: 0.8
