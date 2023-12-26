@@ -166,6 +166,3 @@ form.on('submit(submitIll)', function () {
 完善密码加盐加密
 
 修改了部分前端样式
-## TODO
-
-1. uuid
