@@ -26,8 +26,6 @@ public class FileUpload {
                 System.out.println(username + "文件夹创建成功");
                 new File(userPath + File.separator + "avatar").mkdir();
                 System.out.println(username + "avatar子文件夹创建成功");
-                new File(userPath + File.separator + "post").mkdir();
-                System.out.println(username + "post子文件夹创建成功");
 
             } else {
                 System.out.println("文件夹创建失败");
