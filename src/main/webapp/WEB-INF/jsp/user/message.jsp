@@ -16,7 +16,7 @@
     <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
     <script src="https://www.layuicdn.com/auto/layui.js" v="2.8.0"></script>
     <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.8.0/css/layui.css"/>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js"></script>
     <style>
         body {
             margin: 0;
@@ -150,14 +150,14 @@
             <a href="/hot">热门</a>
         </li>
         <li class="layui-nav-item">
-            <a href="/search">去搜索</a>
+            <a href="/search">搜索</a>
         </li>
     </ul>
     <%--居右--%>
     <ul class="layui-nav layui-layout-right layui-bg-green" style="white-space: nowrap;!important;">
         <%if (user != null) {%>
         <li class="layui-nav-item">
-            <a href="/user/${user.id}/post">去发帖</a>
+            <a href="/user/${user.id}/post">发帖</a>
         </li>
         <%}%>
         <%--用户信息--%>
@@ -193,61 +193,86 @@
 </div>
 
 <div>
-    <ul class="flow" id="CommentList"></ul>
+    <fieldset class="layui-elem-field layui-field-title">
+        <legend style="font-size: 50px;font-family: 幼圆;">未读评论</legend>
+        <ul class="flow" id="UnreadCommentList"></ul>
+    </fieldset>
+
+    <fieldset class="layui-elem-field layui-field-title">
+        <legend style="font-size: 50px;font-family: 幼圆;">已读评论</legend>
+        <ul class="flow" id="ReadedCommentList"></ul>
+    </fieldset>
 </div>
 <script>
     var flow = layui.flow;
 
-    var dataList = [];
+    var unreadList;
 
-    function load() {
+    var readedList;
+
+
+    window.onload = function () {
         layui.use('flow', function () {
-            flow.load({
-                elem: '#CommentList', //流加载容器
-                done: function (page, next) { //下一页的回调
-                    $.ajax({
-                        url: '/user/${user.id}/message',
-                        type: 'POST',
-                        dataType: 'json',
-                        success: function (data) {
-                            var unreadList = data.unread;
-                            var readedList = data.readed;
-                            var lis = [];
-                            for (var i = 0; i < unreadList.length; i++) {
-                                lis.push(
-                                    '<li style="text-align: center; margin-top: 5px">' +
-                                    /*帖子*/
-                                    '<div class="outer-container">' +
-                                    '<div class="container">' +
-                                    '<div class="avatar-container user_' + list[i].userId + '">' +
-                                    '<img src="' + list[i].userAvatar + '" class="avatar layui-circle" alt="用户头像"> ' +
-                                    '<div class="username">' + list[i].username + '</div> ' +
-                                    '</div> ' +
-                                    '<div class="middle-container post_' + list[i].postId + '"> ' +
-                                    '<div class="title">' + list[i].title + '</div>' +
-                                    ' <div class="content hide thread-content"> ' +
-                                    '<p>' + list[i].text + '</p> ' +
-                                    '</div> ' +
-                                    '</div> ' +
-                                    '<div class="info">' +
-                                    '<p class="reply-count">' + list[i].replyCount + ' 人回帖</p>' +
-                                    '<p class="create-time">发帖时间: ' + list[i].createtime + '</p>' +
-                                    '</div>' +
-                                    '</div>' +
-                                    '</div>'
-                                    + '</li>'
-                                );
-                            }
-                            next(lis.join(''), false);
-                            bindFunction(list);
+            $.ajax({
+                url: '/user/${user.id}/message',
+                type: 'POST',
+                dataType: 'json',
+                success: function (data) {
+                    unreadList = data.unread;
+                    readedList = data.readed;
+
+                    flow.load({
+                        elem: '#UnreadCommentList',
+                        done: function (page, next) {
+                            addList(page, next, unreadList)
                         }
-                    });
+                    })
+                    flow.load({
+                        elem: '#ReadedCommentList',
+                        done: function (page, next) {
+                            addList(page, next, readedList)
+                        }
+                    })
+
                 }
-            });
+            })
         })
     }
 
-    load()
+
+    function addList(page, next, list) {
+        var lis = [];
+        if(list.length === 0){
+            next(lis.join(''), false);
+            return false;
+        }
+        for (var i = 0; i < list.length; i++) {
+            lis.push(
+                '<li style="text-align: center; margin-top: 5px">' +
+                '<div class="outer-container">' +
+                '<div class="container">' +
+                '<div class="avatar-container user_' + list[i].userId + '">' +
+                '<img src="' + list[i].userAvatar + '" class="avatar layui-circle" alt="用户头像"> ' +
+                '<div class="username">' + list[i].username + '</div> ' +
+                '</div> ' +
+                '<div class="middle-container post_' + list[i].postId + '"> ' +
+                '<div class="title">' + list[i].postTitle + '</div>' +
+                ' <div class="content hide thread-content"> ' +
+                '<p>' + list[i].commentText + '</p> ' +
+                '</div> ' +
+                '</div> ' +
+                '<div class="info">' +
+                '<p class="create-time">评论时间: ' + list[i].createtime + '</p>' +
+                '</div>' +
+                '</div>' +
+                '</div>'
+                + '</li>'
+            );
+            next(lis.join(''), false);
+        }
+        bindFunction(list);
+    }
+
 
     // 绑定点击事件函数
     function bindFunction(list) {

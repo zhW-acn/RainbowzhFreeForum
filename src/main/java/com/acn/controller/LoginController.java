@@ -1,6 +1,7 @@
 package com.acn.controller;
 
 import com.acn.bean.User;
+import com.acn.constant.Constant;
 import com.acn.service.UserService;
 import com.acn.utils.FileUpload;
 import com.acn.utils.JSONConstructor;
@@ -67,10 +68,10 @@ public class LoginController {
 
         // 存在用户且不为注销用户，登录；不存在，重新登陆
         if (user != null) {
-            if(user.getBanTime().equals("-2")){
+            if(Integer.parseInt(user.getBanTime()) == Constant.USER_Unregistered){
                 return new JSONConstructor(-2, "成功", "success").toString();
             }
-            if(user.getBanTime().equals("-3")){
+            if(Integer.parseInt(user.getBanTime()) == Constant.USER_Ban){
                 return new JSONConstructor(-3, "成功", "success").toString();
             }
 

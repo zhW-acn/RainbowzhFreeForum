@@ -16,7 +16,7 @@
     <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
     <script src="https://www.layuicdn.com/auto/layui.js" v="2.8.0"></script>
     <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.8.0/css/layui.css"/>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js"></script>
     <style>
         video {
             height: 100%;
@@ -188,22 +188,21 @@
             <a href="/hot">热门</a>
         </li>
         <li class="layui-nav-item">
-            <a href="/search">去搜索</a>
+            <a href="/search">搜索</a>
         </li>
     </ul>
     <%--居右--%>
     <ul class="layui-nav layui-layout-right layui-bg-green" style="white-space: nowrap;!important;">
         <%if (user != null) {%>
         <li class="layui-nav-item">
-            <a href="/user/${user.id}/post">去发帖</a>
-        </li>
-        <%}%>
-        <%--用户信息--%>
-        <li class="layui-nav-item">
-            <a href="/user/${user.id}">
-                ${user.username}
+            <a href="/user/${user.id}/message">
+                消息<span class="layui-badge" id="message"></span>
             </a>
         </li>
+        <li class="layui-nav-item">
+            <a href="/user/${user.id}/post">发帖</a>
+        </li>
+        <%}%>
         <%--头像--%>
         <li class="layui-nav-item" lay-unselect="">
             <img class="layui-nav-img" src="${user == null?"/img/default-avatar.png":user.avatar}">
@@ -256,7 +255,7 @@
 </div>
 <script>
     // 当前登录的用户id，没有为false
-    var currentUserId = <%=user==null?false:user.getId()%>;
+    currentUserId = <%=user==null?false:user.getId()%>;
     window.onload = function () {
         if (currentUserId === false) {
             alert("请登录")
@@ -305,7 +304,8 @@
                                 '<p>' + list[i].replyCount + ' 人回帖</p>' +
                                 '<p>发帖时间: ' + list[i].createtime + '</p>' +
                                 <%if(user.getId()==userOwner.getId()){%>
-                                '<button class="deleteBtn" onclick="clickDelete(' + list[i].postId + ')">删除该帖' + '</button>' +
+                                '<button class="layui-btn layui-btn-danger deleteBtn" onclick="clickDelete(' +
+                                list[i].postId + ')">删除该帖' + '</button>' +
                                 <%}%>
                                 '</div>' +
                                 '</div>' +
@@ -346,7 +346,8 @@
                                 '</div>' +
                                 '<div class="comment">' +
                                 '<p>' + list[i].comment_text + '</p>' +
-                                '<button class="layui-btn delete-button" onclick="deleteComment(' + list[i].postId + ',' + list[i].commentId + ')">点击删除</button>' +
+                                '<button class="layui-btn layui-btn-danger delete-button" onclick="deleteComment(' +
+                                list[i].postId + ',' + list[i].commentId + ')">点击删除</button>' +
                                 '<div class="comment-time">' + list[i].createTime + '</div>' +
                                 '</div>' +
                                 '</div>' +
@@ -410,6 +411,17 @@
                     layer.msg("服务器异常", {offset: 't'})
                 }
             }
+        })
+    }
+
+    if (currentUserId !== false) {
+        $.ajax({
+            url: '/getmessage',
+            type: 'get',
+            success: function (res) {
+                $("#message").text(res)
+            }
+
         })
     }
 </script>

@@ -1,8 +1,10 @@
 package com.acn.service.impl;
 
 import com.acn.bean.User;
+import com.acn.constant.Constant;
 import com.acn.dao.UserMapper;
 import com.acn.service.UserService;
+import com.acn.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
@@ -23,11 +25,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int insertUser(User user) {
+        user.setPassword(MD5Util.digest(user.getPassword()));
         return userMapper.insertUser(user);
     }
 
     @Override
     public User selectUserByCond(HashMap<String, Object> hashMap) {
+        if(hashMap.get("password") !=null){
+            String digest = MD5Util.digest(hashMap.get("password").toString());
+            hashMap.put("password",digest);
+        }
         return userMapper.selectUserByCond(hashMap);
     }
 
@@ -59,6 +66,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int updateUser(HashMap<String, Object> hashMap) {
+        if(hashMap.get("password") !=null){
+            String digest = MD5Util.digest(hashMap.get("password").toString());
+            hashMap.put("password",digest);
+        }
         return userMapper.updateUser(hashMap);
     }
 

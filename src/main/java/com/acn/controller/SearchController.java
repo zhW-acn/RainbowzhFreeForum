@@ -11,10 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -52,6 +48,9 @@ public class SearchController {
         }
     }
 
+    /**
+     * 热门请求的搜索
+     */
     @GetMapping("/{text}")
     public String topicRequest(@PathVariable String text, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("text", text);

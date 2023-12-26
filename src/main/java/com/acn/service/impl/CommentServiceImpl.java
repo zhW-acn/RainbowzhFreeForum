@@ -1,13 +1,11 @@
 package com.acn.service.impl;
 
-import com.acn.bean.Comment;
 import com.acn.bean.view.UserComment;
 import com.acn.dao.CommentMapper;
 import com.acn.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 /**

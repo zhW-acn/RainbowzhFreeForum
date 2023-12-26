@@ -26,13 +26,12 @@
             <mvc:mapping path="/search/**"/>
             <mvc:mapping path="/setting"/>
             <mvc:mapping path="/admin/**"/>
-            <mvc:mapping path="/hottopic"/>
+            <mvc:mapping path="/hot"/>
             <bean class="com.acn.controller.LoginInterceptor" />
         </mvc:interceptor>
 
         <mvc:interceptor>
             <mvc:mapping path="/admin/**"/>
-            <mvc:mapping path="/hot"/>
             <bean class="com.acn.controller.AdminInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
@@ -53,11 +52,6 @@
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
-
-    <!--资源过滤-->
-    <mvc:resources location="/" mapping="/*.html"/>
-    <mvc:resources location="/" mapping="/*.css"/>
-    <mvc:resources location="/" mapping="/*.js"/>
 
     <!--视图解析器-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" id="internalResourceViewResolver"

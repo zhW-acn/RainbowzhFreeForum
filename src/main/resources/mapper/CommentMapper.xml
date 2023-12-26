@@ -94,6 +94,7 @@
                `user`.`name`,
                `user`.id as userId,
                `user`.avatar AS userAvatar,
+               `comment`.postId,
                post.title,
                `comment`.createTime
         from `comment`
@@ -113,6 +114,7 @@
                `user`.`name`,
                `user`.id as userId,
                `user`.avatar AS userAvatar,
+               `comment`.postId,
                post.title,
                `comment`.createTime
         from `comment`

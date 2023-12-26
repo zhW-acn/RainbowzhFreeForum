@@ -1,6 +1,7 @@
 package com.acn.controller;
 
 import com.acn.bean.User;
+import com.acn.constant.Constant;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,7 @@ public class AdminInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         User user = (User)request.getSession().getAttribute("user");
 
-        if (Integer.parseInt(user.getBanTime()) != -1){// 没有权限
+        if (Integer.parseInt(user.getBanTime()) != Constant.USER_ADMIN){// 没有权限
             response.sendRedirect("/");
             return false;
         }

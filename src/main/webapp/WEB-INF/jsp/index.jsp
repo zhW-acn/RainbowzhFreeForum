@@ -17,7 +17,7 @@
     <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
     <script src="https://www.layuicdn.com/auto/layui.js" v="2.8.0"></script>
     <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.8.0/css/layui.css"/>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js"></script>
     <style>
         body {
             background-color: white;
@@ -157,19 +157,19 @@
             <a href="/hot">热门</a>
         </li>
         <li class="layui-nav-item">
-            <a href="/search">去搜索</a>
+            <a href="/search">搜索</a>
         </li>
     </ul>
     <%--居右--%>
     <ul class="layui-nav layui-layout-right layui-bg-green" style="white-space: nowrap;!important;">
         <%if (user != null) {%>
         <li class="layui-nav-item">
-            <a href="/user/${user.id}/post">去发帖</a>
-        </li>
-        <li class="layui-nav-item">
             <a href="/user/${user.id}/message">
                 消息<span class="layui-badge" id="message"></span>
             </a>
+        </li>
+        <li class="layui-nav-item">
+            <a href="/user/${user.id}/post">去发帖</a>
         </li>
         <%}%>
         <%--用户信息--%>

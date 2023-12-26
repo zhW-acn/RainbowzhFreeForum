@@ -4,6 +4,7 @@ import com.acn.bean.User;
 import com.acn.bean.view.UserUpdateForm;
 import com.acn.service.UserService;
 import com.acn.utils.FileUpload;
+import com.acn.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,7 @@ public class UserSettingController {
     @ResponseBody
     public String updateUserInfo(UserUpdateForm userUpdateForm, HttpSession session) {
         User user = (User) session.getAttribute("user");
-        if (!Objects.equals(user.getPassword(), userUpdateForm.getOldPassword())) {
+        if (!Objects.equals(user.getPassword(), MD5Util.digest(userUpdateForm.getOldPassword()))) {
             // 匹配密码
             return "falsePassword";
         }

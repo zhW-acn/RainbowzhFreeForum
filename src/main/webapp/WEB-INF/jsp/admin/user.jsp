@@ -14,6 +14,7 @@
     <link rel="icon" href="img/favicon.ico" type="image/x-icon">
     <script src="https://www.layuicdn.com/auto/layui.js" v="2.8.0"></script>
     <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.8.0/css/layui.css"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
     <script src="//unpkg.com/layui@2.7.6/dist/layui.js"></script>
     <style>
         .layui-table-cell {

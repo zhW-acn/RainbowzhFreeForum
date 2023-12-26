@@ -15,7 +15,7 @@
     <link rel="icon" href="img/favicon.ico" type="image/x-icon">
     <script src="https://www.layuicdn.com/auto/layui.js" v="2.8.0"></script>
     <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.8.0/css/layui.css"/>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js"></script>
     <style>
         body {
             margin: 0;
@@ -153,7 +153,12 @@
     <ul class="layui-nav layui-layout-right layui-bg-green" style="white-space: nowrap;!important;">
         <%if (user != null) {%>
         <li class="layui-nav-item">
-            <a href="/user/${user.id}/post">去发帖</a>
+            <a href="/user/${user.id}/message">
+                消息<span class="layui-badge" id="message"></span>
+            </a>
+        </li>
+        <li class="layui-nav-item">
+            <a href="/user/${user.id}/post">发帖</a>
         </li>
         <%}%>
         <%--用户信息--%>
@@ -223,6 +228,7 @@
     <ul class="flow" id="PostList"></ul>
 </div>
 <script>
+    currentUserId = <%=user==null?false:user.getId()%>;
     var flow = layui.flow;
 
     var dataList = [];
@@ -374,6 +380,17 @@
                 location.href = "/post/" + $(this).attr('class').replace("middle-container post_", "");
             });
         }
+    }
+
+    if (currentUserId !== false) {
+        $.ajax({
+            url: '/getmessage',
+            type: 'get',
+            success: function (res) {
+                $("#message").text(res)
+            }
+
+        })
     }
 </script>
 </html>

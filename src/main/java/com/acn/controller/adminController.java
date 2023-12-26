@@ -4,12 +4,12 @@ import com.acn.bean.Illegal;
 import com.acn.bean.User;
 import com.acn.bean.view.Comment;
 import com.acn.bean.view.Post;
+import com.acn.constant.Constant;
 import com.acn.service.CommentService;
 import com.acn.service.IllegalService;
 import com.acn.service.PostService;
 import com.acn.service.UserService;
 import com.acn.utils.JSONConstructor;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -150,7 +150,7 @@ public class adminController {
         User user = (User) session.getAttribute("user");
         com.acn.bean.Post post = new com.acn.bean.Post(title, text, user.getId(), new SimpleDateFormat("yyyy-MM-dd " +
                 "HH:mm:ss").format(new Date()),
-                -1);
+                Constant.POST_ANNOUNCEMENT);
         int i = postService.addPost(post);
         return i == 1 ? "success" : "fail";
     }
@@ -205,7 +205,7 @@ public class adminController {
     @PostMapping("/admin/addIllegal")
     @ResponseBody
     public String addIllegal(@RequestParam("nword") String nword) {
-        Illegal illegal = new Illegal(nword, 1);
+        Illegal illegal = new Illegal(nword, Constant.NWORD_ON);
         int i = illegalService.addIllegal(illegal);
         return i == 1 ? "success" : "fail";
     }

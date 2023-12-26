@@ -2,6 +2,7 @@ package com.acn.controller;
 
 import com.acn.bean.view.Comment;
 import com.acn.bean.view.Post;
+import com.acn.constant.Constant;
 import com.acn.service.CommentService;
 import com.acn.service.PostService;
 import com.alibaba.fastjson.JSONArray;
@@ -64,7 +65,7 @@ public class PostController {
             @RequestParam("userId") int userId) {
 
         commentService.addComment(new com.acn.bean.Comment(commentText, postId, userId,
-                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()), 1));
+                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()), Constant.POST_NORMAL));
         return "success";
     }
 
@@ -72,7 +73,7 @@ public class PostController {
     @PostMapping("/delete/{id}")
     @ResponseBody
     public String deletePost(@PathVariable int id) {
-        int i = postService.changeFlag(id, 0);
+        int i = postService.changeFlag(id, Constant.POST_BAN);
         return i == 1 ? "success" : "fail";
     }
 
@@ -80,7 +81,7 @@ public class PostController {
     @PostMapping("/deleteComment/{commentId}")
     @ResponseBody
     public String deleteComment(@PathVariable("id") int postId, @PathVariable int commentId) {
-        int i = commentService.changeFlag(0, postId, commentId);
+        int i = commentService.changeFlag(Constant.POST_BAN, postId, commentId);
         return i == 1 ? "success" : "fail";
     }
 }

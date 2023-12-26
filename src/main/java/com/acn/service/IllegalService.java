@@ -1,7 +1,6 @@
 package com.acn.service;
 
 import com.acn.bean.Illegal;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

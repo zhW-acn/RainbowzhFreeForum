@@ -4,6 +4,7 @@ import com.acn.bean.User;
 import com.acn.bean.view.Comment;
 import com.acn.bean.view.Post;
 import com.acn.bean.view.UserComment;
+import com.acn.constant.Constant;
 import com.acn.service.CommentService;
 import com.acn.service.PostService;
 import com.acn.service.UserService;
@@ -77,7 +78,8 @@ public class UserPageController {
     public String addPost(@PathVariable int userId, @RequestParam("title") String title,
                           @RequestParam("content") String content) {
 
-        com.acn.bean.Post post = new com.acn.bean.Post(title, content, userId, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()), 1);
+        com.acn.bean.Post post = new com.acn.bean.Post(title, content, userId, new SimpleDateFormat("yyyy-MM-dd " +
+                "HH:mm:ss").format(new Date()), Constant.POST_NORMAL);
         int i = postService.addPost(post);
         int postId = postService.selectLastPost(userId);
         return i == 1 ? new JSONConstructor(postId, "成功", "success").toString() :
