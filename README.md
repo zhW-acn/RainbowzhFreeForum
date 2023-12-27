@@ -166,3 +166,9 @@ form.on('submit(submitIll)', function () {
 完善密码加盐加密
 
 修改了部分前端样式
+
+## 12.28
+
+发现使用MD5加密的字符串在比较的时候有特殊转义，使用base64编码成字符解决了
+
+用户修改密码的时候没有输入新密码时呢哇Pass为null，使用Object.equals而非String的equals

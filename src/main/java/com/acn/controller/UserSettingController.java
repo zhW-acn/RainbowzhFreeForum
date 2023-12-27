@@ -53,7 +53,7 @@ public class UserSettingController {
         }
 
         // 用户更新了密码
-        if(userUpdateForm.getNewPassword()!=null){
+        if(!Objects.equals(userUpdateForm.getNewPassword(), "")){
             hashMap.put("password",userUpdateForm.getNewPassword());
         }
 

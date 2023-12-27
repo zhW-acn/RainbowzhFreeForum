@@ -4,6 +4,7 @@ import com.acn.constant.Constant;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
 /**
  * @Description:
@@ -20,10 +21,13 @@ public class MD5Util {
             throw new RuntimeException(e);
         }
         byte[] digest = md5.digest(saltTest.getBytes());
-        return new String(digest);
+        // 换成更友好的字符而不是乱码
+        Base64.Encoder encoder = Base64.getEncoder();
+        byte[] encode = encoder.encode(digest);
+        return new String(encode);
     }
 
     public static void main(String[] args) {
-        System.out.println(digest(""));
+        System.out.println(digest("mgsd"));
     }
 }
