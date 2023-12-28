@@ -89,12 +89,6 @@ public class IndexController {
         // 查询评论数
         List<Comment> unreadCommentId = commentService.selectUnreadComment(user.getId());
 
-        // 更新最后访问"消息"的时间
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("id",user.getId());
-        hashMap.put("lastVisit",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-        userService.updateUser(hashMap);
-
         return String.valueOf(unreadCommentId.size());
     }
 }

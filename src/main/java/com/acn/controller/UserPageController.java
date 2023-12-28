@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -95,6 +96,12 @@ public class UserPageController {
     @PostMapping("/message")
     @ResponseBody
     public String getMessage(@PathVariable int userId){
+
+        // 更新最后访问"消息"的时间
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("id",userId);
+        hashMap.put("lastVisit",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+        userService.updateUser(hashMap);
 
         // 得到未读消息ID列表
         List<Comment> unreadComment = commentService.selectUnreadComment(userId);

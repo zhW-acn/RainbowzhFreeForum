@@ -268,8 +268,8 @@
                 '</div>'
                 + '</li>'
             );
-            next(lis.join(''), false);
         }
+        next(lis.join(''), false);
         bindFunction(list);
     }
 
