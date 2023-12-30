@@ -23,7 +23,7 @@
         }
 
         body {
-            background-color: #fff;
+            background-color: #FFC3A0;
             color: #333;
             font-family: 'Arial', sans-serif;
             margin: 0;
@@ -42,7 +42,7 @@
         .avatar-container {
             flex: 1 1 20%;
             display: flex;
-            background-color: #3498db; /* 蓝色 */
+            background-color: #FFC0CB;
             flex-direction: column;
             align-items: center;
             overflow: hidden;
@@ -71,7 +71,7 @@
         }
 
         .title {
-            background-color: #3498db; /* 蓝色 */
+            background-color: #FFC0CB;
             font-weight: bold;
             font-size: 24px;
             display: flex;
@@ -83,7 +83,7 @@
         }
 
         .content {
-            background-color: #8eb4cb; /* 淡蓝色 */
+            background-color: #FFC0CC;
             flex-grow: 1;
             text-align: left;
             font-size: 18px;
@@ -119,6 +119,7 @@
         }
 
         .comment {
+            background-color: #D9A6A9;
             display: flex;
             flex-direction: row;
             border: 1px solid #ccc;
@@ -168,7 +169,7 @@
 <%--导航栏--%>
 <div class="layui-header header">
     <%--居左--%>
-    <ul class="layui-nav layui-bg-blue" lay-bar="disabled">
+    <ul class="layui-nav" style="background-color: #cabbe9">
         <%--logo--%>
         <li class="layui-nav-item">
             <%--跳转到首页--%>
@@ -187,7 +188,7 @@
         </li>
     </ul>
     <%--居右--%>
-    <ul class="layui-nav layui-layout-right layui-bg-green" style="white-space: nowrap;!important;">
+        <ul class="layui-nav layui-layout-right" style="background-color: #ffa8a8;white-space: nowrap;!important;">
         <%if (user != null) {%>
         <li class="layui-nav-item">
             <a href="/user/${user.id}/message">

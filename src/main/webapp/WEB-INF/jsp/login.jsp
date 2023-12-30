@@ -21,7 +21,7 @@
         }
 
         body {
-            background: #1E9FFF;
+            background: #FFC3A0;
         }
 
         body:after {
@@ -125,7 +125,7 @@
                 <%--这里存放上传头像和birthday的div--%>
                 <div class="layui-form-item">
                     <i class="layui-icon">&#xe67c;</i>上传头像
-                    <input type="file" class="layui-btn" id="avatar" name="avatarFile">
+                    <input type="file" class="layui-btn" lay-verify id="avatar" name="avatarFile">
                     <%--头像预览--%>
                     <img id="avatarPreview" src="" alt="预览"
                          style="max-width: 100px; max-height: 100px; display: none;">
@@ -260,7 +260,7 @@
                             }
                         },
                         error: function () {
-                            alert("服务器异常");
+                            alert("服务器异常，请尝试重新上传头像");
                         }
                     });
                     return false;

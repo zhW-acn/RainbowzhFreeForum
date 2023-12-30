@@ -18,6 +18,10 @@
     <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui-v2.8.0/css/layui.css"/>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js"></script>
     <style>
+        body {
+            background-color: #FFC3A0;
+        }
+
         video {
             height: 100%;
         }
@@ -25,7 +29,7 @@
         .outer-container {
             width: 70%;
             height: 200px;
-            background-color: #3498db;
+            background-color: #FFC0CB;
             margin: 0 auto;
         }
 
@@ -45,7 +49,7 @@
             flex: 1 1 20%;
             height: 100%; /* 适应外部容器的高度 */
             display: flex;
-            background-color: #5ec3e8;
+            background-color: #FFC0CB;
             flex-direction: column;
             align-items: center;
             overflow: hidden; /* 防止内容溢出div */
@@ -77,7 +81,7 @@
         }
 
         .title {
-            background-color: #0DDCFF;
+            background-color: #FFC0CB;
             font-weight: bold;
             font-size: 20px; /* 调整标题字体大小 */
             display: flex;
@@ -86,7 +90,7 @@
         }
 
         .content {
-            background-color: #83ddfc;
+            background-color: #FFC0CB;
             flex-grow: 1;
             text-align: left;
             font-size: 15px; /* 调整内容字体大小 */
@@ -132,7 +136,6 @@
         }
 
         .avatar {
-            border: 2px solid black;
             border-radius: 50%;
             width: 100px;
             height: 100px;
@@ -173,7 +176,7 @@
 <body>
 <div class="layui-header header">
     <%--居左--%>
-    <ul class="layui-nav layui-bg-blue" lay-bar="disabled">
+        <ul class="layui-nav" style="background-color: #cabbe9">
         <%--logo--%>
         <li class="layui-nav-item">
             <%--跳转到首页--%>
@@ -192,7 +195,7 @@
         </li>
     </ul>
     <%--居右--%>
-    <ul class="layui-nav layui-layout-right layui-bg-green" style="white-space: nowrap;!important;">
+        <ul class="layui-nav layui-layout-right" style="background-color: #ffa8a8;white-space: nowrap;!important;">
         <%if (user != null) {%>
         <li class="layui-nav-item">
             <a href="/user/${user.id}/message">

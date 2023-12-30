@@ -106,7 +106,7 @@
                           where user.id = #{id}
                             and post.flag = 1)
           and `comment`.flag = 1
-          and `comment`.createTime > `user`.lastVisit
+          and `comment`.createTime > (select user.lastVisit from user where user.id = #{id})
     </select>
 
     <select id="selectComment" resultMap="commentMap">

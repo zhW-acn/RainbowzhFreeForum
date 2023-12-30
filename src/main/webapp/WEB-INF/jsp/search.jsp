@@ -20,12 +20,12 @@
         body {
             margin: 0;
             padding: 0;
+            background-color: #FFC3A0;
         }
 
         #search {
             border: 1px solid #ccc;
             padding: 20px;
-            background-color: #f9f9f9;
             border-radius: 5px;
         }
 
@@ -36,7 +36,7 @@
         .outer-container {
             width: 70%;
             height: 150px; /* 设置外部容器高度为150px */
-            background-color: #3498db;
+            background-color: #FFC0CB;
             margin: 0 auto;
         }
 
@@ -56,7 +56,7 @@
             flex: 1 1 20%;
             height: 100%; /* 适应外部容器的高度 */
             display: flex;
-            background-color: #5ec3e8;
+            background-color: #FFC0CB;
             flex-direction: column;
             justify-content: center;
             align-items: center;
@@ -90,7 +90,7 @@
         }
 
         .title {
-            background-color: #0DDCFF;
+            background-color: #FFC0CB;
             font-weight: bold;
             font-size: 20px; /* 调整标题字体大小 */
             display: flex;
@@ -100,7 +100,7 @@
         }
 
         .content {
-            background-color: #83ddfc;
+            background-color: #FFC0CB;
             flex-grow: 1;
             text-align: left;
             font-size: 15px; /* 调整内容字体大小 */
@@ -112,7 +112,7 @@
         }
 
         .info {
-            background-color: #01b7ef;
+            background-color: #FFC0CB;
             flex: 1 1 20%;
             height: 100%;
             display: flex;
@@ -134,7 +134,7 @@
 <%--导航栏--%>
 <div class="layui-header header">
     <%--居左--%>
-    <ul class="layui-nav layui-bg-blue" lay-bar="disabled">
+    <ul class="layui-nav" style="background-color: #cabbe9">
         <%--logo--%>
         <li class="layui-nav-item">
             <%--跳转到首页--%>
@@ -150,7 +150,7 @@
         </li>
     </ul>
     <%--居右--%>
-    <ul class="layui-nav layui-layout-right layui-bg-green" style="white-space: nowrap;!important;">
+    <ul class="layui-nav layui-layout-right" style="background-color: #ffa8a8;white-space: nowrap;!important;">
         <%if (user != null) {%>
         <li class="layui-nav-item">
             <a href="/user/${user.id}/message">

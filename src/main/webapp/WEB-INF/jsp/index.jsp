@@ -20,7 +20,7 @@
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js"></script>
     <style>
         body {
-            background-color: white;
+            background-color: #FFC3A0;
         }
 
         video {
@@ -43,7 +43,7 @@
         .outer-container {
             width: 70%;
             height: 150px; /* 设置外部容器高度为150px */
-            background-color: #3498db;
+            background-color: #FFC0CB;
             margin: 0 auto;
         }
 
@@ -63,7 +63,7 @@
             flex: 1 1 20%;
             height: 100%; /* 适应外部容器的高度 */
             display: flex;
-            background-color: #5ec3e8;
+            background-color: #FFC0CB;
             flex-direction: column;
             justify-content: center;
             align-items: center;
@@ -97,7 +97,7 @@
         }
 
         .title {
-            background-color: #0DDCFF;
+            background-color: #FFC0CB;
             font-weight: bold;
             font-size: 20px; /* 调整标题字体大小 */
             display: flex;
@@ -107,7 +107,7 @@
         }
 
         .content {
-            background-color: #83ddfc;
+            background-color: #FFC0CB;
             flex-grow: 1;
             text-align: left;
             font-size: 15px; /* 调整内容字体大小 */
@@ -119,7 +119,7 @@
         }
 
         .info {
-            background-color: #01b7ef;
+            background-color: #FFC0CB;
             flex: 1 1 20%;
             height: 100%;
             display: flex;
@@ -127,14 +127,14 @@
             justify-content: space-between;
         }
 
-        .hide {
-            -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent);
-            mask-image: linear-gradient(180deg, #000 60%, transparent);
-            overflow: hidden;
-            padding: 0 10px;
-            max-lines: 2;
-            max-height: 400px
-        }
+        /*.hide {*/
+        /*    -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent);*/
+        /*    mask-image: linear-gradient(180deg, #000 60%, transparent);*/
+        /*    overflow: hidden;*/
+        /*    padding: 0 10px;*/
+        /*    max-lines: 2;*/
+        /*    max-height: 400px*/
+        /*}*/
     </style>
 </head>
 
@@ -142,7 +142,7 @@
 <%--导航栏--%>
 <div class="layui-header header">
     <%--居左--%>
-    <ul class="layui-nav layui-bg-blue" lay-bar="disabled">
+    <ul class="layui-nav" style="background-color: #cabbe9">
         <%--logo--%>
         <li class="layui-nav-item">
             <%--跳转到首页--%>
@@ -161,7 +161,7 @@
         </li>
     </ul>
     <%--居右--%>
-    <ul class="layui-nav layui-layout-right layui-bg-green" style="white-space: nowrap;!important;">
+    <ul class="layui-nav layui-layout-right" style="background-color: #ffa8a8;white-space: nowrap;!important;">
         <%if (user != null) {%>
         <li class="layui-nav-item">
             <a href="/user/${user.id}/message">
@@ -323,7 +323,7 @@
                 // 遍历公告数组，添加到轮播中
                 for (var i = 0; i < announcements.length; i++) {
                     let text = announcements[i].text
-                    var announcementDiv = $("<div>").attr("style", "background-color: hotpink").click(function () {
+                    var announcementDiv = $("<div>").attr("style", "background-color: #fde3f0").click(function () {
                         layer.open({// 添加点击事件
                             type: 1
                             , title: false

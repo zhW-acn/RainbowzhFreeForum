@@ -24,13 +24,13 @@
 
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #FFC3A0;
         }
 
         form {
             max-width: 400px;
             margin: 0 auto;
-            background-color: #fff;
+            background-color: #A7D8DE;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -96,7 +96,7 @@
 <%--导航栏--%>
 <div class="layui-header header">
     <%--居左--%>
-    <ul class="layui-nav layui-bg-blue" lay-bar="disabled">
+        <ul class="layui-nav" style="background-color: #cabbe9">
         <%--logo--%>
         <li class="layui-nav-item">
             <%--跳转到首页--%>
@@ -115,7 +115,7 @@
         </li>
     </ul>
     <%--居右--%>
-    <ul class="layui-nav layui-layout-right layui-bg-green" style="white-space: nowrap;!important;">
+        <ul class="layui-nav layui-layout-right" style="background-color: #ffa8a8;white-space: nowrap;!important;">
         <%if (user != null) {%>
         <li class="layui-nav-item">
             <a href="/user/${user.id}/message">

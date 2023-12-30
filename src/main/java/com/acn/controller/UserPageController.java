@@ -97,12 +97,6 @@ public class UserPageController {
     @ResponseBody
     public String getMessage(@PathVariable int userId){
 
-        // 更新最后访问"消息"的时间
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("id",userId);
-        hashMap.put("lastVisit",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-        userService.updateUser(hashMap);
-
         // 得到未读消息ID列表
         List<Comment> unreadComment = commentService.selectUnreadComment(userId);
 
@@ -111,6 +105,12 @@ public class UserPageController {
 
         // 从全部消息中移除未读消息
         readedComment.removeAll(unreadComment);
+
+        // 更新最后访问"消息"的时间
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("id",userId);
+        hashMap.put("lastVisit",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+        userService.updateUser(hashMap);
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("unread",unreadComment);
