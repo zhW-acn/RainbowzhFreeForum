@@ -215,7 +215,7 @@
                 itemGap: 10,
                 textStyle: {
                     fontSize: 30,
-                    color: '#ffd91d'
+                    color: '#1dbbff'
                 }
             },
             series: [
