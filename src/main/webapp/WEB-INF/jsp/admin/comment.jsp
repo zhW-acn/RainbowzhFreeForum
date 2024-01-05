@@ -43,7 +43,7 @@
                 {field: "id", title: 'ID', sort: true},
                 {field: "username", title: '回帖用户', templet: username},
                 {field: "commentText", title: '评论'},
-                {field: "createtime", title: '发帖时间', sort: true},
+                {field: "createtime", title: '回帖时间', sort: true},
                 {field: "flag", title: '封禁', templet: '#banTpl', sort: true},
             ]]
             , id: 'commentTable'

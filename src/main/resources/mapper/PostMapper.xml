@@ -114,8 +114,8 @@
     <select id="selectLastPost" resultType="java.lang.Integer">
         select post.id
         from post
-        where post.userId = ${userId}
-        order by createTime desc
+        where post.userId = ${userId} and post.flag = 1
+        order by createTime desc limit 1
     </select>
 
 
